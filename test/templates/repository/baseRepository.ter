@@ -1,0 +1,10 @@
+<?php
+
+class --name--Repository {
+    public $title = "Hello";
+
+
+    function index(){
+        return ["--name--"=>"--name--.js"];
+    }
+}
