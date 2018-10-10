@@ -4,10 +4,13 @@
 class {{entity}}Controller{
 
     public ${{prop}};
-    
 
     public function index(Request $quest){
 
-        return $this->{{prop}}
+        return $this->{{prop}};
+    }
+
+    public function {{minhafuncao}}(){
+        return "hello";
     }
 }

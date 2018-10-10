@@ -1,0 +1,39 @@
+{
+    "base_dir": "/",
+    "commands": {
+        "symfony:crud": {
+            "args": [
+                "entity",
+                "hello"
+            ],
+            "transport": [
+                {
+                    "from": "template/controller.php",
+                    "to": "build/{{entity}}Controller.php",
+                    "args": [
+                        "prop",
+                        "minhafuncao"
+                    ]
+                },
+                {
+                    "from": "template/entity.html",
+                    "to": "build/{{entity}}UHUTOPDABALADA.html",
+                    "args": []
+                }
+            ]
+        },
+        "symfony:entity": {
+            "args": [],
+            "transport": [
+                {
+                    "from": "template/entity.html",
+                    "to": "build/{{nameFile}}.php",
+                    "args": [
+                        "nameFile",
+                        "hello"
+                    ]
+                }
+            ]
+        }
+    }
+}
