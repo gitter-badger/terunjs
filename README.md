@@ -15,7 +15,7 @@ npm install -g terunjs
     "commands": {
         "crud": {
             "args": [
-                "name",
+                "name"
             ],
             "transport": [
                 {
@@ -26,6 +26,7 @@ npm install -g terunjs
             ]
         }
     }
+}
 ```
 
 > Entendendo...
