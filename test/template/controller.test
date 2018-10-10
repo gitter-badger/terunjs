@@ -1,0 +1,13 @@
+<?php
+
+
+class {{entity}}Controller{
+
+    public ${{prop}};
+    
+
+    public function index(Request $quest){
+
+        return $this->{{prop}}
+    }
+}

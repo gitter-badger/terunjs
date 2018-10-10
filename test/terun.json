@@ -2,9 +2,14 @@
     "base_dir": "/",
     "transport": [
         {
-            "from": "template/index.html",
-            "to": "build/index.html",
-            "args": ["entity"]
+            "from": "template/controller.test",
+            "to": "build/{{entity}}Controller.php",
+            "args": ["entity","prop"]
+        },
+        {
+            "from": "template/entity.test",
+            "to": "build/entity/{{hello}}.php",
+            "args": ["hello"]
         }
     ]
 }
