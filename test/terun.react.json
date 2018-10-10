@@ -1,0 +1,39 @@
+{
+    "base_dir": "/",
+    "commands": {
+        "a": {
+            "args": [
+                "entity",
+                "hello"
+            ],
+            "transport": [
+                {
+                    "from": "template/controller.php",
+                    "to": "build/{{entity}}Controller.php",
+                    "args": [
+                        "prop",
+                        "minhafuncao"
+                    ]
+                },
+                {
+                    "from": "template/entity.html",
+                    "to": "build/{{entity}}UHUTOPDABALADA.html",
+                    "args": []
+                }
+            ]
+        },
+        "b": {
+            "args": [],
+            "transport": [
+                {
+                    "from": "template/entity.html",
+                    "to": "build/{{nameFile}}.php",
+                    "args": [
+                        "nameFile",
+                        "hello"
+                    ]
+                }
+            ]
+        }
+    }
+}
