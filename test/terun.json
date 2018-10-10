@@ -1,0 +1,10 @@
+{
+    "base_dir": "/",
+    "transport": [
+        {
+            "from": "template/index.html",
+            "to": "build/index.html",
+            "args": ["entity"]
+        }
+    ]
+}
