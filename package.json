@@ -26,6 +26,7 @@
     "commander": "^2.18.0",
     "loading-cli": "^1.0.8",
     "mustache": "^3.0.0",
+    "pluralize-ptbr": "^1.0.3",
     "prompt": "^1.0.0"
   },
   "devDependencies": {

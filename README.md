@@ -82,3 +82,13 @@ terun --make [command]
 terun --make [outronome] [command]
 
 ```
+
+
+```
+                    // "plugins": [
+                    //     {
+                    //         "name": "symfony:entity-form",
+                    //         "from": "entity/{{entity}}Entity.php"
+                    //     }
+                    // ],
+```

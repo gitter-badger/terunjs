@@ -2,7 +2,7 @@
 
 import program from './commander';
 import readconfig from './reader-config';
-import init from './commands';
+import make from './commands/make';
 import loading from 'loading-cli';
 import chalk from 'chalk';
 
@@ -20,7 +20,8 @@ setTimeout(() => {
     if (!config) return console.log(chalk.red(`Config > terun.${env}.json < not found`))
 
     if (program["make"]) {
-        init(config, command);
+        let maker = new make(config, command);
+        maker.init();
     }
 }, 1000)
 
