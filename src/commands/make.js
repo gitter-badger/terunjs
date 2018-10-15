@@ -91,13 +91,10 @@ class Make {
 
             let symfonyEntityReaderPLUGIN = this.plugins["symfony:entity-form"];
             symfonyEntityReaderPLUGIN.setConfig(symfonyEntityReaderConfig);
-
-            // Colando parametros na raiz
-            argsToParseViewRender['symfony-form-builder'] = await symfonyEntityReaderPLUGIN.getForm();
-            argsToParseViewRender['symfony-entity-props'] = await symfonyEntityReaderPLUGIN._getProperties();
-            argsToParseViewRender['symfony-entity-get-entity-print-codes'] = await symfonyEntityReaderPLUGIN.getEntityPrintCodes(argsToFileNameRender.entity || '');
-            argsToParseViewRender['symfony-entity-props-counter'] = (await symfonyEntityReaderPLUGIN.getPropertiesCounter() + 1);
+            argsToParseViewRender = await symfonyEntityReaderPLUGIN.inRender(argsToParseViewRender);
         }
+
+        console.log(argsToParseViewRender);
 
         return argsToParseViewRender;
     }

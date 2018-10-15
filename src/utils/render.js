@@ -5,6 +5,9 @@ class Render {
     constructor(custom_tags = ['{{', '}}']) {
         this.template = Mustache;
         this.custom_tags = custom_tags;
+        this.template.escape = function(text){
+            return text;
+        }
     }
 
     // RENDER final file

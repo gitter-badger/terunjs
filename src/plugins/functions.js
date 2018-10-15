@@ -1,13 +1,9 @@
-import plural from 'pluralize-ptbr'
+import { capitalize, pluralName } from '../utils/util'
 
 export default class Functions {
     constructor() {
         this.functions = {
-            "plural": function () {
-                return function (text, render) {
-                    return render(plural(text));
-                }
-            },
+            "plural": pluralName,
             "upper": function () {
                 return function (text, render) {
                     return render(text.toUpperCase());
@@ -18,11 +14,7 @@ export default class Functions {
                     return render(text.toLoweCase());
                 }
             },
-            "capitalize": function () {
-                return function (text, render) {
-                    return render(text.replace(/^\w/, c => c.toUpperCase()));
-                }
-            }
+            "capitalize": capitalize
         }
     }
 }

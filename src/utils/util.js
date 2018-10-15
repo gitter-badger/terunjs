@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import plural from 'pluralize-ptbr'
 
 exports.validParameter = (object, args) => {
     return args.filter((arg) => {
@@ -14,11 +15,20 @@ exports.logError = (message) => {
 exports.dropFileName = (to) => {
     let splitted = to.split('/')
 
-    if(!splitted) return "";
+    if (!splitted) return "";
 
     let withoutFilenameArray = splitted.slice(0, splitted.length - 1) || "";
 
-    if(!withoutFilenameArray) return "";
+    if (!withoutFilenameArray) return "";
 
     return withoutFilenameArray.join('/')
+}
+
+exports.capitalize = (text) => {
+    return text.replace(/^\w/, c => c.toUpperCase());
+}
+
+
+exports.pluralName = (text) => {
+    return plural(text);
 }
