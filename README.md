@@ -20,7 +20,7 @@ npm install -g terunjs
             "transport": [
                 {
                     "from": "template/base.js",
-                    "to": "build/{{name}}Created.php",
+                    "to": "build/>>name<<Created.php",
                     "args": ["propriedade"]
                 }
             ]
@@ -92,3 +92,29 @@ terun --make [outronome] [command]
                     //     }
                     // ],
 ```
+
+---
+
+## Symfony - plugin
+
+use
+```json
+{
+    "plugins": [
+        {
+            "name": "symfony:entity-form",
+            "from": "entity/>>entity<<Entity.php"
+        }
+    ],
+    "from": "template/views/index.tpl.php",
+    "to": "build/index.html.twig",
+    "args": []
+}
+```
+
+|propredade| ação|
+|----------|-----|
+|symfony-form-builder|Retorna uma string com o formulário|
+|symfony-entity-props|Retorna um array das propriedades da entidade|
+|symfony-entity-get-entity-print-codes|Retorna um array da entidade e sua propriedade como `usuario.id` em vez de só `id`|
+|symfony-entity-props-counter|Contador das propriedades|

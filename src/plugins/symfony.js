@@ -26,6 +26,12 @@ export class SymfonyEntityForm {
         return clearProperties;
     }
 
+    async getPropertiesCounter() {
+        let propriedades = await this._getProperties();
+        let counter = propriedades ? propriedades.length : 0;
+        return counter;
+    }
+
     async getForm() {
         let properties = await this._getProperties();
         let renderForm = (properties) => {
@@ -37,5 +43,11 @@ export class SymfonyEntityForm {
         }
         let renderedForm = `$builder->${renderForm(properties)};`
         return renderedForm;
+    }
+
+    async getEntityPrintCodes(name_entity) {
+        let properties = await this._getProperties();
+        properties = properties.map((propertie) => `${name_entity}.${propertie}`);
+        return properties;
     }
 }

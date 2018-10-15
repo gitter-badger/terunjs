@@ -1,8 +1,9 @@
 import chalk from 'chalk';
-import { validParameter, logError } from '../utils/util';
+import { validParameter, logError, dropFileName } from '../utils/util';
 import prompt from 'prompt'
 import Render from '../utils/render';
 import fs from 'fs';
+import fx from 'mkdir-recursive';
 import PluginFunctions from '../plugins/functions';
 import { SymfonyEntityForm } from '../plugins/symfony';
 
@@ -39,6 +40,11 @@ class Make {
         console.log(chalk.green("Success in create files!"));
     }
 
+    async createDir(to) {
+        let dirToCreate = `${dropFileName(to)}`;
+        return await fx.mkdirSync(dirToCreate);
+    }
+
     getTransport(transport) {
         return new Promise((resolve, reject) => {
             prompt.start();
@@ -62,11 +68,16 @@ class Make {
                 let argsToRenderFile = Object.assign(argsToParseViewRender, this.global_args)
                 let rendered_file = this.render.renderFile(from_file, argsToRenderFile)
 
+                await this.createDir(to_file_rendered)
+                    .catch(err => {
+                        console.log(chalk.red('Error on create folder'))
+                        throw new Error(err);
+                    });
+
                 fs.writeFile(to_file_rendered, rendered_file, 'utf-8', (err) => {
                     if (err) throw new Error(err);
                     resolve();
                 });
-
             });
         });
     }
@@ -77,10 +88,15 @@ class Make {
         let symfonyEntityReaderConfig = plugins.find((plugin) => plugin.name == "symfony:entity-form")
         if (symfonyEntityReaderConfig) {
             symfonyEntityReaderConfig.from = this.render.renderSimple(symfonyEntityReaderConfig.from, argsToFileNameRender);
+
             let symfonyEntityReaderPLUGIN = this.plugins["symfony:entity-form"];
             symfonyEntityReaderPLUGIN.setConfig(symfonyEntityReaderConfig);
-            argsToParseViewRender['symfony-form'] = await symfonyEntityReaderPLUGIN.getForm();
+
+            // Colando parametros na raiz
+            argsToParseViewRender['symfony-form-builder'] = await symfonyEntityReaderPLUGIN.getForm();
             argsToParseViewRender['symfony-entity-props'] = await symfonyEntityReaderPLUGIN._getProperties();
+            argsToParseViewRender['symfony-entity-get-entity-print-codes'] = await symfonyEntityReaderPLUGIN.getEntityPrintCodes(argsToFileNameRender.entity || '');
+            argsToParseViewRender['symfony-entity-props-counter'] = (await symfonyEntityReaderPLUGIN.getPropertiesCounter() + 1);
         }
 
         return argsToParseViewRender;

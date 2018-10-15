@@ -14,8 +14,8 @@ class Render {
         return this.template.render(content, args_to_render, {}, this.custom_tags);
     }
 
-    renderSimple(content, args_to_render = {}) {
-        return this.template.render(content, args_to_render, {});
+    renderSimple(content, args_to_render = {}, custom_tags) {
+        return this.template.render(content, args_to_render, {}, custom_tags || this.custom_tags);
     }
 }
 
