@@ -1,11 +1,12 @@
 import chalk from 'chalk';
-import { validParameter, logError } from '../util';
+import { validParameter, logError } from '../utils/util';
 import prompt from 'prompt'
-import Mustache from 'mustache';
+import Render from '../utils/render';
 import fs from 'fs';
-
 import PluginFunctions from '../plugins/functions';
 import { SymfonyEntityForm } from '../plugins/symfony';
+
+const RenderContext = new Render(['|>', '<|']);
 
 class Make {
     constructor(config, command) {
@@ -38,14 +39,6 @@ class Make {
         console.log(chalk.green("Success in create files!"));
     }
 
-    renderFile(args_to_render, from_file) {
-        let content = fs.readFileSync(from_file, 'utf8');
-        if (!content) throw new Error('File not found or file empty')
-        console.log(args_to_render);
-        // RENDER final file
-        return Mustache.render(content, args_to_render || {});
-    }
-
     getTransport(transport) {
         return new Promise((resolve, reject) => {
             prompt.start();
@@ -56,8 +49,8 @@ class Make {
 
                 // render file name with mustache js
                 let argsToParseView = this.getArgsFromObject(transport.args, result);
-                let argsToFileNameRender = Object.assign(argsToParseView, this.global_args, this.plugins.functions.functions);
-                let to_file_rendered = Mustache.render(to_file, argsToFileNameRender || {});
+                let argsToFileNameRender = Object.assign(argsToParseView, this.global_args);
+                let to_file_rendered = RenderContext.renderSimple(to_file, argsToFileNameRender); 
 
                 // render final file
                 let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
@@ -67,20 +60,17 @@ class Make {
                 if (plugins) {
                     let symfonyEntityReaderConfig = plugins.find((plugin) => plugin.name == "symfony:entity-form")
                     if (symfonyEntityReaderConfig) {
-                        symfonyEntityReaderConfig.from = Mustache.render(symfonyEntityReaderConfig.from, argsToFileNameRender || {});
-
+                        symfonyEntityReaderConfig.from = RenderContext.renderSimple(symfonyEntityReaderConfig.from, argsToFileNameRender);
                         let symfonyEntityReaderPLUGIN = this.plugins["symfony:entity-form"];
                         symfonyEntityReaderPLUGIN.setConfig(symfonyEntityReaderConfig);
-                        console.log(symfonyEntityReaderPLUGIN)
-                        argsToParseViewRender['symfonyform'] = await symfonyEntityReaderPLUGIN.getForm();
+                        argsToParseViewRender['symfony-form'] = await symfonyEntityReaderPLUGIN.getForm();
+                        argsToParseViewRender['symfony-entity-props'] = await symfonyEntityReaderPLUGIN._getProperties();
+
                     }
                 }
 
-                let argsToRenderFile = Object.assign(argsToParseViewRender, this.global_args, this.plugins.functions.functions)
-
-                let rendered_file = this.renderFile(argsToRenderFile, from_file)
-
-                console.log(rendered_file);
+                let argsToRenderFile = Object.assign(argsToParseViewRender, this.global_args)
+                let rendered_file = RenderContext.renderFile(from_file, argsToRenderFile)
 
                 fs.writeFile(to_file_rendered, rendered_file, 'utf-8', (err) => {
                     if (err) throw new Error(err);
