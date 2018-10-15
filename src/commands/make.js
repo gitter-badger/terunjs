@@ -6,7 +6,6 @@ import fs from 'fs';
 import PluginFunctions from '../plugins/functions';
 import { SymfonyEntityForm } from '../plugins/symfony';
 
-const RenderContext = new Render(['|>', '<|']);
 
 class Make {
     constructor(config, command) {
@@ -14,6 +13,7 @@ class Make {
         this.command = command;
         this.transport_files = [];
         this.global_args = {};
+        this.render = new Render(['>>', '<<']);
         this.plugins = {
             functions: new PluginFunctions(),
             "symfony:entity-form": new SymfonyEntityForm()
@@ -50,27 +50,17 @@ class Make {
                 // render file name with mustache js
                 let argsToParseView = this.getArgsFromObject(transport.args, result);
                 let argsToFileNameRender = Object.assign(argsToParseView, this.global_args);
-                let to_file_rendered = RenderContext.renderSimple(to_file, argsToFileNameRender); 
+                let to_file_rendered = this.render.renderSimple(to_file, argsToFileNameRender);
 
                 // render final file
                 let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
 
                 // start plugins transport FIXED SYMFONY HERE
                 let plugins = transport.plugins;
-                if (plugins) {
-                    let symfonyEntityReaderConfig = plugins.find((plugin) => plugin.name == "symfony:entity-form")
-                    if (symfonyEntityReaderConfig) {
-                        symfonyEntityReaderConfig.from = RenderContext.renderSimple(symfonyEntityReaderConfig.from, argsToFileNameRender);
-                        let symfonyEntityReaderPLUGIN = this.plugins["symfony:entity-form"];
-                        symfonyEntityReaderPLUGIN.setConfig(symfonyEntityReaderConfig);
-                        argsToParseViewRender['symfony-form'] = await symfonyEntityReaderPLUGIN.getForm();
-                        argsToParseViewRender['symfony-entity-props'] = await symfonyEntityReaderPLUGIN._getProperties();
-
-                    }
-                }
+                argsToParseViewRender = await this.initPluginInArgsToRender(plugins, argsToParseViewRender, argsToFileNameRender);
 
                 let argsToRenderFile = Object.assign(argsToParseViewRender, this.global_args)
-                let rendered_file = RenderContext.renderFile(from_file, argsToRenderFile)
+                let rendered_file = this.render.renderFile(from_file, argsToRenderFile)
 
                 fs.writeFile(to_file_rendered, rendered_file, 'utf-8', (err) => {
                     if (err) throw new Error(err);
@@ -79,6 +69,21 @@ class Make {
 
             });
         });
+    }
+
+    async initPluginInArgsToRender(plugins, argsToParseViewRender = {}, argsToFileNameRender) {
+        if (!plugins) return argsToParseViewRender;
+
+        let symfonyEntityReaderConfig = plugins.find((plugin) => plugin.name == "symfony:entity-form")
+        if (symfonyEntityReaderConfig) {
+            symfonyEntityReaderConfig.from = this.render.renderSimple(symfonyEntityReaderConfig.from, argsToFileNameRender);
+            let symfonyEntityReaderPLUGIN = this.plugins["symfony:entity-form"];
+            symfonyEntityReaderPLUGIN.setConfig(symfonyEntityReaderConfig);
+            argsToParseViewRender['symfony-form'] = await symfonyEntityReaderPLUGIN.getForm();
+            argsToParseViewRender['symfony-entity-props'] = await symfonyEntityReaderPLUGIN._getProperties();
+        }
+
+        return argsToParseViewRender;
     }
 
     getGlobalArgs(command_select) {
