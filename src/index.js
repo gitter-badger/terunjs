@@ -22,7 +22,7 @@ setTimeout(() => {
     if (!config) return console.log(chalk.red(`Config > terun.${env}.json < not found`))
 
     if (program["make"]) {
-        let maker = new make(config, command);
+        let maker = new make(config, command, config.tags);
         maker.init();
     }
 }, 1000)

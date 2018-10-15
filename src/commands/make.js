@@ -9,12 +9,12 @@ import { SymfonyEntityForm } from '../plugins/symfony';
 
 
 class Make {
-    constructor(config, command) {
+    constructor(config, command, tag_custom) {
         this.config = config;
         this.command = command;
         this.transport_files = [];
         this.global_args = {};
-        this.render = new Render(['>>', '<<']);
+        this.render = new Render(tag_custom);
         this.plugins = {
             functions: new PluginFunctions(),
             "symfony:entity-form": new SymfonyEntityForm()
@@ -58,15 +58,15 @@ class Make {
                 let argsToFileNameRender = Object.assign(argsToParseView, this.global_args);
                 let to_file_rendered = this.render.renderSimple(to_file, argsToFileNameRender);
 
-                // render final file
+                // render final file ARGS
                 let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
 
                 // start plugins transport FIXED SYMFONY HERE
                 let plugins = transport.plugins;
                 argsToParseViewRender = await this.initPluginInArgsToRender(plugins, argsToParseViewRender, argsToFileNameRender);
 
-                let argsToRenderFile = Object.assign(argsToParseViewRender, this.global_args)
-                let rendered_file = this.render.renderFile(from_file, argsToRenderFile)
+                let argsToRenderFinalFile = Object.assign(argsToParseViewRender, this.global_args)
+                let rendered_file = this.render.renderFile(from_file, argsToRenderFinalFile)
 
                 await this.createDir(to_file_rendered)
                     .catch(err => {
