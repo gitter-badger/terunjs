@@ -1,0 +1,77 @@
+{% block body %}
+<h1> Usuario </h1>
+
+    {% for message in app.flashes('success') %}
+        <alert-form message="{{message}}" type="success"></alert-form>
+    {% endfor %}
+
+    <button-new path="{{ path('Usuario_new') }}"></button-new>
+
+    <table class="table my-3">
+        <thead>
+            <tr>
+                <th> Id </th>
+                <th> Nome </th>
+                <th> Sobrenome </th>
+                <th> Cpf </th>
+                <th> DataNascimento </th>
+                <th> Email </th>
+                <th> Senha </th>
+                <th> CondutorPerfil </th>
+                <th> JsonCercaResidencia </th>
+                <th> JsonCercaTrabalho </th>
+                <th> Logradouro </th>
+                <th> Complemento </th>
+                <th> Numero </th>
+                <th> Bairro </th>
+                <th> Cep </th>
+                <th> LogradouroTrabalho </th>
+                <th> ComplementoTrabalho </th>
+                <th> NumeroTrabalho </th>
+                <th> BairroTrabalho </th>
+                <th> CepTrabalho </th>
+                <th> StatusCercasCriadas </th>
+                <th> DataExclusao </th>
+                <th> Ações </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for condutor in pagination %}
+            <tr>
+                    <td> condutor.id </td>
+                    <td> condutor.nome </td>
+                    <td> condutor.sobrenome </td>
+                    <td> condutor.cpf </td>
+                    <td> condutor.dataNascimento </td>
+                    <td> condutor.email </td>
+                    <td> condutor.senha </td>
+                    <td> condutor.condutorPerfil </td>
+                    <td> condutor.jsonCercaResidencia </td>
+                    <td> condutor.jsonCercaTrabalho </td>
+                    <td> condutor.logradouro </td>
+                    <td> condutor.complemento </td>
+                    <td> condutor.numero </td>
+                    <td> condutor.bairro </td>
+                    <td> condutor.cep </td>
+                    <td> condutor.logradouroTrabalho </td>
+                    <td> condutor.complementoTrabalho </td>
+                    <td> condutor.numeroTrabalho </td>
+                    <td> condutor.bairroTrabalho </td>
+                    <td> condutor.cepTrabalho </td>
+                    <td> condutor.statusCercasCriadas </td>
+                    <td> condutor.dataExclusao </td>
+                <td>
+                    <button-edit-list path="{{ path('Usuario_edit', {'Usuario': Usuario.id}) }}"></button-edit-list>
+                    {{ include('id/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="23">Nenhum item encontrado</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ knp_pagination_render(pagination) }}
+{% endblock %}

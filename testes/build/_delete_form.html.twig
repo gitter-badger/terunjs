@@ -1,0 +1,4 @@
+<button-delete-list 
+action="{{ path('Usuario_delete', {'Usuario': Usuario.id}) }}"
+csrf="{{ csrf_token('delete' ~ Usuario.id) }}"
+></button-delete-list>

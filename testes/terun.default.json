@@ -1,0 +1,63 @@
+{
+    "tags": [">>","<<"],
+    "base_dir": "/",
+    "commands": {
+        "crud": {
+            "args": [
+                "key",
+                "entity"
+            ],
+            "transport": [
+                {
+                    "plugins": [
+                        {
+                            "name": "symfony:entity-form",
+                            "from": "entity/>>entity<<.php"
+                        }
+                    ],
+                    "from": "template/views/_delete_form.tpl.php",
+                    "to": "build/_delete_form.html.twig",
+                    "args": []
+                },
+                {
+                    "from": "template/views/_form.tpl.php",
+                    "to": "build/_form.html.twig",
+                    "args": []
+                },
+                {
+                    "plugins": [
+                        {
+                            "name": "symfony:entity-form",
+                            "from": "entity/>>entity<<.php"
+                        }
+                    ],
+                    "from": "template/views/edit.tpl.php",
+                    "to": "build/edit.html.twig",
+                    "args": []
+                },
+                {
+                    "plugins": [
+                        {
+                            "name": "symfony:entity-form",
+                            "from": "entity/>>entity<<.php"
+                        }
+                    ],
+                    "from": "template/views/index.tpl.php",
+                    "to": "build/index.html.twig",
+                    "args": []
+                },
+                {
+                    "plugins": [
+                        {
+                            "name": "symfony:entity-form",
+                            "from": "entity/>>entity<<.php"
+                        }
+                    ],
+                    "from": "template/views/index.tpl.php",
+                    "to": "build/index.html.twig",
+                    "args": []
+                }
+            ]
+        }
+    }
+}
