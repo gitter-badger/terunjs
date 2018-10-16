@@ -1,27 +1,13 @@
-import { SymfonyEntityForm } from '../plugins/symfony/symfony';
+import SymfonyEntity from './symfony/symfony';
 
 
 export default class Plugin {
     constructor(render) {
         this.plugins = [
-            new SymfonyEntityForm()
+            new SymfonyEntity()
         ];
         this.pluginsInUse = [];
         this.render = render;
-    }
-
-    _runPlugins(plugins, method, args) {
-        plugins.forEach((plugin) => {
-            let pluginInstance = this.plugins.find((pluginUnique) => plugin.name === pluginUnique.name)
-
-            let content = {
-                config: plugin,
-                args,
-                render: Object.assign({}, this.render)
-            }
-
-            pluginInstance[method].call(pluginInstance, content);
-        })
     }
 
     init(plugins) {
@@ -45,9 +31,9 @@ export default class Plugin {
     config(argsToFileNameRender) {
         if (!this.pluginsInUse) return null;
 
-        this.pluginsInUse.forEach((config) => {
+        this.pluginsInUse.forEach(async (config) => {
             let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name)
-            pluginInstance['config'].call(pluginInstance, config, argsToFileNameRender, this.render);
+            await pluginInstance['config'].call(pluginInstance, config, argsToFileNameRender, this.render);
         })
     }
 }

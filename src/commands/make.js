@@ -4,7 +4,7 @@ import prompt from 'prompt'
 import Render from '../utils/render';
 import fs from 'fs';
 import fx from 'mkdir-recursive';
-import Plugin from './plugin';
+import Plugin from '../plugins';
 
 class Make {
     constructor(config, command, tag_custom) {
@@ -43,42 +43,39 @@ class Make {
     getTransport(transport) {
         return new Promise((resolve, reject) => {
             prompt.start();
-            prompt.get(transport.args, this.getTransport);
-        });
-    }
+            prompt.get(transport.args, async (err, result) => {
+                this.plugins.init(transport.plugins);
 
-    async getTransport(err, result){
-            this.plugins.init(transport.plugins);
+                let base_dir = `${process.cwd()}${this.config.base_dir}`;
+                let from_file = `${base_dir}${transport.from}`;
+                let to_file = `${base_dir}${transport.to}`;
 
-            let base_dir = `${process.cwd()}${this.config.base_dir}`;
-            let from_file = `${base_dir}${transport.from}`;
-            let to_file = `${base_dir}${transport.to}`;
+                // render file name with mustache js
+                let argsToParseView = this.getArgsFromObject(transport.args, result);
+                let argsToFileNameRender = Object.assign(argsToParseView, this.global_args);
+                let to_file_rendered = this.render.renderSimple(to_file, argsToFileNameRender);
 
-            // render file name with mustache js
-            let argsToParseView = this.getArgsFromObject(transport.args, result);
-            let argsToFileNameRender = Object.assign(argsToParseView, this.global_args);
-            let to_file_rendered = this.render.renderSimple(to_file, argsToFileNameRender);
+                // render final file ARGS
+                let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
 
-            // render final file ARGS
-            let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
+                await this.plugins.config(argsToFileNameRender);
+                argsToParseViewRender = await this.plugins.beforeRender(argsToParseViewRender);
 
-            this.plugins.config(argsToFileNameRender);
-            argsToParseViewRender = await this.plugins.beforeRender(argsToParseViewRender);
+                let argsToRenderFinalFile = Object.assign(argsToParseViewRender, this.global_args)
+                let rendered_file = this.render.renderFile(from_file, argsToRenderFinalFile)
 
-            let argsToRenderFinalFile = Object.assign(argsToParseViewRender, this.global_args)
-            let rendered_file = this.render.renderFile(from_file, argsToRenderFinalFile)
+                await this.createDir(to_file_rendered)
+                    .catch(err => {
+                        console.log(chalk.red('Error on create folder'))
+                        throw new Error(err);
+                    });
 
-            await this.createDir(to_file_rendered)
-                .catch(err => {
-                    console.log(chalk.red('Error on create folder'))
-                    throw new Error(err);
+                fs.writeFile(to_file_rendered, rendered_file, 'utf-8', (err) => {
+                    if (err) throw new Error(err);
+                    resolve();
                 });
-
-            fs.writeFile(to_file_rendered, rendered_file, 'utf-8', (err) => {
-                if (err) throw new Error(err);
-                resolve();
             });
-        }
+        });
     }
 
     getGlobalArgs(command_select) {
