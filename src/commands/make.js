@@ -64,6 +64,8 @@ class Make {
                 let argsToRenderFinalFile = Object.assign(argsToParseViewRender, this.global_args)
                 let rendered_file = this.render.renderFile(from_file, argsToRenderFinalFile)
 
+                console.log(argsToParseViewRender)
+
                 await this.createDir(to_file_rendered)
                     .catch(err => {
                         console.log(chalk.red('Error on create folder'))

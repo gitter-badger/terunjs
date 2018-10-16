@@ -40,7 +40,6 @@ class SymfonyEntity {
 
     async getProperties() {
         let properties = this.content.match(regexHelper.PROPERTIES);
-        console.log(properties);
         let clearProperties = properties.map((propertie) => {
             let cleared = propertie.replace(regexHelper.PROPERTIES_REPLACE, '')
             return cleared;
@@ -125,7 +124,6 @@ class SymfonyEntity {
             };
         });
 
-        console.log(properties);
         return properties;
     }
 
