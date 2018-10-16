@@ -112,9 +112,13 @@ use
 }
 ```
 
-|propredade| ação|
+|propriedade| ação|
 |----------|-----|
 |symfony-form-builder|Retorna uma string com o formulário|
 |symfony-entity-props|Retorna um array das propriedades da entidade|
 |symfony-entity-get-entity-print-codes|Retorna um array da entidade e sua propriedade como `usuario.id` em vez de só `id`|
 |symfony-entity-props-counter|Contador das propriedades|
+|s:class_lower|Classe string minúscula|
+|s:class_cap|Classe em string capitalize `agente vai para Agente`|
+|s:class_plural_lower|`s:class_lower` só que no plural|
+|s:class_plural_cap|`s:class_cap` só que no plural|

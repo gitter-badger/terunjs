@@ -1,30 +1,30 @@
 import fs from 'fs';
-import { capitalize, pluralName } from '../utils/util';
+import { capitalize, pluralName } from '../../utils/util';
 
 
 export class SymfonyEntityForm{
     constructor() {
         this.name = "symfony:entity-form"
-        this.config = {}
+        this.configuration = {}
     }
 
-    setConfig(config) {
+    config(config, argsToFileNameRender, render) {
         let configAssign = Object.assign({}, config);
-
         if (!configAssign.from) throw new Error(`>>From<< not defined`);
 
-        this.config = {
-            from: configAssign.from,
+        this.configuration = {
+            from: render.renderSimple(configAssign.from, argsToFileNameRender),
             name: configAssign.name
         }
     }
 
-    async inRender(objectToSetArgs = {}) {
+    async beforeRender(objectToSetArgs = {}) {
         // set helpers
         objectToSetArgs['s:class_lower'] = (await this.getClassName()).toLowerCase();
-        objectToSetArgs['s:class_upper'] = capitalize((await this.getClassName()));
+        objectToSetArgs['s:class_cap'] = capitalize((await this.getClassName()));
         objectToSetArgs['s:class_plural_lower'] = pluralName((await this.getClassName())).toLowerCase();
-        objectToSetArgs['s:class_plural_upper'] = capitalize(pluralName((await this.getClassName())));
+        objectToSetArgs['s:class_plural_cap'] = capitalize(pluralName((await this.getClassName())));
+        objectToSetArgs['s:id'] = capitalize(pluralName((await this.getId())));
 
         // set parameters
         objectToSetArgs['symfony-form-builder'] = await this.getForm();
@@ -36,7 +36,7 @@ export class SymfonyEntityForm{
     }
 
     async _getFile() {
-        let base_dir = `${process.cwd()}/${this.config.from}`;
+        let base_dir = `${process.cwd()}/${this.configuration.from}`;
         let content = await fs.readFileSync(base_dir, 'utf-8')
         return content;
     }
