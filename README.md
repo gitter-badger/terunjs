@@ -41,13 +41,14 @@ npm install -g terunjs
 
 | Propriedade  | Detalhes|
 |--------------|---------|
-| crud | Ao rodar vai ficar ```terun --make [env] crud``` |
+| crud | Ao rodar vai ficar ```terun --make crud``` |
 
 > Propriedades do crud (comando criado)
 
 | Propriedade  | Detalhes|
 |--------------|---------|
-| args | Array de argumentos que podem ser passados tanto para o nome do arquivo quanto para os arquivos que estarão no transport |
+| args | Array de argumentos que podem ser passados tanto para o nome do arquivo quanto para os arquivos que estarão no transport GLOBAL|
+|plugins|Define plugins para os arquivos|
 | transport | Array de arquivos que serão transportador de um template para um arquivo final |
 
 > Propriedades do transport
@@ -67,11 +68,11 @@ O nome da configuração vai ficar `terun.default.json` mas se por algum motivo 
 
 `terun.react.json`
 
-Ou o nome que desejar, ficando no final `terun --make symfony [command]`.
+Ou o nome que desejar, ficando no final `terun --make [command] --env symfony`.
 
 
 ```sh
-terun --make [env] [command]
+terun --make [command] 
 
 > se o arquivo é o terun.default.json
 
@@ -79,7 +80,7 @@ terun --make [command]
 
 > se o arquivo é diferente de .default como .symfony ou outro nome
 
-terun --make [outronome] [command]
+terun --make [command] --env [outronome]
 
 ```
 

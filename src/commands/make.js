@@ -21,14 +21,19 @@ class Make {
         if (!isValid) return;
 
         let command_select = this.config.commands[this.command];
-        //load global args COMMAND
-        await this.getGlobalArgs(command_select);
+
+        //load global args COMMAND and config plugins
+        await this.getGlobalArgs(command_select.args || []);
+        this.plugins.init(command_select.plugins);
+        await this.plugins.config(this.global_args);
+        
         // get transport
         this.transport_files = command_select.transport;
         for (let transport of this.transport_files) {
             if (!this.validTransport(transport)) return;
 
             console.log(chalk.magenta(`process: ${transport.from}`));
+            
             await this.getTransport(transport);
         }
 
@@ -44,35 +49,34 @@ class Make {
         return new Promise((resolve, reject) => {
             prompt.start();
             prompt.get(transport.args, async (err, result) => {
-                this.plugins.init(transport.plugins);
+                if(err) throw new Error(err);
 
-                let base_dir = `${process.cwd()}${this.config.base_dir}`;
-                let from_file = `${base_dir}${transport.from}`;
-                let to_file = `${base_dir}${transport.to}`;
+                // PATHS
+                let baseDirPath = `${process.cwd()}${this.config.base_dir}`;
+                let fromFilePath = `${baseDirPath}${transport.from}`;
+                let toFilePath = `${baseDirPath}${transport.to}`;
+
+                // render final file ARGS
+                let argsToRenderInFile = this.getArgsFromObject(transport.args, result);
+
+                // life cycle before render
+                argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
 
                 // render file name with mustache js
                 let argsToParseView = this.getArgsFromObject(transport.args, result);
-                let argsToFileNameRender = Object.assign(argsToParseView, this.global_args);
-                let to_file_rendered = this.render.renderSimple(to_file, argsToFileNameRender);
+                let toFileName = this.render.renderSimple(toFilePath, Object.assign(argsToParseView, this.global_args, argsToRenderInFile));
 
-                // render final file ARGS
-                let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
+                let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.global_args)
 
-                await this.plugins.config(argsToFileNameRender);
-                argsToParseViewRender = await this.plugins.beforeRender(argsToParseViewRender);
+                let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile)
 
-                let argsToRenderFinalFile = Object.assign(argsToParseViewRender, this.global_args)
-                let rendered_file = this.render.renderFile(from_file, argsToRenderFinalFile)
-
-                console.log(argsToParseViewRender)
-
-                await this.createDir(to_file_rendered)
+                await this.createDir(toFileName)
                     .catch(err => {
                         console.log(chalk.red('Error on create folder'))
                         throw new Error(err);
                     });
 
-                fs.writeFile(to_file_rendered, rendered_file, 'utf-8', (err) => {
+                fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
                     if (err) throw new Error(err);
                     resolve();
                 });
@@ -80,14 +84,13 @@ class Make {
         });
     }
 
-    getGlobalArgs(command_select) {
-        let globalCommandArgs = command_select.args;
-        if (globalCommandArgs && globalCommandArgs.length > 0) console.log(chalk.magenta('set GLOBAL args: '))
+    getGlobalArgs(commandSelectedArgs) {
+        if (commandSelectedArgs.length > 0) console.log(chalk.magenta('set GLOBAL args: '))
 
         return new Promise((resolve, reject) => {
             prompt.start();
-            prompt.get(globalCommandArgs, (err, result) => {
-                this.global_args = this.getArgsFromObject(globalCommandArgs, result);
+            prompt.get(commandSelectedArgs, (err, result) => {
+                this.global_args = this.getArgsFromObject(commandSelectedArgs, result);
                 resolve();
             });
         })

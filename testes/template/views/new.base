@@ -1,0 +1,9 @@
+{% block body %}
+    <h1>Criar >> s:class_cap <<</h1>
+
+    <button-back-list path="{{ path('>>s:class_lower<<_index') }}"></button-back-list>
+
+    {{ include('>>s:class_lower<</_form.html.twig') }}
+{% endblock %}
+
+

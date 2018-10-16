@@ -12,12 +12,16 @@ const load = loading("Carregando configuração").start();
 setTimeout(() => {
     load.stop()
 
+    let env = 'default';
+
+    if(program['env']){
+        env = program.args[0]
+    }
+
     // Esta parte vai definir todo contexto da biblioteca
     // qual arquivo deve carregar as configurações e como deve fazer isto
     if (program["make"]) {
-        let env = (program.args.length > 0) ? program.make : 'default';
-
-        let command = (program.args.length === 0) ? program.make : program.args[0];
+        let command = program.make
         if (!command) return console.log(chalk.red(`Command not defined`))
 
         let config = readconfig.getConfig(env);
@@ -29,6 +33,7 @@ setTimeout(() => {
     if (program["init"]) {
         init();
     }
+    
 }, 1000)
 
 

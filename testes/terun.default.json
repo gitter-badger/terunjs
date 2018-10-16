@@ -1,0 +1,45 @@
+{
+    "tags": [">>","<<"],
+    "base_dir": "/",
+    "commands": {
+        "crud": {
+            "args": [
+                "key",
+                "entity"
+            ],
+            "plugins": [
+                {
+                    "name": "symfony:entity-form",
+                    "from": "entity/>>entity<<.php"
+                }
+            ],
+            "transport": [
+                {
+                    "from": "template/views/_delete_form.base",
+                    "to": "build/_delete_form.html.twig",
+                    "args": []
+                },
+                {
+                    "from": "template/views/_form.base",
+                    "to": "build/_form.html.twig",
+                    "args": []
+                },
+                {
+                    "from": "template/views/edit.base",
+                    "to": "build/edit.html.twig",
+                    "args": []
+                },
+                {
+                    "from": "template/views/index.base",
+                    "to": "build/index.html.twig",
+                    "args": []
+                },
+                {
+                    "from": "template/views/new.base",
+                    "to": "build/new.html.twig",
+                    "args": []
+                }
+            ]
+        }
+    }
+}
