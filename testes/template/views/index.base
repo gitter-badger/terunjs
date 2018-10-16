@@ -1,11 +1,11 @@
 {% block body %}
-<h1> >>entity<< </h1>
+<h1> >>s:class_plural_cap<< </h1>
 
     {% for message in app.flashes('success') %}
         <alert-form message="{{message}}" type="success"></alert-form>
     {% endfor %}
 
-    <button-new path="{{ path('>>entity<<_new') }}"></button-new>
+    <button-new path="{{ path('>>s:class_lower<<_new') }}"></button-new>
 
     <table class="table my-3">
         <thead>
@@ -23,7 +23,7 @@
                     <td> >>.<< </td>
                 >>/symfony-entity-get-entity-print-codes<<
                 <td>
-                    <button-edit-list path="{{ path('>>entity<<_edit', {'>>entity<<': >>entity<<.>>key<<}) }}"></button-edit-list>
+                    <button-edit-list path="{{ path('>>s:class_lower<<_edit', {'>>s:class_lower<<': >>s:class_lower<<.>>key<<}) }}"></button-edit-list>
                     {{ include('>>key<</_delete_form.html.twig') }}
                 </td>
             </tr>

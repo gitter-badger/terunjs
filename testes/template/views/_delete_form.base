@@ -1,0 +1,4 @@
+<button-delete-list 
+action="{{ path('>>s:class_lower<<_delete', {'>>s:class_lower<<': >>s:class_lower<<.>>key<<}) }}"
+csrf="{{ csrf_token('delete' ~ >>s:class_lower<<.>>key<<) }}"
+></button-delete-list>

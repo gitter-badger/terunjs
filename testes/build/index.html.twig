@@ -1,11 +1,11 @@
 {% block body %}
-<h1> Usuario </h1>
+<h1> Condutores </h1>
 
     {% for message in app.flashes('success') %}
         <alert-form message="{{message}}" type="success"></alert-form>
     {% endfor %}
 
-    <button-new path="{{ path('Usuario_new') }}"></button-new>
+    <button-new path="{{ path('condutor_new') }}"></button-new>
 
     <table class="table my-3">
         <thead>
@@ -61,7 +61,7 @@
                     <td> condutor.statusCercasCriadas </td>
                     <td> condutor.dataExclusao </td>
                 <td>
-                    <button-edit-list path="{{ path('Usuario_edit', {'Usuario': Usuario.id}) }}"></button-edit-list>
+                    <button-edit-list path="{{ path('condutor_edit', {'condutor': condutor.id}) }}"></button-edit-list>
                     {{ include('id/_delete_form.html.twig') }}
                 </td>
             </tr>

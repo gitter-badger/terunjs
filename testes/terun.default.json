@@ -7,54 +7,36 @@
                 "key",
                 "entity"
             ],
+            "plugins": [
+                {
+                    "name": "symfony:entity-form",
+                    "from": "entity/>>entity<<.php"
+                }
+            ],
             "transport": [
                 {
-                    "plugins": [
-                        {
-                            "name": "symfony:entity-form",
-                            "from": "entity/>>entity<<.php"
-                        }
-                    ],
-                    "from": "template/views/_delete_form.tpl.php",
+                    "from": "template/views/_delete_form.base",
                     "to": "build/_delete_form.html.twig",
                     "args": []
                 },
                 {
-                    "from": "template/views/_form.tpl.php",
+                    "from": "template/views/_form.base",
                     "to": "build/_form.html.twig",
                     "args": []
                 },
                 {
-                    "plugins": [
-                        {
-                            "name": "symfony:entity-form",
-                            "from": "entity/>>entity<<.php"
-                        }
-                    ],
-                    "from": "template/views/edit.tpl.php",
+                    "from": "template/views/edit.base",
                     "to": "build/edit.html.twig",
                     "args": []
                 },
                 {
-                    "plugins": [
-                        {
-                            "name": "symfony:entity-form",
-                            "from": "entity/>>entity<<.php"
-                        }
-                    ],
-                    "from": "template/views/index.tpl.php",
+                    "from": "template/views/index.base",
                     "to": "build/index.html.twig",
                     "args": []
                 },
                 {
-                    "plugins": [
-                        {
-                            "name": "symfony:entity-form",
-                            "from": "entity/>>entity<<.php"
-                        }
-                    ],
-                    "from": "template/views/index.tpl.php",
-                    "to": "build/index.html.twig",
+                    "from": "template/views/new.base",
+                    "to": "build/new.html.twig",
                     "args": []
                 }
             ]
