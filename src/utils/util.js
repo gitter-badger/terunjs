@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import plural from 'pluralize-ptbr'
+import fs from 'fs';
 
 exports.validParameter = (object, args) => {
     return args.filter((arg) => {
@@ -31,4 +32,10 @@ exports.capitalize = (text) => {
 
 exports.pluralName = (text) => {
     return plural(text);
+}
+
+exports.getFile = async (from) => {
+    let base_dir = `${process.cwd()}/${from}`;
+    let content = await fs.readFileSync(base_dir, 'utf-8')
+    return content;
 }

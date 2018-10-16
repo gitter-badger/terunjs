@@ -1,6 +1,6 @@
 {
   "name": "terunjs",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Automate creation files",
   "main": "src/index.js",
   "preferGlobal": true,
@@ -8,7 +8,7 @@
     "terun": "lib/index.js"
   },
   "scripts": {
-    "build": "./node_modules/.bin/babel src --out-dir lib --watch",
+    "build": "./node_modules/.bin/babel src --out-dir lib --watch --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

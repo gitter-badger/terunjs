@@ -4,9 +4,7 @@ import prompt from 'prompt'
 import Render from '../utils/render';
 import fs from 'fs';
 import fx from 'mkdir-recursive';
-import PluginFunctions from '../plugins/functions';
-import { SymfonyEntityForm } from '../plugins/symfony';
-
+import Plugin from '../plugins';
 
 class Make {
     constructor(config, command, tag_custom) {
@@ -15,10 +13,7 @@ class Make {
         this.transport_files = [];
         this.global_args = {};
         this.render = new Render(tag_custom);
-        this.plugins = {
-            functions: new PluginFunctions(),
-            "symfony:entity-form": new SymfonyEntityForm()
-        }
+        this.plugins = new Plugin(this.render);
     }
 
     async init() {
@@ -49,6 +44,8 @@ class Make {
         return new Promise((resolve, reject) => {
             prompt.start();
             prompt.get(transport.args, async (err, result) => {
+                this.plugins.init(transport.plugins);
+
                 let base_dir = `${process.cwd()}${this.config.base_dir}`;
                 let from_file = `${base_dir}${transport.from}`;
                 let to_file = `${base_dir}${transport.to}`;
@@ -61,9 +58,8 @@ class Make {
                 // render final file ARGS
                 let argsToParseViewRender = this.getArgsFromObject(transport.args, result);
 
-                // start plugins transport FIXED SYMFONY HERE
-                let plugins = transport.plugins;
-                argsToParseViewRender = await this.initPluginInArgsToRender(plugins, argsToParseViewRender, argsToFileNameRender);
+                await this.plugins.config(argsToFileNameRender);
+                argsToParseViewRender = await this.plugins.beforeRender(argsToParseViewRender);
 
                 let argsToRenderFinalFile = Object.assign(argsToParseViewRender, this.global_args)
                 let rendered_file = this.render.renderFile(from_file, argsToRenderFinalFile)
@@ -80,23 +76,6 @@ class Make {
                 });
             });
         });
-    }
-
-    async initPluginInArgsToRender(plugins, argsToParseViewRender = {}, argsToFileNameRender) {
-        if (!plugins) return argsToParseViewRender;
-
-        let symfonyEntityReaderConfig = plugins.find((plugin) => plugin.name == "symfony:entity-form")
-        if (symfonyEntityReaderConfig) {
-            symfonyEntityReaderConfig.from = this.render.renderSimple(symfonyEntityReaderConfig.from, argsToFileNameRender);
-
-            let symfonyEntityReaderPLUGIN = this.plugins["symfony:entity-form"];
-            symfonyEntityReaderPLUGIN.setConfig(symfonyEntityReaderConfig);
-            argsToParseViewRender = await symfonyEntityReaderPLUGIN.inRender(argsToParseViewRender);
-        }
-
-        console.log(argsToParseViewRender);
-
-        return argsToParseViewRender;
     }
 
     getGlobalArgs(command_select) {
