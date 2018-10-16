@@ -3,7 +3,7 @@ const PROPERTIES_REPLACE = /(public|private|protected)\s|;|\$/g;
 const PROPERTIES = /((private|public|protected)\s\$\w+;)/g;
 
 const CLASS_NAME = /(class\s[a-zA-z]+)/g;
-const CLASS_NAME_REPLACE = /(class\s[a-zA-z]+)/g;
+const CLASS_NAME_REPLACE = /(class|\s)/g;
 
 export default {
     PROPERTIES_WITH_VALIDATIONS,
