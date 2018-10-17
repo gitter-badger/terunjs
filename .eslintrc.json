@@ -15,7 +15,7 @@
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            "unix"
         ],
         "quotes": [
             "error",
@@ -24,6 +24,7 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-console": 0
     }
 }
