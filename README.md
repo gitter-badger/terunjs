@@ -84,16 +84,6 @@ terun --make [command] --env [outronome]
 
 ```
 
-
-```
-                    // "plugins": [
-                    //     {
-                    //         "name": "symfony:entity-form",
-                    //         "from": "entity/{{entity}}Entity.php"
-                    //     }
-                    // ],
-```
-
 ---
 
 ## Symfony - plugin
@@ -101,15 +91,16 @@ terun --make [command] --env [outronome]
 use
 ```json
 {
+    "base_dir": "/",
     "plugins": [
         {
             "name": "symfony:entity-form",
             "from": "entity/>>entity<<Entity.php"
         }
     ],
-    "from": "template/views/index.tpl.php",
-    "to": "build/index.html.twig",
-    "args": []
+    "commands": {
+        //...comandos aqui
+    }
 }
 ```
 
