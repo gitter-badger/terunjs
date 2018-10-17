@@ -2,7 +2,7 @@
   "name": "terunjs",
   "version": "1.1.6",
   "description": "Automate creation files",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "preferGlobal": true,
   "bin": {
     "terun": "lib/index.js"
@@ -20,7 +20,10 @@
   ],
   "author": "Raphael Kieling Tondin",
   "license": "ISC",
-  "github": "https://github.com/raphaelkieling/terunjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raphaelkieling/terunjs"
+  },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "chalk": "^2.4.1",
