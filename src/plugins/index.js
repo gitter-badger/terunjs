@@ -2,38 +2,38 @@ import SymfonyEntity from './symfony/symfony';
 
 
 export default class Plugin {
-    constructor(render) {
-        this.plugins = [
-            new SymfonyEntity()
-        ];
-        this.pluginsInUse = [];
-        this.render = render;
-    }
+	constructor(render) {
+		this.plugins = [
+			new SymfonyEntity()
+		];
+		this.pluginsInUse = [];
+		this.render = render;
+	}
 
-    init(plugins) {
-        if (!plugins) return;
-        this.pluginsInUse = [...plugins];
-    }
+	init(plugins) {
+		if (!plugins) return;
+		this.pluginsInUse = [...plugins];
+	}
 
-    async beforeRender(argsToParseViewRender) {
-        if (!this.pluginsInUse) return argsToParseViewRender;
+	async beforeRender(argsToParseViewRender) {
+		if (!this.pluginsInUse) return argsToParseViewRender;
 
-        let args = Object.assign(argsToParseViewRender);
+		let args = Object.assign(argsToParseViewRender);
 
-        for(let config of this.pluginsInUse){
-            let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name)
-            args = await pluginInstance['beforeRender'].call(pluginInstance, argsToParseViewRender, this.render);
-        }
+		for(let config of this.pluginsInUse){
+			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
+			args = await pluginInstance['beforeRender'].call(pluginInstance, argsToParseViewRender, this.render);
+		}
 
-        return args;
-    }
+		return args;
+	}
 
-    config(globalProperties) {
-        if (!this.pluginsInUse) return null;
+	config(globalProperties) {
+		if (!this.pluginsInUse) return null;
 
-        this.pluginsInUse.forEach(async (config) => {
-            let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name)
-            await pluginInstance['config'].call(pluginInstance, config, globalProperties, this.render);
-        })
-    }
+		this.pluginsInUse.forEach(async (config) => {
+			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
+			await pluginInstance['config'].call(pluginInstance, config, globalProperties, this.render);
+		});
+	}
 }

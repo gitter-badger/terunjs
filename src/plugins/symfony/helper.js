@@ -1,8 +1,8 @@
-const isAnnotation = (value) => {
-    let regexAnnotation = new RegExp("(@.*?)", 'g');
-    return regexAnnotation.test(value)
+function isAnnotation(value){
+	let regexAnnotation = new RegExp('(@.*?)', 'g');
+	return regexAnnotation.test(value);
 }
 
 export {
-    isAnnotation
-}
+	isAnnotation
+};

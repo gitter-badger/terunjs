@@ -7,34 +7,34 @@ import loading from 'loading-cli';
 import chalk from 'chalk';
 import init from './commands/init';
 
-const load = loading("Carregando configuração").start();
+const LOAD = loading('Carregando configuração').start();
 
 setTimeout(() => {
-    load.stop()
+	LOAD.stop();
 
-    let env = 'default';
+	let env = 'default';
 
-    if(program['env']){
-        env = program.args[0]
-    }
+	if(program.env){
+		env = program.args[0];
+	}
 
-    // Esta parte vai definir todo contexto da biblioteca
-    // qual arquivo deve carregar as configurações e como deve fazer isto
-    if (program["make"]) {
-        let command = program.make
-        if (!command) return console.log(chalk.red(`Command not defined`))
+	// Esta parte vai definir todo contexto da biblioteca
+	// qual arquivo deve carregar as configurações e como deve fazer isto
+	if (program.make) {
+		let command = program.make;
+		if (!command) return console.log(chalk.red('Command not defined'));
 
-        let config = readconfig.getConfig(env);
-        if (!config) return console.log(chalk.red(`Config > terun.${env}.json < not found`))
+		let config = readconfig.getConfig(env);
+		if (!config) return console.log(chalk.red(`Config > terun.${env}.json < not found`));
 
-        let maker = new make(config, command, config.tags).init();
-    }
+		new make(config, command, config.tags).init();
+	}
 
-    if (program["init"]) {
-        init();
-    }
+	if (program.init) {
+		init();
+	}
     
-}, 1000)
+}, 1000);
 
 
 
