@@ -1,6 +1,6 @@
 {
   "name": "terunjs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Automate creation files",
   "main": "src/index.js",
   "preferGlobal": true,

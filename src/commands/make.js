@@ -31,7 +31,6 @@ class Make {
 		this.transportFiles = commandSelected.transport;
 		for (let transport of this.transportFiles) {
 			if (!this.validTransport(transport)) return;
-
 			console.log(chalk.magenta(`process: ${transport.from}`));
 
 			await this.getTransport(transport);
@@ -68,8 +67,9 @@ class Make {
 
 				let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
 
-				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
 
+				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
+				
 				await this.createDir(toFileName)
 					.catch(err => {
 						console.log(chalk.red('Error on create folder'));
