@@ -28,12 +28,12 @@ export default class Plugin {
 		return args;
 	}
 
-	config(globalProperties) {
+	async config(globalProperties) {
 		if (!this.pluginsInUse) return null;
 
-		this.pluginsInUse.forEach(async (config) => {
+		for(let config of this.pluginsInUse){
 			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
 			await pluginInstance['config'].call(pluginInstance, config, globalProperties, this.render);
-		});
+		}
 	}
 }

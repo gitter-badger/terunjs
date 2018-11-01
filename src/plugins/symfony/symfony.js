@@ -24,6 +24,7 @@ class SymfonyEntity {
 
 	async beforeRender(objectToSetArgs = {}) {
 		// set helpers
+		objectToSetArgs['s:class'] = await this.getClassName();
 		objectToSetArgs['s:class_lower'] = (await this.getClassName()).toLowerCase();
 		objectToSetArgs['s:class_cap'] = capitalize((await this.getClassName()));
 		objectToSetArgs['s:class_plural_lower'] = pluralName((await this.getClassName())).toLowerCase();
