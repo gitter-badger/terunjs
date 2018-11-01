@@ -1,4 +1,4 @@
 <button-delete-list 
-action="{{ path('_delete', {'': .id}) }}"
-csrf="{{ csrf_token('delete' ~ .id) }}"
+action="{{ path('condutor_delete', {'condutor': condutor.id}) }}"
+csrf="{{ csrf_token('delete' ~ condutor.id) }}"
 ></button-delete-list>
