@@ -25,10 +25,6 @@ exports.dropFileName = (to) => {
 	return withoutFilenameArray.join('/');
 };
 
-exports.capitalize = (text) => {
-	return text.replace(/^\w/, c => c.toUpperCase());
-};
-
 exports.camelize = (text, separator) => {
 	return text
 	  .replace(/_/g, " ")  
@@ -38,6 +34,19 @@ exports.camelize = (text, separator) => {
 		  return lowerCase.slice(0,1).toUpperCase() + lowerCase.slice(1)
 	  })
 	  .join("")
+}
+
+exports.camelizeLessFirst = (text, separator) => {
+	text = text
+	  .replace(/_/g, " ")  
+	  .split(" ")
+	  .map(value => {
+		  let lowerCase = value.toLowerCase() 
+		  return lowerCase.slice(0,1).toUpperCase() + lowerCase.slice(1)
+	  })
+	  .join("")
+	
+	return text.slice(0,1).toLowerCase() + text.slice(1);
 }
 
 exports.pluralName = (text) => {

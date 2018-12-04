@@ -20,7 +20,7 @@
         {% for >>s:class_lower<< in pagination %}
             <tr>
                 >>#symfony-entity-get-entity-print-codes<<
-                    <td> >>.<< </td>
+                    <td> {{>>.<<}} </td>
                 >>/symfony-entity-get-entity-print-codes<<
                 <td>
                     <button-edit-list path="{{ path('>>s:class_lower<<_edit', {'>>s:class_lower<<': >>s:class_lower<<.>>key<<}) }}"></button-edit-list>

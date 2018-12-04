@@ -1,4 +1,4 @@
-import { capitalize, pluralName } from '../../utils/util';
+import { camelize, pluralName } from '../../utils/util';
 import { getFile } from '../../utils/util';
 import { isAnnotation } from './helper';
 import regexHelper from './regex';
@@ -26,9 +26,9 @@ class SymfonyEntity {
 		// set helpers
 		objectToSetArgs['s:class'] = await this.getClassName();
 		objectToSetArgs['s:class_lower'] = (await this.getClassName()).toLowerCase();
-		objectToSetArgs['s:class_cap'] = capitalize((await this.getClassName()));
+		objectToSetArgs['s:class_cap'] = camelize((await this.getClassName()));
 		objectToSetArgs['s:class_plural_lower'] = pluralName((await this.getClassName())).toLowerCase();
-		objectToSetArgs['s:class_plural_cap'] = capitalize(pluralName((await this.getClassName())));
+		objectToSetArgs['s:class_plural_cap'] = camelize(pluralName((await this.getClassName())));
 
 		// set parameters
 		objectToSetArgs['symfony-form-builder'] = await this.getForm();
@@ -69,7 +69,7 @@ class SymfonyEntity {
 
 	async getEntityPropertiesToView() {
 		let properties = await this.getProperties();
-		properties = properties.map((propertie) => `${capitalize(propertie)}`);
+		properties = properties.map((propertie) => `${camelize(propertie)}`);
 		return properties;
 	}
 

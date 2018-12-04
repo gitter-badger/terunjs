@@ -27,39 +27,39 @@ public class AbstractAtendimentoEncerramentoDAO extends AtendimentoEncerramentoD
 
     @Override
     protected void fillContentValues(ContentValues values, AtendimentoEncerramento model) {
-        values.put(DataHoraIncerta, model.getDataHoraIncerta());
-        values.put(VersaoEncerramento, model.getVersaoEncerramento());
-        values.put(Id, model.getId());
-        values.put(IdAtendimentoUnidade, model.getIdAtendimentoUnidade());
-        values.put(IdUsuarioEncerramento, model.getIdUsuarioEncerramento());
-        values.put(DescricaoEncerramentoVarchar, model.getDescricaoEncerramentoVarchar());
-        values.put(DataHoraEncerramento, model.getDataHoraEncerramento());
-        values.put(Status, model.getStatus());
-        values.put(IdUsuarioHomologacao, model.getIdUsuarioHomologacao());
-        values.put(DataHoraHomologacao, model.getDataHoraHomologacao());
-        values.put(IdUsuarioGerarImprensa, model.getIdUsuarioGerarImprensa());
-        values.put(DataHoraGerarImprensa, model.getDataHoraGerarImprensa());
-        values.put(IdUsuarioFinalizacao, model.getIdUsuarioFinalizacao());
-        values.put(DataHoraFinalizacao, model.getDataHoraFinalizacao());
-        values.put(Finalizado, model.getFinalizado());
-        values.put(GerarImprensa, model.getGerarImprensa());
-        values.put(IdIntercorrencia, model.getIdIntercorrencia());
-        values.put(IdTipoAtendimento, model.getIdTipoAtendimento());
-        values.put(IdClassificacaoAtendimento, model.getIdClassificacaoAtendimento());
-        values.put(IdCodigoFechamento, model.getIdCodigoFechamento());
-        values.put(TipoClassificAtendimento, model.getTipoClassificAtendimento());
-        values.put(DataHoraReabertura, model.getDataHoraReabertura());
-        values.put(IdUsuarioReabertura, model.getIdUsuarioReabertura());
-        values.put(IdUsuarioEdicao, model.getIdUsuarioEdicao());
-        values.put(DataHoraEdicao, model.getDataHoraEdicao());
-        values.put(DataHoraFato, model.getDataHoraFato());
-        values.put(ProvidenciasAdotadas, model.getProvidenciasAdotadas());
-        values.put(LidoSetorInteligencia, model.getLidoSetorInteligencia());
-        values.put(MobileEncerrou, model.getMobileEncerrou());
-        values.put(QtdFoto, model.getQtdFoto());
-        values.put(QtdVideo, model.getQtdVideo());
-        values.put(QtdAudio, model.getQtdAudio());
-        values.put(DescricaoEncerramento, model.getDescricaoEncerramento());
+        values.put(dataHoraIncerta, model.getdataHoraIncerta());
+        values.put(versaoEncerramento, model.getversaoEncerramento());
+        values.put(id, model.getid());
+        values.put(idAtendimentoUnidade, model.getidAtendimentoUnidade());
+        values.put(idUsuarioEncerramento, model.getidUsuarioEncerramento());
+        values.put(descricaoEncerramentoVarchar, model.getdescricaoEncerramentoVarchar());
+        values.put(dataHoraEncerramento, model.getdataHoraEncerramento());
+        values.put(status, model.getstatus());
+        values.put(idUsuarioHomologacao, model.getidUsuarioHomologacao());
+        values.put(dataHoraHomologacao, model.getdataHoraHomologacao());
+        values.put(idUsuarioGerarImprensa, model.getidUsuarioGerarImprensa());
+        values.put(dataHoraGerarImprensa, model.getdataHoraGerarImprensa());
+        values.put(idUsuarioFinalizacao, model.getidUsuarioFinalizacao());
+        values.put(dataHoraFinalizacao, model.getdataHoraFinalizacao());
+        values.put(finalizado, model.getfinalizado());
+        values.put(gerarImprensa, model.getgerarImprensa());
+        values.put(idIntercorrencia, model.getidIntercorrencia());
+        values.put(idTipoAtendimento, model.getidTipoAtendimento());
+        values.put(idClassificacaoAtendimento, model.getidClassificacaoAtendimento());
+        values.put(idCodigoFechamento, model.getidCodigoFechamento());
+        values.put(tipoClassificAtendimento, model.gettipoClassificAtendimento());
+        values.put(dataHoraReabertura, model.getdataHoraReabertura());
+        values.put(idUsuarioReabertura, model.getidUsuarioReabertura());
+        values.put(idUsuarioEdicao, model.getidUsuarioEdicao());
+        values.put(dataHoraEdicao, model.getdataHoraEdicao());
+        values.put(dataHoraFato, model.getdataHoraFato());
+        values.put(providenciasAdotadas, model.getprovidenciasAdotadas());
+        values.put(lidoSetorInteligencia, model.getlidoSetorInteligencia());
+        values.put(mobileEncerrou, model.getmobileEncerrou());
+        values.put(qtdFoto, model.getqtdFoto());
+        values.put(qtdVideo, model.getqtdVideo());
+        values.put(qtdAudio, model.getqtdAudio());
+        values.put(descricaoEncerramento, model.getdescricaoEncerramento());
     }
 
 

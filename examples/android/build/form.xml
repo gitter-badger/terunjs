@@ -58,12 +58,11 @@
                     android:text="ID_ATENDIMENTO_UNIDADE"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdAtendimentoUnidade"
+                <Spinner
+                    android:id="@+id/spinnerIdIdAtendimentoUnidade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdAtendimentoUnidade-->
     
                 <!--region IdUsuarioEncerramento-->
                 <TextView
@@ -73,12 +72,11 @@
                     android:text="ID_USUARIO_ENCERRAMENTO"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdUsuarioEncerramento"
+                <Spinner
+                    android:id="@+id/spinnerIdIdUsuarioEncerramento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdUsuarioEncerramento-->
     
                 <!--region DescricaoEncerramentoVarchar-->
                 <TextView
@@ -119,12 +117,11 @@
                     android:text="ID_USUARIO_HOMOLOGACAO"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdUsuarioHomologacao"
+                <Spinner
+                    android:id="@+id/spinnerIdIdUsuarioHomologacao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdUsuarioHomologacao-->
     
     
                 <!--region IdUsuarioGerarImprensa-->
@@ -135,12 +132,11 @@
                     android:text="ID_USUARIO_GERAR_IMPRENSA"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdUsuarioGerarImprensa"
+                <Spinner
+                    android:id="@+id/spinnerIdIdUsuarioGerarImprensa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdUsuarioGerarImprensa-->
     
     
                 <!--region IdUsuarioFinalizacao-->
@@ -197,12 +193,11 @@
                     android:text="ID_INTERCORRENCIA"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdIntercorrencia"
+                <Spinner
+                    android:id="@+id/spinnerIdIdIntercorrencia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdIntercorrencia-->
     
                 <!--region IdTipoAtendimento-->
                 <TextView
@@ -212,12 +207,11 @@
                     android:text="ID_TIPO_ATENDIMENTO"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdTipoAtendimento"
+                <Spinner
+                    android:id="@+id/spinnerIdIdTipoAtendimento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdTipoAtendimento-->
     
                 <!--region IdClassificacaoAtendimento-->
                 <TextView
@@ -227,12 +221,11 @@
                     android:text="ID_CLASSIFICACAO_ATENDIMENTO"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdClassificacaoAtendimento"
+                <Spinner
+                    android:id="@+id/spinnerIdIdClassificacaoAtendimento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdClassificacaoAtendimento-->
     
                 <!--region IdCodigoFechamento-->
                 <TextView
@@ -242,12 +235,11 @@
                     android:text="ID_CODIGO_FECHAMENTO"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/cor_campo_obrigatorio" />
-
-                <EditText
-                    android:id="@+id/editTextIdCodigoFechamento"
+                <Spinner
+                    android:id="@+id/spinnerIdIdCodigoFechamento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--endregion-->
+                <!--region IdCodigoFechamento-->
     
                 <!--region TipoClassificAtendimento-->
                 <TextView

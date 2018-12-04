@@ -1,7 +1,7 @@
 public class {{android:class}} extends ModelsEncerrar {
     {{#android-attr-class}}
         {{#foreignKey}}
-            ArrayList<{{fkTableName}}>
+            private ArrayList<{{fkTableName}}> {{name}}
         {{/foreignKey}}
         {{^foreignKey}}
             private {{type}} {{name}};

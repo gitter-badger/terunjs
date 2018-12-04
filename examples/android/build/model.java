@@ -1,267 +1,267 @@
 public class AtendimentoEncerramento extends ModelsEncerrar {
-            private Integer DataHoraIncerta;
-            private Integer VersaoEncerramento;
-            private Integer Id;
-            private Integer IdAtendimentoUnidade;
-            private Integer IdUsuarioEncerramento;
-            private String DescricaoEncerramentoVarchar;
-            private Date DataHoraEncerramento;
-            private Integer Status;
-            private Integer IdUsuarioHomologacao;
-            private Date DataHoraHomologacao;
-            private Integer IdUsuarioGerarImprensa;
-            private Date DataHoraGerarImprensa;
-            private Integer IdUsuarioFinalizacao;
-            private Date DataHoraFinalizacao;
-            private Integer Finalizado;
-            private Integer GerarImprensa;
-            private Integer IdIntercorrencia;
-            private Integer IdTipoAtendimento;
-            private Integer IdClassificacaoAtendimento;
-            private Integer IdCodigoFechamento;
-            private Integer TipoClassificAtendimento;
-            private Date DataHoraReabertura;
-            private Integer IdUsuarioReabertura;
-            private Integer IdUsuarioEdicao;
-            private Date DataHoraEdicao;
-            private Date DataHoraFato;
-            private String ProvidenciasAdotadas;
-            private Integer LidoSetorInteligencia;
-            private Integer MobileEncerrou;
-            private Integer QtdFoto;
-            private Integer QtdVideo;
-            private Integer QtdAudio;
-            private  DescricaoEncerramento;
+            private Integer dataHoraIncerta;
+            private Integer versaoEncerramento;
+            private Integer id;
+            private ArrayList<AtendimentoUnidade> idAtendimentoUnidade
+            private ArrayList<Usuario> idUsuarioEncerramento
+            private String descricaoEncerramentoVarchar;
+            private Date dataHoraEncerramento;
+            private Integer status;
+            private ArrayList<Usuario> idUsuarioHomologacao
+            private Date dataHoraHomologacao;
+            private ArrayList<Usuario> idUsuarioGerarImprensa
+            private Date dataHoraGerarImprensa;
+            private Integer idUsuarioFinalizacao;
+            private Date dataHoraFinalizacao;
+            private Integer finalizado;
+            private Integer gerarImprensa;
+            private ArrayList<Intercorrencia> idIntercorrencia
+            private ArrayList<TipoAtendimento> idTipoAtendimento
+            private ArrayList<ClassificacaoAtendimento> idClassificacaoAtendimento
+            private ArrayList<CodigoFechamento> idCodigoFechamento
+            private Integer tipoClassificAtendimento;
+            private Date dataHoraReabertura;
+            private Integer idUsuarioReabertura;
+            private Integer idUsuarioEdicao;
+            private Date dataHoraEdicao;
+            private Date dataHoraFato;
+            private String providenciasAdotadas;
+            private Integer lidoSetorInteligencia;
+            private Integer mobileEncerrou;
+            private Integer qtdFoto;
+            private Integer qtdVideo;
+            private Integer qtdAudio;
+            private  descricaoEncerramento;
 
-    public Integer getDataHoraIncerta() {
-        return DataHoraIncerta;
-    }
-
-    public void setDataHoraIncerta(Integer DataHoraIncerta) {
-        this.DataHoraIncerta = DataHoraIncerta;
-    }
-    public Integer getVersaoEncerramento() {
-        return VersaoEncerramento;
+    public Integer getdataHoraIncerta() {
+        return dataHoraIncerta;
     }
 
-    public void setVersaoEncerramento(Integer VersaoEncerramento) {
-        this.VersaoEncerramento = VersaoEncerramento;
+    public void setdataHoraIncerta(Integer dataHoraIncerta) {
+        this.dataHoraIncerta = dataHoraIncerta;
     }
-    public Integer getId() {
-        return Id;
-    }
-
-    public void setId(Integer Id) {
-        this.Id = Id;
-    }
-    public Integer getIdAtendimentoUnidade() {
-        return IdAtendimentoUnidade;
+    public Integer getversaoEncerramento() {
+        return versaoEncerramento;
     }
 
-    public void setIdAtendimentoUnidade(Integer IdAtendimentoUnidade) {
-        this.IdAtendimentoUnidade = IdAtendimentoUnidade;
+    public void setversaoEncerramento(Integer versaoEncerramento) {
+        this.versaoEncerramento = versaoEncerramento;
     }
-    public Integer getIdUsuarioEncerramento() {
-        return IdUsuarioEncerramento;
-    }
-
-    public void setIdUsuarioEncerramento(Integer IdUsuarioEncerramento) {
-        this.IdUsuarioEncerramento = IdUsuarioEncerramento;
-    }
-    public String getDescricaoEncerramentoVarchar() {
-        return DescricaoEncerramentoVarchar;
+    public Integer getid() {
+        return id;
     }
 
-    public void setDescricaoEncerramentoVarchar(String DescricaoEncerramentoVarchar) {
-        this.DescricaoEncerramentoVarchar = DescricaoEncerramentoVarchar;
+    public void setid(Integer id) {
+        this.id = id;
     }
-    public Date getDataHoraEncerramento() {
-        return DataHoraEncerramento;
-    }
-
-    public void setDataHoraEncerramento(Date DataHoraEncerramento) {
-        this.DataHoraEncerramento = DataHoraEncerramento;
-    }
-    public Integer getStatus() {
-        return Status;
+    public Integer getidAtendimentoUnidade() {
+        return idAtendimentoUnidade;
     }
 
-    public void setStatus(Integer Status) {
-        this.Status = Status;
+    public void setidAtendimentoUnidade(Integer idAtendimentoUnidade) {
+        this.idAtendimentoUnidade = idAtendimentoUnidade;
     }
-    public Integer getIdUsuarioHomologacao() {
-        return IdUsuarioHomologacao;
-    }
-
-    public void setIdUsuarioHomologacao(Integer IdUsuarioHomologacao) {
-        this.IdUsuarioHomologacao = IdUsuarioHomologacao;
-    }
-    public Date getDataHoraHomologacao() {
-        return DataHoraHomologacao;
+    public Integer getidUsuarioEncerramento() {
+        return idUsuarioEncerramento;
     }
 
-    public void setDataHoraHomologacao(Date DataHoraHomologacao) {
-        this.DataHoraHomologacao = DataHoraHomologacao;
+    public void setidUsuarioEncerramento(Integer idUsuarioEncerramento) {
+        this.idUsuarioEncerramento = idUsuarioEncerramento;
     }
-    public Integer getIdUsuarioGerarImprensa() {
-        return IdUsuarioGerarImprensa;
-    }
-
-    public void setIdUsuarioGerarImprensa(Integer IdUsuarioGerarImprensa) {
-        this.IdUsuarioGerarImprensa = IdUsuarioGerarImprensa;
-    }
-    public Date getDataHoraGerarImprensa() {
-        return DataHoraGerarImprensa;
+    public String getdescricaoEncerramentoVarchar() {
+        return descricaoEncerramentoVarchar;
     }
 
-    public void setDataHoraGerarImprensa(Date DataHoraGerarImprensa) {
-        this.DataHoraGerarImprensa = DataHoraGerarImprensa;
+    public void setdescricaoEncerramentoVarchar(String descricaoEncerramentoVarchar) {
+        this.descricaoEncerramentoVarchar = descricaoEncerramentoVarchar;
     }
-    public Integer getIdUsuarioFinalizacao() {
-        return IdUsuarioFinalizacao;
-    }
-
-    public void setIdUsuarioFinalizacao(Integer IdUsuarioFinalizacao) {
-        this.IdUsuarioFinalizacao = IdUsuarioFinalizacao;
-    }
-    public Date getDataHoraFinalizacao() {
-        return DataHoraFinalizacao;
+    public Date getdataHoraEncerramento() {
+        return dataHoraEncerramento;
     }
 
-    public void setDataHoraFinalizacao(Date DataHoraFinalizacao) {
-        this.DataHoraFinalizacao = DataHoraFinalizacao;
+    public void setdataHoraEncerramento(Date dataHoraEncerramento) {
+        this.dataHoraEncerramento = dataHoraEncerramento;
     }
-    public Integer getFinalizado() {
-        return Finalizado;
-    }
-
-    public void setFinalizado(Integer Finalizado) {
-        this.Finalizado = Finalizado;
-    }
-    public Integer getGerarImprensa() {
-        return GerarImprensa;
+    public Integer getstatus() {
+        return status;
     }
 
-    public void setGerarImprensa(Integer GerarImprensa) {
-        this.GerarImprensa = GerarImprensa;
+    public void setstatus(Integer status) {
+        this.status = status;
     }
-    public Integer getIdIntercorrencia() {
-        return IdIntercorrencia;
-    }
-
-    public void setIdIntercorrencia(Integer IdIntercorrencia) {
-        this.IdIntercorrencia = IdIntercorrencia;
-    }
-    public Integer getIdTipoAtendimento() {
-        return IdTipoAtendimento;
+    public Integer getidUsuarioHomologacao() {
+        return idUsuarioHomologacao;
     }
 
-    public void setIdTipoAtendimento(Integer IdTipoAtendimento) {
-        this.IdTipoAtendimento = IdTipoAtendimento;
+    public void setidUsuarioHomologacao(Integer idUsuarioHomologacao) {
+        this.idUsuarioHomologacao = idUsuarioHomologacao;
     }
-    public Integer getIdClassificacaoAtendimento() {
-        return IdClassificacaoAtendimento;
-    }
-
-    public void setIdClassificacaoAtendimento(Integer IdClassificacaoAtendimento) {
-        this.IdClassificacaoAtendimento = IdClassificacaoAtendimento;
-    }
-    public Integer getIdCodigoFechamento() {
-        return IdCodigoFechamento;
+    public Date getdataHoraHomologacao() {
+        return dataHoraHomologacao;
     }
 
-    public void setIdCodigoFechamento(Integer IdCodigoFechamento) {
-        this.IdCodigoFechamento = IdCodigoFechamento;
+    public void setdataHoraHomologacao(Date dataHoraHomologacao) {
+        this.dataHoraHomologacao = dataHoraHomologacao;
     }
-    public Integer getTipoClassificAtendimento() {
-        return TipoClassificAtendimento;
-    }
-
-    public void setTipoClassificAtendimento(Integer TipoClassificAtendimento) {
-        this.TipoClassificAtendimento = TipoClassificAtendimento;
-    }
-    public Date getDataHoraReabertura() {
-        return DataHoraReabertura;
+    public Integer getidUsuarioGerarImprensa() {
+        return idUsuarioGerarImprensa;
     }
 
-    public void setDataHoraReabertura(Date DataHoraReabertura) {
-        this.DataHoraReabertura = DataHoraReabertura;
+    public void setidUsuarioGerarImprensa(Integer idUsuarioGerarImprensa) {
+        this.idUsuarioGerarImprensa = idUsuarioGerarImprensa;
     }
-    public Integer getIdUsuarioReabertura() {
-        return IdUsuarioReabertura;
-    }
-
-    public void setIdUsuarioReabertura(Integer IdUsuarioReabertura) {
-        this.IdUsuarioReabertura = IdUsuarioReabertura;
-    }
-    public Integer getIdUsuarioEdicao() {
-        return IdUsuarioEdicao;
+    public Date getdataHoraGerarImprensa() {
+        return dataHoraGerarImprensa;
     }
 
-    public void setIdUsuarioEdicao(Integer IdUsuarioEdicao) {
-        this.IdUsuarioEdicao = IdUsuarioEdicao;
+    public void setdataHoraGerarImprensa(Date dataHoraGerarImprensa) {
+        this.dataHoraGerarImprensa = dataHoraGerarImprensa;
     }
-    public Date getDataHoraEdicao() {
-        return DataHoraEdicao;
-    }
-
-    public void setDataHoraEdicao(Date DataHoraEdicao) {
-        this.DataHoraEdicao = DataHoraEdicao;
-    }
-    public Date getDataHoraFato() {
-        return DataHoraFato;
+    public Integer getidUsuarioFinalizacao() {
+        return idUsuarioFinalizacao;
     }
 
-    public void setDataHoraFato(Date DataHoraFato) {
-        this.DataHoraFato = DataHoraFato;
+    public void setidUsuarioFinalizacao(Integer idUsuarioFinalizacao) {
+        this.idUsuarioFinalizacao = idUsuarioFinalizacao;
     }
-    public String getProvidenciasAdotadas() {
-        return ProvidenciasAdotadas;
-    }
-
-    public void setProvidenciasAdotadas(String ProvidenciasAdotadas) {
-        this.ProvidenciasAdotadas = ProvidenciasAdotadas;
-    }
-    public Integer getLidoSetorInteligencia() {
-        return LidoSetorInteligencia;
+    public Date getdataHoraFinalizacao() {
+        return dataHoraFinalizacao;
     }
 
-    public void setLidoSetorInteligencia(Integer LidoSetorInteligencia) {
-        this.LidoSetorInteligencia = LidoSetorInteligencia;
+    public void setdataHoraFinalizacao(Date dataHoraFinalizacao) {
+        this.dataHoraFinalizacao = dataHoraFinalizacao;
     }
-    public Integer getMobileEncerrou() {
-        return MobileEncerrou;
-    }
-
-    public void setMobileEncerrou(Integer MobileEncerrou) {
-        this.MobileEncerrou = MobileEncerrou;
-    }
-    public Integer getQtdFoto() {
-        return QtdFoto;
+    public Integer getfinalizado() {
+        return finalizado;
     }
 
-    public void setQtdFoto(Integer QtdFoto) {
-        this.QtdFoto = QtdFoto;
+    public void setfinalizado(Integer finalizado) {
+        this.finalizado = finalizado;
     }
-    public Integer getQtdVideo() {
-        return QtdVideo;
-    }
-
-    public void setQtdVideo(Integer QtdVideo) {
-        this.QtdVideo = QtdVideo;
-    }
-    public Integer getQtdAudio() {
-        return QtdAudio;
+    public Integer getgerarImprensa() {
+        return gerarImprensa;
     }
 
-    public void setQtdAudio(Integer QtdAudio) {
-        this.QtdAudio = QtdAudio;
+    public void setgerarImprensa(Integer gerarImprensa) {
+        this.gerarImprensa = gerarImprensa;
     }
-    public  getDescricaoEncerramento() {
-        return DescricaoEncerramento;
+    public Integer getidIntercorrencia() {
+        return idIntercorrencia;
     }
 
-    public void setDescricaoEncerramento( DescricaoEncerramento) {
-        this.DescricaoEncerramento = DescricaoEncerramento;
+    public void setidIntercorrencia(Integer idIntercorrencia) {
+        this.idIntercorrencia = idIntercorrencia;
+    }
+    public Integer getidTipoAtendimento() {
+        return idTipoAtendimento;
+    }
+
+    public void setidTipoAtendimento(Integer idTipoAtendimento) {
+        this.idTipoAtendimento = idTipoAtendimento;
+    }
+    public Integer getidClassificacaoAtendimento() {
+        return idClassificacaoAtendimento;
+    }
+
+    public void setidClassificacaoAtendimento(Integer idClassificacaoAtendimento) {
+        this.idClassificacaoAtendimento = idClassificacaoAtendimento;
+    }
+    public Integer getidCodigoFechamento() {
+        return idCodigoFechamento;
+    }
+
+    public void setidCodigoFechamento(Integer idCodigoFechamento) {
+        this.idCodigoFechamento = idCodigoFechamento;
+    }
+    public Integer gettipoClassificAtendimento() {
+        return tipoClassificAtendimento;
+    }
+
+    public void settipoClassificAtendimento(Integer tipoClassificAtendimento) {
+        this.tipoClassificAtendimento = tipoClassificAtendimento;
+    }
+    public Date getdataHoraReabertura() {
+        return dataHoraReabertura;
+    }
+
+    public void setdataHoraReabertura(Date dataHoraReabertura) {
+        this.dataHoraReabertura = dataHoraReabertura;
+    }
+    public Integer getidUsuarioReabertura() {
+        return idUsuarioReabertura;
+    }
+
+    public void setidUsuarioReabertura(Integer idUsuarioReabertura) {
+        this.idUsuarioReabertura = idUsuarioReabertura;
+    }
+    public Integer getidUsuarioEdicao() {
+        return idUsuarioEdicao;
+    }
+
+    public void setidUsuarioEdicao(Integer idUsuarioEdicao) {
+        this.idUsuarioEdicao = idUsuarioEdicao;
+    }
+    public Date getdataHoraEdicao() {
+        return dataHoraEdicao;
+    }
+
+    public void setdataHoraEdicao(Date dataHoraEdicao) {
+        this.dataHoraEdicao = dataHoraEdicao;
+    }
+    public Date getdataHoraFato() {
+        return dataHoraFato;
+    }
+
+    public void setdataHoraFato(Date dataHoraFato) {
+        this.dataHoraFato = dataHoraFato;
+    }
+    public String getprovidenciasAdotadas() {
+        return providenciasAdotadas;
+    }
+
+    public void setprovidenciasAdotadas(String providenciasAdotadas) {
+        this.providenciasAdotadas = providenciasAdotadas;
+    }
+    public Integer getlidoSetorInteligencia() {
+        return lidoSetorInteligencia;
+    }
+
+    public void setlidoSetorInteligencia(Integer lidoSetorInteligencia) {
+        this.lidoSetorInteligencia = lidoSetorInteligencia;
+    }
+    public Integer getmobileEncerrou() {
+        return mobileEncerrou;
+    }
+
+    public void setmobileEncerrou(Integer mobileEncerrou) {
+        this.mobileEncerrou = mobileEncerrou;
+    }
+    public Integer getqtdFoto() {
+        return qtdFoto;
+    }
+
+    public void setqtdFoto(Integer qtdFoto) {
+        this.qtdFoto = qtdFoto;
+    }
+    public Integer getqtdVideo() {
+        return qtdVideo;
+    }
+
+    public void setqtdVideo(Integer qtdVideo) {
+        this.qtdVideo = qtdVideo;
+    }
+    public Integer getqtdAudio() {
+        return qtdAudio;
+    }
+
+    public void setqtdAudio(Integer qtdAudio) {
+        this.qtdAudio = qtdAudio;
+    }
+    public  getdescricaoEncerramento() {
+        return descricaoEncerramento;
+    }
+
+    public void setdescricaoEncerramento( descricaoEncerramento) {
+        this.descricaoEncerramento = descricaoEncerramento;
     }
 }

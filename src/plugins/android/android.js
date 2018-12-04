@@ -1,6 +1,6 @@
 import { Pool, Client } from 'pg'
 import Database from '../../utils/database';
-import { camelize } from '../../utils/util'
+import { camelize, camelizeLessFirst } from '../../utils/util'
 import chalk from 'chalk'
 import AndroidInteract from './interact'
 import loading from 'loading-cli';
@@ -84,7 +84,7 @@ class Android {
         
         for(let column of columns){
             column.foreignKey = (!this.options.ignoreForeignKeys && column.foreignKey);
-            column.name = camelize(column.name)
+            column.name = camelizeLessFirst(column.name)
             column.type = this.getTypeAttribute(column.type)
 
             finalColumns = [...finalColumns, column]
