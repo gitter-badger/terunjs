@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+   <LinearLayout
+       android:orientation="vertical" android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+    
+                <!--region Id-->
+                <TextView
+                    android:id="@+id/labelId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/cor_campo_obrigatorio" />
+
+                <EditText
+                    android:id="@+id/editTextId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <!--endregion-->
+    
+                <!--region Descricao-->
+                <TextView
+                    android:id="@+id/labelDescricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DESCRICAO"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/cor_campo_obrigatorio" />
+
+                <EditText
+                    android:id="@+id/editTextDescricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                    <!--region Descricao-->
+    
+                <!--region Excluido-->
+                <TextView
+                    android:id="@+id/labelExcluido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="EXCLUIDO"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/cor_campo_obrigatorio" />
+
+                <EditText
+                    android:id="@+id/editTextExcluido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <!--endregion-->
+
+   </LinearLayout>
+</layout>

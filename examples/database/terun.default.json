@@ -1,0 +1,28 @@
+{
+    "tags": [">>","<<"],
+    "base_dir": "/",
+    "commands": {
+        "data": {
+            "args": [ ],
+            "plugins": [
+                {
+                    "name": "database",
+                    "host": "192.168.25.2",
+                    "user": "sas",
+                    "password": "123456",
+                    "dialect": "pg",
+                    "port": 5432,
+                    "database": "sasv2",
+                    "tableName": "usuario"
+                }
+            ],
+            "transport": [
+                {
+                    "from": "form.html",
+                    "to": "build/form.py",
+                    "args": []
+                }
+            ]
+        }
+    }
+}

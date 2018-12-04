@@ -1,0 +1,36 @@
+{
+    "base_dir": "/",
+    "commands": {
+        "data": {
+            "args": [],
+            "plugins": [
+                {
+                    "name": "android",
+                    "host": "192.168.25.10",
+                    "user": "base03_dba",
+                    "password": "base03_dba",
+                    "dialect": "oracle",
+                    "port": 1521,
+                    "database": "base03"
+                }
+            ],
+            "transport": [
+                {
+                    "from": "templates/arquivo.xml",
+                    "to": "build/form.xml",
+                    "args": []
+                },
+                {
+                    "from": "templates/abstract.java",
+                    "to": "build/abstract.java",
+                    "args": []
+                },
+                {
+                    "from": "templates/model.java",
+                    "to": "build/model.java",
+                    "args": []
+                }
+            ]
+        }
+    }
+}

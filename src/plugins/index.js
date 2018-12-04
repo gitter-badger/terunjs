@@ -1,10 +1,10 @@
 import SymfonyEntity from './symfony/symfony';
-
-
+import Android from './android/android'
 export default class Plugin {
 	constructor(render) {
 		this.plugins = [
-			new SymfonyEntity()
+			new SymfonyEntity(),
+			new Android()
 		];
 		this.pluginsInUse = [];
 		this.render = render;

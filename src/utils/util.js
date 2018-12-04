@@ -29,6 +29,16 @@ exports.capitalize = (text) => {
 	return text.replace(/^\w/, c => c.toUpperCase());
 };
 
+exports.camelize = (text, separator) => {
+	return text
+	  .replace(/_/g, " ")  
+	  .split(" ")
+	  .map(value => {
+		  let lowerCase = value.toLowerCase() 
+		  return lowerCase.slice(0,1).toUpperCase() + lowerCase.slice(1)
+	  })
+	  .join("")
+}
 
 exports.pluralName = (text) => {
 	return plural(text);
