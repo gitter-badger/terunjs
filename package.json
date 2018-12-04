@@ -33,6 +33,7 @@
     "pg": "^7.7.1",
     "pluralize-ptbr": "^1.0.3",
     "prompt": "^1.0.0",
+    "prompt-autocompletion": "^0.1.2",
     "prompt-checkbox": "^2.2.0"
   },
   "devDependencies": {

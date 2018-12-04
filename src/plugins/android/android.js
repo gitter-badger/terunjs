@@ -1,8 +1,15 @@
 import { Pool, Client } from 'pg'
 import Database from '../../utils/database';
-import { capitalize, camelize } from '../../utils/util'
+import { camelize } from '../../utils/util'
 import chalk from 'chalk'
 import AndroidInteract from './interact'
+import loading from 'loading-cli';
+
+const LOAD_DATABASE = loading('Conectando com o database');
+const LOAD_TABLES = loading('Buscando tabelas');
+const LOAD_TABLE_EXIST = loading('Verificando se tabela existe');
+const LOAD_COLUMNS = loading('Pegando colunas referentes a tabela');
+const LOAD_ATTRIBUTES = loading('Pegando attributos e relacionamentos');
 
 class Android {
 	constructor() {
@@ -12,9 +19,8 @@ class Android {
         this.tableName     = ''
 
         this.options = {
-            recursive: false,
             exclude: false,
-            guess: false
+            ignoreForeignKeys: false
         }
     }
 
@@ -22,21 +28,30 @@ class Android {
         let configAssign = Object.assign({}, config)
         let {user, host, database, password, port, dialect, tableName} = configAssign
 
-		if (!user)      throw new Error('>>USER<< not defined')
-		if (!host)      throw new Error('>>HOST<< not defined');
-		if (!database)  throw new Error('>>DATABASE<< not defined')
-		if (!password)  throw new Error('>>PASSWORD<< not defined')
-		if (!port)      throw new Error('>>PORT<< not defined')
-        if (!dialect)   throw new Error('>>DIALECT<< not defined')
+		if (!user)     throw new Error('>>USER<< not defined')
+		if (!host)     throw new Error('>>HOST<< not defined');
+		if (!database) throw new Error('>>DATABASE<< not defined')
+		if (!password) throw new Error('>>PASSWORD<< not defined')
+		if (!port)     throw new Error('>>PORT<< not defined')
+        if (!dialect)  throw new Error('>>DIALECT<< not defined')
 
-        this.tableName = await AndroidInteract.getTableNameFromUser()
-        this.options   = await AndroidInteract.getOptionsFromUser()
-
+        LOAD_DATABASE.start();
         this.database = new Database()
         await this.database.setDatabase(host, user, password, database, port, dialect)
+        LOAD_DATABASE.stop();
 
+        LOAD_TABLES.start()
+        let tabelas    = await this.database.getTables()
+        LOAD_TABLES.stop()
+
+        this.tableName = await AndroidInteract.getTableNameFromUser(tabelas)
+        this.options   = await AndroidInteract.getOptionsFromUser()
+        
         // check if the database has table
+        LOAD_TABLE_EXIST.start()
         let hasTable = await this.database.hasTable(this.tableName);
+        LOAD_TABLE_EXIST.stop()
+
         if(!hasTable){
             console.log(chalk.red(`>> ${this.tableName} << not exists in DATABASE`));
             throw new Error('DATABASE not exists')
@@ -44,45 +59,53 @@ class Android {
     }
 
     async beforeRender(objectToSetArgs = {}) {
-        let columns = await this.database.getColumns(this.tableName);
-        objectToSetArgs['android:columns']    = await AndroidInteract.getColumnsFilterBySelection(columns, this.options.exclude)
-        objectToSetArgs['android:fieldsXML']  = await this.getFieldsXML()
+        LOAD_COLUMNS.start()
+        let columns = await this.database.getColumns(this.tableName, {
+            getForeignKeys: !this.options.ignoreForeignKeys
+        });
+        LOAD_COLUMNS.stop()
+        
+        let filteredColumns = await AndroidInteract.getColumnsFilterBySelection(columns, this.options.exclude)
+
+        objectToSetArgs['android:columns']    = filteredColumns
+        objectToSetArgs['android:fieldsXML']  = await this.getFieldsXML(filteredColumns)
         objectToSetArgs['android:tableName']  = this.tableName
         objectToSetArgs['android:class']      = camelize(this.tableName)
-        objectToSetArgs['android-attr-class'] = await this.getAttributes(columns)
+
+        LOAD_ATTRIBUTES.start()
+        objectToSetArgs['android-attr-class'] = await this.getAttributes(filteredColumns)
+        LOAD_ATTRIBUTES.stop()
 
 		return objectToSetArgs
     }
 
     async getAttributes(columns){
-        return columns.map(column => {
-            let type;
-            if(this.database.type().isVarchar(column.type)){
-                type = 'String'
-            }
-
-            if(this.database.type().isNumber(column.type)){
-                type = 'Integer'
-            }
-
-            if(this.database.type().isDate(column.type)){
-                type = 'Date'
-            }
-
-            if(this.database.type().isFloat(column.type)){
-                type = 'Long'
-            }
-
+        let finalColumns = [] 
+        
+        for(let column of columns){
+            column.foreignKey = (!this.options.ignoreForeignKeys && column.foreignKey);
             column.name = camelize(column.name)
-            column.type = type
+            column.type = this.getTypeAttribute(column.type)
 
-            return column;
-        })
+            finalColumns = [...finalColumns, column]
+        }
+
+        return finalColumns;
     }
 
-    async getFieldsXML(){
-        let columns = await this.database.getColumns(this.tableName)
+    getTypeAttribute(type){
+        if(this.database.type().isVarchar(type)) return 'String'
 
+        if(this.database.type().isNumber(type)) return 'Integer'
+
+        if(this.database.type().isDate(type)) return 'Date'
+
+        if(this.database.type().isFloat(type)) return 'Long'
+
+        return ''
+    }
+
+    async getFieldsXML(columns){
         return columns.map((column, index)=>{
             return this._getField(column.type, column.name, column.foreignKey)
         })

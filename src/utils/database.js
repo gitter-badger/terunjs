@@ -1,6 +1,6 @@
 const { Pool, Client } = require('pg')
 const OracleDB = require('oracledb')
-
+import { camelize } from './util'
 class Database {
 	constructor() {
         this.database = null
@@ -31,7 +31,7 @@ class Database {
         return this;
     }
 
-    async getColumns(tableName){
+    async getColumns(tableName, { getForeignKeys = false }){
         let response;
         let types;
         let columns;
@@ -50,12 +50,14 @@ class Database {
 
                 for (let index = 0; index < columns.length; index++) {
                     const column = columns[index]
-                    let isConstraint = await this.isConstraint(tableName,column)
+                    let isConstraint = (getForeignKeys) ? await this.isConstraint(tableName,column) : false
+                    let tableNameForeignKey = (getForeignKeys) ? await this.getTableFromConstraint(tableName,column) : false
 
                     const columnObject = {
                         name: column,
                         type: types[index],
-                        foreignKey: isConstraint
+                        foreignKey: isConstraint,
+                        fkTableName: camelize(tableNameForeignKey)
                     }
 
                     finalColumns = [...finalColumns, columnObject]
@@ -76,12 +78,14 @@ class Database {
 
                 for (let index = 0; index < columns.length; index++) {
                     const column = columns[index]
-                    let isConstraint = await this.isConstraint(tableName,column)
+                    let isConstraint = (getForeignKeys) ? await this.isConstraint(tableName,column) : false
+                    let tableNameForeignKey = (getForeignKeys && isConstraint) ? await this.getTableFromConstraint(tableName,column) : ''
 
                     const columnObject = {
                         name: column,
                         type: types[index],
-                        foreignKey: isConstraint
+                        foreignKey: isConstraint,
+                        fkTableName: camelize(tableNameForeignKey)
                     }
 
                     finalColumns = [...finalColumns, columnObject]
@@ -90,6 +94,23 @@ class Database {
                 return finalColumns
             default:
                 return []
+        }
+    }
+
+    async getTables(){
+        switch(this.dialect){
+            case 'pg':
+                return []
+            case 'oracle':
+                let response = await this.database.execute(`
+                    SELECT
+                        TABLE_NAME
+                    FROM
+                        USER_TABLES
+                    ORDER BY TABLE_NAME
+                `)
+
+                return response.rows.map(r => r[0])
         }
     }
 
@@ -112,6 +133,27 @@ class Database {
                 return response.rows[0].types;
             default:
                 return []
+        }
+    }
+
+    async getTableFromConstraint(tableName, columnForeignKey) {
+        let response;
+        switch(this.dialect){
+            case 'pg':
+                return false;
+            default:
+                response = await this.database.execute(`
+                    SELECT a.column_name, c_pk.table_name
+                    FROM all_cons_columns a
+                    JOIN all_constraints c ON a.owner = c.owner
+                        AND a.constraint_name = c.constraint_name
+                    JOIN all_constraints c_pk ON c.r_owner = c_pk.owner
+                        AND c.r_constraint_name = c_pk.constraint_name
+                        AND a.column_name = '${columnForeignKey}'
+                    WHERE c.constraint_type = 'R'
+                        AND a.table_name = '${tableName}'
+                `)
+                return (response.rows.length > 0) ? response.rows[0][1] : false
         }
     }
 

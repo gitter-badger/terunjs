@@ -1,6 +1,11 @@
 public class {{android:class}} extends ModelsEncerrar {
     {{#android-attr-class}}
-    private {{type}} {{name}};
+        {{#foreignKey}}
+            ArrayList<{{fkTableName}}>
+        {{/foreignKey}}
+        {{^foreignKey}}
+            private {{type}} {{name}};
+        {{/foreignKey}}
     {{/android-attr-class}}
 
     {{#android-attr-class}}

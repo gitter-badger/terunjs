@@ -3,15 +3,12 @@
 import program from './utils/commander';
 import readconfig from './utils/reader-config';
 import make from './commands/make';
-import loading from 'loading-cli';
 import chalk from 'chalk';
 import init from './commands/init';
 
-const LOAD = loading('Carregando configuração').start();
 
-setTimeout(() => {
-	LOAD.stop();
 
+(()=>{
 	let env = 'default';
 
 	if(program.env){
@@ -33,9 +30,4 @@ setTimeout(() => {
 	if (program.init) {
 		init();
 	}
-    
-}, 1000);
-
-
-
-
+})()
