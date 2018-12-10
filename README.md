@@ -2,6 +2,40 @@
 
 Terun JS é um automatizador de geração de arquivos. Por exemplo, você tem a tarefa repetitiva de criar um CRUD, ou até mesmo criar uma entidade com repositório.
 
+Apartir de arquivos de template ele gera novos arquivos. Isto é mais utilizado pra quando se tem arquivos que já são padrões do projeto. CRUD's, controllers, ou até mesmo repositorios, arquivos que são criados a cada nova feature. 
+
+Hoje em quase todo Framework nós temos os `geradores de código`, mas com o tempo o gerador de código cria pedaços de código muito básicos sendo inútil a longo prazo.
+
+Criar mais código se tornou simples.
+
+- Definir o arquivo de configuração com `terun --init`
+- Definir os templates na linguagem que quiser
+- Escolher os valores de entrada
+- Rodar o comando `terun --make (command)[env]` 
+- Ser feliz :laughing:
+
+> Entrada em twig (indiferente a linguagem)
+```twig
+    {% block body %}
+        <h1>Criar >> s:class_cap <<</h1>
+
+        <button-back-list path="{{ path('>>s:class_lower<<_index') }}"></button-back-list>
+
+        {{ include('>>s:class_lower<</_form.html.twig') }}
+    {% endblock %}
+```
+>Saída
+
+```twig
+{% block body %}
+    <h1>Criar Condutor</h1>
+
+    <button-back-list path="{{ path('condutor_index') }}"></button-back-list>
+
+    {{ include('condutor/_form.html.twig') }}
+{% endblock %
+
+```
 
 ```
 npm install -g terunjs
