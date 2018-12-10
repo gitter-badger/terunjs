@@ -17,6 +17,12 @@ npm install -g terunjs
             "args": [
                 "name"
             ],
+            "plugins": [
+                {
+                    "name": "symfony:entity-form",
+                    "from": "entity/>>entity<<Entity.php"
+                }
+            ],
             "transport": [
                 {
                     "from": "template/base.js",
@@ -43,12 +49,13 @@ npm install -g terunjs
 |--------------|---------|
 | crud | Ao rodar vai ficar ```terun --make crud``` |
 
+
 > Propriedades do crud (comando criado)
 
 | Propriedade  | Detalhes|
 |--------------|---------|
 | args | Array de argumentos que podem ser passados tanto para o nome do arquivo quanto para os arquivos que estarão no transport GLOBAL|
-|plugins|Define plugins para os arquivos|
+| plugins |Define plugins para os arquivos|
 | transport | Array de arquivos que serão transportador de um template para um arquivo final |
 
 > Propriedades do transport
