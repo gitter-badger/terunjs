@@ -1,6 +1,6 @@
-public class AbstractAtendimentoEncerramentoDAO extends AtendimentoEncerramentoDAO<AtendimentoEncerramento> {
+public class AbstractAcabamentoArmaDAO extends AcabamentoArmaDAO<AcabamentoArma> {
 
-    public AbstractAtendimentoEncerramentoDAO(Context context) {
+    public AbstractAcabamentoArmaDAO(Context context) {
         super(context);
     }
 
@@ -12,59 +12,28 @@ public class AbstractAtendimentoEncerramentoDAO extends AtendimentoEncerramentoD
 
     @Override
     protected String getTableName() {
-        return "ATENDIMENTO_ENCERRAMENTO";
+        return "ACABAMENTO_ARMA";
     }
 
     @Override
-    protected AtendimentoEncerramento createModel() {
-        return new AtendimentoEncerramento();
+    protected AcabamentoArma createModel() {
+        return new AcabamentoArma();
     }
 
     @Override
-    protected void fillModel(AtendimentoEncerramento item, Cursor cursor) {
+    protected void fillModel(AcabamentoArma item, Cursor cursor) {
         item.setId(cursor.isNull(cursor.getColumnIndex("ID")) ? null : cursor.getLong(cursor.getColumnIndex("ID")));
     }
 
     @Override
-    protected void fillContentValues(ContentValues values, AtendimentoEncerramento model) {
-        values.put(dataHoraIncerta, model.getdataHoraIncerta());
-        values.put(versaoEncerramento, model.getversaoEncerramento());
-        values.put(id, model.getid());
-        values.put(idAtendimentoUnidade, model.getidAtendimentoUnidade());
-        values.put(idUsuarioEncerramento, model.getidUsuarioEncerramento());
-        values.put(descricaoEncerramentoVarchar, model.getdescricaoEncerramentoVarchar());
-        values.put(dataHoraEncerramento, model.getdataHoraEncerramento());
-        values.put(status, model.getstatus());
-        values.put(idUsuarioHomologacao, model.getidUsuarioHomologacao());
-        values.put(dataHoraHomologacao, model.getdataHoraHomologacao());
-        values.put(idUsuarioGerarImprensa, model.getidUsuarioGerarImprensa());
-        values.put(dataHoraGerarImprensa, model.getdataHoraGerarImprensa());
-        values.put(idUsuarioFinalizacao, model.getidUsuarioFinalizacao());
-        values.put(dataHoraFinalizacao, model.getdataHoraFinalizacao());
-        values.put(finalizado, model.getfinalizado());
-        values.put(gerarImprensa, model.getgerarImprensa());
-        values.put(idIntercorrencia, model.getidIntercorrencia());
-        values.put(idTipoAtendimento, model.getidTipoAtendimento());
-        values.put(idClassificacaoAtendimento, model.getidClassificacaoAtendimento());
-        values.put(idCodigoFechamento, model.getidCodigoFechamento());
-        values.put(tipoClassificAtendimento, model.gettipoClassificAtendimento());
-        values.put(dataHoraReabertura, model.getdataHoraReabertura());
-        values.put(idUsuarioReabertura, model.getidUsuarioReabertura());
-        values.put(idUsuarioEdicao, model.getidUsuarioEdicao());
-        values.put(dataHoraEdicao, model.getdataHoraEdicao());
-        values.put(dataHoraFato, model.getdataHoraFato());
-        values.put(providenciasAdotadas, model.getprovidenciasAdotadas());
-        values.put(lidoSetorInteligencia, model.getlidoSetorInteligencia());
-        values.put(mobileEncerrou, model.getmobileEncerrou());
-        values.put(qtdFoto, model.getqtdFoto());
-        values.put(qtdVideo, model.getqtdVideo());
-        values.put(qtdAudio, model.getqtdAudio());
-        values.put(descricaoEncerramento, model.getdescricaoEncerramento());
+    protected void fillContentValues(ContentValues values, AcabamentoArma model) {
+        values.put(Descricao, model.getDescricao());
+        values.put(DataAtualizacao, model.getDataAtualizacao());
     }
 
 
     @Override
-    public Long save( AtendimentoEncerramento model ) {
+    public Long save( AcabamentoArma model ) {
         if(model.getTipo().equals("OC")) {
             if (model.getCpf() == null) {
                 //é de OC e não tem CPF, não registro, pra evitar duplicidade.

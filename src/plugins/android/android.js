@@ -67,13 +67,14 @@ class Android {
         
         let filteredColumns = await AndroidInteract.getColumnsFilterBySelection(columns, this.options.exclude)
 
-        objectToSetArgs['android:columns']    = filteredColumns
-        objectToSetArgs['android:fieldsXML']  = await this.getFieldsXML(filteredColumns)
-        objectToSetArgs['android:tableName']  = this.tableName
-        objectToSetArgs['android:class']      = camelize(this.tableName)
+        objectToSetArgs['android:columns']         = filteredColumns
+        objectToSetArgs['android:fieldsXML']       = await this.getFieldsXML(filteredColumns)
+        objectToSetArgs['android:tableName']       = this.tableName
+        objectToSetArgs['android:tableName_camel'] = camelize(this.tableName)
+        objectToSetArgs['android:tableName_lower'] = camelize(this.tableName).toLowerCase()
 
         LOAD_ATTRIBUTES.start()
-        objectToSetArgs['android-attr-class'] = await this.getAttributes(filteredColumns)
+        objectToSetArgs['android:attr-class'] = await this.getAttributes(filteredColumns)
         LOAD_ATTRIBUTES.stop()
 
 		return objectToSetArgs
@@ -84,7 +85,8 @@ class Android {
         
         for(let column of columns){
             column.foreignKey = (!this.options.ignoreForeignKeys && column.foreignKey);
-            column.name = camelizeLessFirst(column.name)
+            column.name = camelize(column.name)
+            column.attr = camelizeLessFirst(column.name)
             column.type = this.getTypeAttribute(column.type)
 
             finalColumns = [...finalColumns, column]
@@ -120,8 +122,7 @@ class Android {
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="${text}"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/cor_campo_obrigatorio" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
                 <Spinner
                     android:id="@+id/spinnerId${camelize(text)}"
                     android:layout_width="match_parent"
@@ -137,8 +138,7 @@ class Android {
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="${text}"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/cor_campo_obrigatorio" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
                 <EditText
                     android:id="@+id/editText${camelize(text)}"
@@ -155,13 +155,30 @@ class Android {
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="${text}"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/cor_campo_obrigatorio" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
                 <EditText
                     android:id="@+id/editText${camelize(text)}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <!--endregion-->`
+        }
+
+        if(this.database.type().isDate(type)){
+            return `
+                <!--region ${camelize(text)}-->
+                <TextView
+                    android:id="@+id/label${camelize(text)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="${text}"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                <EditText
+                    android:id="@+id/editText${camelize(text)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:inputType="date"/>
                 <!--endregion-->`
         }
     }

@@ -85,13 +85,13 @@ terun --make [command] --env [outronome]
 ```
 
 
-```
-                    // "plugins": [
-                    //     {
-                    //         "name": "symfony:entity-form",
-                    //         "from": "entity/{{entity}}Entity.php"
-                    //     }
-                    // ],
+```json
+"plugins": [
+    {
+        "name": "symfony:entity-form",
+        "from": "entity/{{entity}}Entity.php"
+    }
+],
 ```
 
 ---
@@ -107,9 +107,14 @@ use
             "from": "entity/>>entity<<Entity.php"
         }
     ],
-    "from": "template/views/index.tpl.php",
-    "to": "build/index.html.twig",
-    "args": []
+    "transport": [
+        {
+            "from": "template/views/index.tpl.php",
+            "to": "build/index.html.twig",
+            "args": []
+        }
+    ]
+    
 }
 ```
 
@@ -123,3 +128,58 @@ use
 |s:class_cap|Classe em string capitalize `agente vai para Agente`|
 |s:class_plural_lower|`s:class_lower` só que no plural|
 |s:class_plural_cap|`s:class_cap` só que no plural|
+
+---
+
+## Android/Database - plugin
+
+> No momento apenas está comportando ORACLE mas está estruturado para receber novos tipos de bancos de dados
+
+use
+```json
+{
+    "plugins": [
+        {
+            "name": "android",
+            "host": "xxx.xxx.xxx.xx",
+            "user": "xx",
+            "password": "xx",
+            "dialect": "oracle",
+            "port": 1521,
+            "database": "xx"
+        }
+    ]
+}
+```
+
+|propriedade| ação|
+|----------|-----|
+|android:columns|Retorna um array de colunas [Sobre](#android:columns-objeto)|
+|android:fieldsXML|Retorna um array de campos XML|
+|android:tableName|Retorna o nome da tabela|
+|android:tableName_camel|Retorna o nome de forma camelcase ATENDIMENTO_EXTRATO > AtendimentoExtrato|
+|android:tableName_lower|Retorna o nome de forma lowercase ATENDIMENTO_EXTRATO > atendimentoextrato|
+|android:attr-class|Retorna um array de atributos de uma classe []|
+
+## android:columns - Objeto
+
+```json
+{
+    "name" : "Nome da coluna NOME",
+    "type" : "LONG, NUMBER, INT4, VARCHAR4, TEXT... Depende do banco de dados",
+    "foreignKey" : "Verifica se existe foreign key true/false",
+    "fkTableName" : "Nome da tabela da foreignkey em camelcase"
+}
+```
+
+## android:attr-class - Objeto
+
+```json
+{
+    "name" : "Nome da coluna camelcase NomeDaPropriedade",
+    "type" : "Long, Number, String, ArrayList...",
+    "attr" : "Nome de atributo camelcase idPessoaEnvolvida",
+    "foreignKey" : "Verifica se existe foreign key true/false",
+    "fkTableName" : "Nome da tabela da foreignkey em camelcase"
+}
+```

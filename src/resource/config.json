@@ -7,6 +7,12 @@
                 "key",
                 "entity"
             ],
+            "plugins": [
+                {
+                    "name": "symfony:entity-form",
+                    "from": "entity/>>entity<<Entity.php"
+                }
+            ],
             "transport": [
                 {
                     "from": "views/test1.txt",
@@ -14,12 +20,6 @@
                     "args": ["my_arg"]
                 },
                 {
-                    "plugins": [
-                        {
-                            "name": "symfony:entity-form",
-                            "from": "entity/>>entity<<Entity.php"
-                        }
-                    ],
                     "from": "views/test2.txt",
                     "to": "build/>>entity<</index.html.twig",
                     "args": []
