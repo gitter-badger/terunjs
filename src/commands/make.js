@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import fs from 'fs';
 import fx from 'mkdir-recursive';
 import prompt from 'prompt';
+import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
 import Render from '../utils/render';
 import { dropFileName, logError, validParameter } from '../utils/util';
@@ -44,6 +45,18 @@ class Make {
 		return await fx.mkdirSync(dirToCreate);
 	}
 
+	continue(){
+		let checkbox = new promptBox({
+			name: 'continue',
+			message: 'File already exists, continue?',
+			choices: [
+			  'Yes'
+			]
+		});
+
+		return checkbox.run();
+	}
+
 	getTransport(transport) {
 		return new Promise((resolve) => {
 			prompt.start();
@@ -75,6 +88,15 @@ class Make {
 						console.log(chalk.red('Error on create folder'));
 						throw new Error(err);
 					});
+
+				if(fs.existsSync(toFileName)){
+					let continueTransport = await this.continue();
+
+					if(continueTransport.length == 0) {
+						console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));
+						return resolve()
+					}
+				}
 
 				fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
 					if (err) throw new Error(err);
