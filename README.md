@@ -1,6 +1,6 @@
 # Terunjs
 
-Terun JS é um automatizador de geração de arquivos. Por exemplo, você tem a tarefa repetitiva de criar um CRUD, ou até mesmo criar uma entidade com repositório.
+Terun JS é um automatizador de geração de arquivos. Você tem a tarefa repetitiva de criar um CRUD, ou até mesmo criar uma entidade com repositório.
 
 Apartir de arquivos de template ele gera novos arquivos. Isto é mais utilizado pra quando se tem arquivos que já são padrões do projeto. CRUD's, controllers, ou até mesmo repositorios, arquivos que são criados a cada nova feature. 
 
