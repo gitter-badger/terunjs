@@ -1,0 +1,20 @@
+{
+    "config":{},
+    "entity":{
+        "name":"Pessoa",
+        "attributes":{
+            "nome": {
+                "type": "text"
+            },
+            "idade":{
+                "type": "number",
+                "placeholder": "my age is",
+                "label": "Write your age:"
+            },
+            "casado":{
+                "type": "boolean",
+                "label": "Is married:"
+            }
+        }
+    }
+}

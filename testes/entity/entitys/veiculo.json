@@ -1,0 +1,20 @@
+{
+    "config":{},
+    "entity":{
+        "name":"Veiculo",
+        "attributes":{
+            "marca": {
+                "maxlength": 5,
+                "required": true,
+                "placeholder": "my marca is",
+                "label": "Write your marca:",
+                "type": "text"
+            },
+            "place":{
+                "type": "number",
+                "placeholder": "my age is",
+                "label": "Write your age:"
+            }
+        }
+    }
+}

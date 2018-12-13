@@ -1,0 +1,32 @@
+{
+    "base_dir": "/",
+    "commands": {
+        "crud": {
+            "plugins": [
+                {
+                    "name"    : "entity",
+                    "entity_dir" : "entitys",
+                    "field_dir": "fields",
+                    "field_extension": "html"
+                }
+            ],
+            "transport": [
+                {
+                    "from": "template/form.html",
+                    "to": "build/form{{entity:name}}.html",
+                    "args": ["title"]
+                },
+                {
+                    "from": "template/helloworld.html",
+                    "to": "build/hello{{entity:name}}.html",
+                    "args": []
+                },
+                {
+                    "from": "template/home.html",
+                    "to": "build/home.html",
+                    "args": []
+                }
+            ]
+        }
+    }
+}
