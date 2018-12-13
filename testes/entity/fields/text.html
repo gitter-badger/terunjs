@@ -1,11 +1,2 @@
 <label for="{{name}}">{{label}}</label>
-
-<input 
-    id = "{{name}}"
-    type="{{type}}"
-    {{#minlength}}
-    minlength="{{minlength}}"
-    {{/minlength}}
-    placeholder="{{placeholder}}"
-    required ="{{required}}"
->
+<input id="{{name}}" type="{{type}}" {{#minlength}} minlength="{{minlength}}" {{/minlength}} placeholder="{{placeholder}}" required="{{required}}">

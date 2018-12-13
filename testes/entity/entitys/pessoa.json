@@ -14,6 +14,13 @@
             "casado":{
                 "type": "boolean",
                 "label": "Is married:"
+            },
+            "veiculos":{
+                "type": "text",
+                "reference": {
+                    "entity": "veiculo",
+                    "type": "1xN"
+                }
             }
         }
     }

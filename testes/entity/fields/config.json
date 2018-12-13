@@ -1,0 +1,7 @@
+{
+    "defaultValues":{
+        "maxlength": 99999,
+        "minlength": 2,
+        "required": "que"
+    }
+}

@@ -20,7 +20,9 @@ class Entity {
         this.baseDir      = `${process.cwd()}${baseConfig.base_dir}`;
         
 		if (!configAssign.entity_dir) throw new Error('>>entity_dir<< not defined');
-        if (!configAssign.field_dir) throw new Error('>>field_dir<< not defined');
+        if (!configAssign.field) throw new Error('>>field<< not defined');
+        if (!configAssign.field.dir) throw new Error('>>field.dir<< not defined');
+        if (!configAssign.field.extension) throw new Error('>>field.extension<< not defined');
         
         this.configuration  = configAssign;
         this.transportFiles = transportFiles;
@@ -57,6 +59,7 @@ class Entity {
         objectToSetArgs[`${this.name}:attributes`] = this.entity.getRenderedAttributes()
         objectToSetArgs[`${this.name}:files`] = this.getFilesEntityFolder()
         objectToSetArgs[`${this.name}:entitys_config`] = this.entitys
+        objectToSetArgs[`${this.name}:references`] = this.entity.getReferences()
 
 		return objectToSetArgs;
     }

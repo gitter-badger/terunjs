@@ -23,8 +23,17 @@ class EntityManager{
     }
 
     getRenderedAttributes(){
-        return this.attributes.map(attribute =>{
+        return this.attributes
+        .filter(attribute=> !attribute.isReference)
+        .map(attribute =>{
             return attribute.getRenderedAttribute(this)
+        })
+    }
+
+    getReferences(){
+        return this.attributes
+        .filter(attribute=>{
+            return attribute.isReference
         })
     }
 }

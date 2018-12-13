@@ -6,8 +6,11 @@
                 {
                     "name"    : "entity",
                     "entity_dir" : "entitys",
-                    "field_dir": "fields",
-                    "field_extension": "html"
+                    "field":{
+                        "dir" : "fields",
+                        "config": "config",
+                        "extension": "html"
+                    }
                 }
             ],
             "transport": [
