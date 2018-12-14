@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import EntityManager from './entityManager';
 
 class Attribute{
-    constructor(configPlugin, baseDir, render){
+    constructor(configPlugin, baseDir, render, options = {}){
         this.configurationPlugin = configPlugin;
         this.baseDir             = baseDir;
         this.render              = render;
@@ -13,11 +13,10 @@ class Attribute{
         this.defaultValues       = {};
         this.options             = {};
         this.type                = '';
-
-        this.isReference         = false;
+        this.isReference         = (options.reference) ? true : false;
         this.typeReference       = undefined;
         this.reference           = undefined;
-        this.avaliableTypesReference = ['1xN','Nx1','NxN','1x1']
+        this.avaliableTypesReference = ['hasMany','belongsToMany','hasOne','belongsToOne']
     }
 
     loadConfig(){
@@ -38,7 +37,9 @@ class Attribute{
         })
     }
 
-    fromJson(json){
+    fromJson(json, name){
+        this.name = name;
+        
         if(typeof json != "object") json = JSON.parse(json) 
 
         if(!json.type){
@@ -50,7 +51,7 @@ class Attribute{
         this.options = json;
 
         if(this.options.reference){
-            this.getReference(this.options.reference)
+            this.getReference(this.type, this.options.reference)
         }
         
         this.baseDirFields = `${this.baseDir}${this.configurationPlugin.field.dir}`;
@@ -64,36 +65,35 @@ class Attribute{
         this.loadConfig();
     }
 
-    getReference(options){
+    getReference(type, options){
+        if(this.isReference) return;
+
         if(!options.entity){
             console.log(chalk.red(`>>entity<< not found in reference`))
             throw new Error('Entity not found in reference')
         }
 
-        if(!options.type){
-            console.log(chalk.red(`>>type<< not found in reference`))
-            throw new Error('Type not found in reference')
-        }
-
-        if(!this.avaliableTypesReference.includes(options.type)){
+        if(!this.avaliableTypesReference.includes(type)){
             console.log(chalk.red(`>>type<< not found in avaliables types`))
             throw new Error('Type not found in avaliables types')
         }
 
         let referenceEntity = fs.readFileSync(`${this.baseDir}${this.configurationPlugin.entity_dir}/${options.entity}.json`,'utf-8')
-        this.reference = new EntityManager(this.configurationPlugin, this.baseDir, this.render)
+        this.reference = new EntityManager(this.configurationPlugin, this.baseDir, this.render, { reference:true })
         this.reference.fromJson(referenceEntity)
         this.isReference = true;
+        this.typeReference = type;
     }
 
     resolveTypeFile(){
         return fs.existsSync(this.fileExtensionPath);
     }
 
-    getRenderedAttribute(entity){
+    getRenderedAttribute(reference){
         return this.render.renderFile(this.fileExtensionPath, {
+            name:this.name,
             ...this.options,
-            entity
+            reference
         });
     }
 }

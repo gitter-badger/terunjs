@@ -6,14 +6,21 @@
             "marca": {
                 "maxlength": 5,
                 "required": true,
-                "placeholder": "my marca is",
-                "label": "Write your marca:",
+                "placeholder": "sua marca é",
+                "label": "Escreva sua marca:",
                 "type": "text"
             },
-            "place":{
+            "placa":{
                 "type": "number",
-                "placeholder": "my age is",
-                "label": "Write your age:"
+                "placeholder": "placa é:",
+                "label": "Escreva sua placa:"
+            },
+            "pessoa":{
+                "type":"hasOne",
+                "label":"Dono:",
+                "reference":{
+                    "entity":"pessoa"
+                }
             }
         }
     }

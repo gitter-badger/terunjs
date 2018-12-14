@@ -9,17 +9,26 @@
             "idade":{
                 "type": "number",
                 "placeholder": "my age is",
-                "label": "Write your age:"
+                "label": "Write your age:",
+                "minlength": 10,
+                "min": 10
             },
             "casado":{
                 "type": "boolean",
                 "label": "Is married:"
             },
             "veiculos":{
-                "type": "text",
+                "type": "hasMany",
+                "label":"Selecione seu veiculo",
                 "reference": {
-                    "entity": "veiculo",
-                    "type": "1xN"
+                    "entity": "veiculo"
+                }
+            },
+            "uber":{
+                "type": "hasOne",
+                "label":"Qual teu uber?",
+                "reference": {
+                    "entity": "veiculo"
                 }
             }
         }

@@ -17,11 +17,6 @@
                 {
                     "from": "template/form.html",
                     "to": "build/form{{entity:name}}.html",
-                    "args": ["title"]
-                },
-                {
-                    "from": "template/helloworld.html",
-                    "to": "build/hello{{entity:name}}.html",
                     "args": []
                 },
                 {

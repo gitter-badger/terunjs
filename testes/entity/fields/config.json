@@ -1,7 +1,7 @@
 {
     "defaultValues":{
-        "maxlength": 99999,
+        "maxlength": 100,
         "minlength": 2,
-        "required": "que"
+        "required": true
     }
 }

@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-    <h1>Home</h1>
-    {{#entity:entitys_config}}
-        <a href="hello{{entity.name}}.html">{{entity.name}} hello</a>
-        <a href="form{{entity.name}}.html">{{entity.name}} form</a>
-    {{/entity:entitys_config}}
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Inicial</a>
+    </nav>
+
+    <div class="container my-3">
+        {{#entity:entitys_config}}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{entity.name}}</h5>
+                    <a href="form{{entity.name}}.html">Formulário</a>
+                </div>
+            </div>
+        {{/entity:entitys_config}}
+    </div>
 </body>
 </html>
