@@ -13,8 +13,8 @@
 
         <form action="">
             <div class="form-group">
-    <label for="marca">Escreva sua marca:</label>
-    <input type="text" class="form-control" id="Escreva sua marca:" required="true"  minlength="2"  placeholder="sua marca é">
+    <label for="numero">Escreva sua numero:</label>
+    <input type="text" class="form-control" id="Escreva sua numero:" required="true"  minlength="2"  placeholder="sua numero é">
 </div>
             <br>
             <div class="form-group">
@@ -22,9 +22,16 @@
     <input type="number" class="form-control" id="Escreva sua placa:" required="true"  placeholder="placa é:">
 </div>
             <br>
-            <div class="form-group">
+            <div class="form-group" >
     <label for="pessoa_Veiculo">Dono:</label>
-    <select class="form-control" id="pessoa_Veiculo">
+    <select class="form-control" id="pessoa_Veiculo" multiple>
+    </select>
+</div>
+
+            <br>
+            <div class="form-group">
+    <label for="marca_Veiculo"></label>
+    <select class="form-control" id="marca_Veiculo">
 
     </select>
 </div>
@@ -34,6 +41,7 @@
     
         <h4>Aqui estão as referencias</h4>
         pessoa - Pessoa
+        marca - Marca
     </div>
 
     <script>
@@ -49,6 +57,13 @@
             let option = document.createElement('option')
             option.textContent = item;
             pessoaSelect.appendChild(option)
+        })
+        let marcaSelect  = document.querySelector('#marca_Veiculo')
+
+        lista.forEach((item)=>{
+            let option = document.createElement('option')
+            option.textContent = item;
+            marcaSelect.appendChild(option)
         })
     </script>
 </body>

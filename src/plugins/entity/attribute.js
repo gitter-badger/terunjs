@@ -8,7 +8,7 @@ class Attribute{
         this.baseDir             = baseDir;
         this.render              = render;
         this.configuration       = {};
-        this.fileExtensionPath   = '';
+        this.fileTypePath   = '';
         this.baseDirFields       = '';
         this.defaultValues       = {};
         this.options             = {};
@@ -20,9 +20,7 @@ class Attribute{
     }
 
     loadConfig(){
-        if(!this.configurationPlugin.field.config) return;
-
-        this.configuration = JSON.parse(fs.readFileSync(`${this.baseDirFields}/${this.configurationPlugin.field.config}.json`,'utf-8'));
+        this.configuration = JSON.parse(fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8'));
 
         this.setDefaultValues(this.configuration.defaultValues || {})
     }
@@ -43,54 +41,85 @@ class Attribute{
         if(typeof json != "object") json = JSON.parse(json) 
 
         if(!json.type){
-            console.log(chalk.red(`>>type<< not found in attribute`))
+            console.log(chalk.red(`TYPE not found in attribute`))
             throw new Error('Type not found in attribute')
         }
 
-        this.type = json.type;
+        if(!json.field){
+            console.log(chalk.yellow(`FIELD not found in attribute (${this.name}). TYPE will be define to working in THIS field`))
+        }
+
+        this.type    = json.type;
+        this.field   = json.field;
         this.options = json;
 
         if(this.options.reference){
-            this.getReference(this.type, this.options.reference)
+            this.getReference(this.options.reference)
+        }else{
+            this.field = this.type;
         }
         
-        this.baseDirFields = `${this.baseDir}${this.configurationPlugin.field.dir}`;
-        this.fileExtensionPath     = `${this.baseDirFields}/${this.type}.${this.configurationPlugin.field.extension}`;
+        if(this.configurationPlugin.field){
+            this.baseDirFields = `${this.baseDir}${this.configurationPlugin.field.dir}`;
+            this.fileTypePath     = `${this.baseDirFields}/${this.field}.${this.configurationPlugin.field.extension}`;
+        }
 
-        if(!this.resolveTypeFile()){
-            console.log(chalk.red(`File ${this.type}.${this.configurationPlugin.field.extension || ''} type attribute not found.`))
-            throw new Error('File not found')
+        if(this.configurationPlugin.field){
+            if(!this.resolveTypeFile()){
+                console.log(chalk.red(`File ${this.field}.${this.configurationPlugin.field.extension || ''} field attribute not found.`))
+                throw new Error('File not found')
+            }
         }
 
         this.loadConfig();
     }
 
-    getReference(type, options){
+    getReference(options){
         if(this.isReference) return;
 
+        if(typeof options == 'string'){
+            let optionSlited = options.split('|')
+            
+            options              = {}
+            options.entity       = optionSlited[0]
+            options.relationship = optionSlited[1]
+        }
+
+
         if(!options.entity){
-            console.log(chalk.red(`>>entity<< not found in reference`))
+            console.log(chalk.red(`ENTITY not found in reference`))
             throw new Error('Entity not found in reference')
         }
 
-        if(!this.avaliableTypesReference.includes(type)){
-            console.log(chalk.red(`>>type<< not found in avaliables types`))
+        if(!options.relationship){
+            console.log(chalk.red(`RELATIONSHIP not found in reference`))
+            throw new Error('Relationship not found in reference')
+        }
+
+        if(!this.avaliableTypesReference.includes(options.relationship)){
+            console.log(chalk.red(`RELATIONSHIP not found in avaliables types`))
             throw new Error('Type not found in avaliables types')
         }
+
+        this.field = (this.field) ? this.field : options.relationship
 
         let referenceEntity = fs.readFileSync(`${this.baseDir}${this.configurationPlugin.entity_dir}/${options.entity}.json`,'utf-8')
         this.reference = new EntityManager(this.configurationPlugin, this.baseDir, this.render, { reference:true })
         this.reference.fromJson(referenceEntity)
         this.isReference = true;
-        this.typeReference = type;
+        this.typeReference = options.relationship;
+
+        return this.reference;
     }
 
     resolveTypeFile(){
-        return fs.existsSync(this.fileExtensionPath);
+        return fs.existsSync(this.fileTypePath);
     }
 
     getRenderedAttribute(reference){
-        return this.render.renderFile(this.fileExtensionPath, {
+        if(!this.configurationPlugin.field) return '';
+
+        return this.render.renderFile(this.fileTypePath, {
             name:this.name,
             ...this.options,
             reference

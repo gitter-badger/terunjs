@@ -1,6 +1,6 @@
 {
     "config":{},
-    "entity":{
+    "schema":{
         "name":"Pessoa",
         "attributes":{
             "nome": {
@@ -18,17 +18,19 @@
                 "label": "Is married:"
             },
             "veiculos":{
-                "type": "hasMany",
+                "type": "text",
                 "label":"Selecione seu veiculo",
                 "reference": {
-                    "entity": "veiculo"
+                    "entity": "veiculo",
+                    "relationship": "hasMany"
                 }
             },
             "uber":{
-                "type": "hasOne",
+                "type": "text",
                 "label":"Qual teu uber?",
                 "reference": {
-                    "entity": "veiculo"
+                    "entity": "veiculo",
+                    "relationship":"hasOne"
                 }
             }
         }

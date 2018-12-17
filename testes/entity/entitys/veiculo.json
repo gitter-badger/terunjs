@@ -1,26 +1,33 @@
 {
     "config":{},
-    "entity":{
+    "schema":{
         "name":"Veiculo",
         "attributes":{
-            "marca": {
+            "numero": {
                 "maxlength": 5,
                 "required": true,
-                "placeholder": "sua marca é",
-                "label": "Escreva sua marca:",
-                "type": "text"
+                "placeholder": "sua numero é",
+                "label": "Escreva sua numero:",
+                "type": "text",
+                "field": "text"
             },
             "placa":{
                 "type": "number",
+                "field": "number",
                 "placeholder": "placa é:",
                 "label": "Escreva sua placa:"
             },
             "pessoa":{
-                "type":"hasOne",
+                "type":"number",
                 "label":"Dono:",
                 "reference":{
-                    "entity":"pessoa"
+                    "entity":"pessoa",
+                    "relationship":"hasMany"
                 }
+            },
+            "marca":{
+                "type":"text",
+                "reference":"marca|hasOne"
             }
         }
     }

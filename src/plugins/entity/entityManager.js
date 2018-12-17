@@ -12,14 +12,14 @@ class EntityManager{
 
     fromJson(json){
         json = JSON.parse(json);
-        let entity = json.entity;
-        this.name = entity.name;
+        let schema = json.schema;
+        this.name = schema.name;
         
         if(this.isReference) return;
 
-        this.attributes = Object.keys(entity.attributes).map(attributeKey => {
+        this.attributes = Object.keys(schema.attributes).map(attributeKey => {
             let attribute = new Attribute(this.configuration, this.baseDir, this.render)
-            attribute.fromJson(entity.attributes[attributeKey], attributeKey);
+            attribute.fromJson(schema.attributes[attributeKey], attributeKey);
             return attribute;
         })
     }

@@ -8,7 +8,6 @@
                     "entity_dir" : "entitys",
                     "field":{
                         "dir" : "fields",
-                        "config": "config",
                         "extension": "html"
                     }
                 }

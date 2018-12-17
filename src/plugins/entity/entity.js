@@ -5,14 +5,13 @@ import chalk from 'chalk';
 
 class Entity {
 	constructor() {
-		this.name = 'entity';
-		this.configuration = {};
-
-        this.files     = []
-        this.fileInUse = undefined;
-        this.entity    = undefined;
+		this.name           = 'entity';
+		this.configuration  = {};
+        this.files          = []
+        this.fileInUse      = undefined;
+        this.entity         = undefined;
         this.transportFiles = []
-        this.entitys   = []
+        this.entitys        = []
 	}
 
 	async config(configPlugin, globalArgs, render, baseConfig, transportFiles) {
@@ -20,9 +19,8 @@ class Entity {
         this.baseDir      = `${process.cwd()}${baseConfig.base_dir}`;
         
 		if (!configAssign.entity_dir) throw new Error('>>entity_dir<< not defined');
-        if (!configAssign.field) throw new Error('>>field<< not defined');
-        if (!configAssign.field.dir) throw new Error('>>field.dir<< not defined');
-        if (!configAssign.field.extension) throw new Error('>>field.extension<< not defined');
+        if (configAssign.field && !configAssign.field.dir) throw new Error('>>field.dir<< not defined');
+        if (configAssign.field && !configAssign.field.extension) throw new Error('>>field.extension<< not defined');
         
         this.configuration  = configAssign;
         this.transportFiles = transportFiles;
