@@ -37,7 +37,11 @@ class Make {
 			await this.getTransport(transport);
 		}
 
-		console.log(chalk.green('Success in create files!'));
+		if(this.transportFiles.length > 0){
+			console.log(chalk.green('Success in create files!'));
+		}else{
+			console.log(chalk.yellow('Nothing to create!'));
+		}
 	}
 
 	async createDir(to) {
