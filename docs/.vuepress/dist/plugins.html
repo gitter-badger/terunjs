@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Plugins | Terun JS</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="terunjs/assets/css/0.styles.12369712.css" as="style"><link rel="preload" href="terunjs/assets/js/app.f602ece8.js" as="script"><link rel="preload" href="terunjs/assets/js/7.9b5c769f.js" as="script"><link rel="prefetch" href="terunjs/assets/js/2.8b5c48bc.js"><link rel="prefetch" href="terunjs/assets/js/3.1625181e.js"><link rel="prefetch" href="terunjs/assets/js/4.f426d9c4.js"><link rel="prefetch" href="terunjs/assets/js/5.666ba811.js"><link rel="prefetch" href="terunjs/assets/js/6.28b8b3cb.js"><link rel="prefetch" href="terunjs/assets/js/8.749947e8.js">
+    <link rel="stylesheet" href="terunjs/assets/css/0.styles.12369712.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/terunjs/" class="home-link router-link-active"><!----> <span class="site-name">Terun JS</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/terunjs/" class="nav-link">Versão: XXX</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/terunjs/" class="nav-link">Versão: XXX</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/terunjs/" class="sidebar-link">Terunjs</a></li><li><a href="/terunjs/config.html" class="sidebar-link">Configurando TerunJS</a></li><li><a href="/terunjs/plugins.html" class="active sidebar-link">Plugins</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/terunjs/plugins.html#utilizando" class="sidebar-link">Utilizando</a></li><li class="sidebar-sub-header"><a href="/terunjs/plugins.html#symfony" class="sidebar-link">Symfony</a></li><li class="sidebar-sub-header"><a href="/terunjs/plugins.html#entity" class="sidebar-link">Entity</a></li></ul></li><li><a href="/terunjs/lifecycle.html" class="sidebar-link">Ciclo de vida</a></li><li><a href="/terunjs/engine.html" class="sidebar-link">Engine de Renderização</a></li></ul> </div> <div class="page"> <div class="content"><h1 id="plugins"><a href="#plugins" aria-hidden="true" class="header-anchor">#</a> Plugins</h1> <p>Plugins são utilizados pelo terun para extender funcionalidades e disponibilizar aos templates mais variáveis.</p> <h2 id="utilizando"><a href="#utilizando" aria-hidden="true" class="header-anchor">#</a> Utilizando</h2> <p>Depende do plugin, apenas o nome será obrigatório pois como ele é único, será utilizado pra inicia-lo.</p> <p>Isto é colocado DENTRO do arquivo de configuração do terun, dentro do comando que quiser.</p> <div class="language- extra-class"><pre class="language-text"><code>&quot;plugins&quot;: [
+    {
+        &quot;name&quot;: &quot;nome_do_plugin&quot;,
+    }
+]
+</code></pre></div><h2 id="symfony"><a href="#symfony" aria-hidden="true" class="header-anchor">#</a> Symfony</h2> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+   <span class="token property">&quot;plugins&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;symfony:entity-form&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;from&quot;</span><span class="token operator">:</span> <span class="token string">&quot;entity/&gt;&gt;entity&lt;&lt;Entity.php&quot;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="sera-disponibilizado-as-seguintes-variaveis-aos-templates"><a href="#sera-disponibilizado-as-seguintes-variaveis-aos-templates" aria-hidden="true" class="header-anchor">#</a> Será disponibilizado as seguintes variáveis aos templates:</h3> <table><thead><tr><th>propriedade</th> <th>ação</th></tr></thead> <tbody><tr><td>symfony-form-builder</td> <td>Retorna uma string com o formulário do symfony</td></tr> <tr><td>symfony-entity-props</td> <td>Retorna um array das propriedades da entidade</td></tr> <tr><td>symfony-entity-get-entity-print-codes</td> <td>Retorna um array da entidade e sua propriedade como <code>usuario.id</code> em vez de só <code>id</code></td></tr> <tr><td>symfony-entity-props-counter</td> <td>Contador das propriedades</td></tr> <tr><td>s:class_lower</td> <td>Classe string minúscula</td></tr> <tr><td>s:class_cap</td> <td>Classe em string capitalize <code>agente vai para Agente</code></td></tr> <tr><td>s:class_plural_lower</td> <td><code>s:class_lower</code> só que no plural</td></tr> <tr><td>s:class_plural_cap</td> <td><code>s:class_cap</code> só que no plural</td></tr></tbody></table> <h2 id="entity"><a href="#entity" aria-hidden="true" class="header-anchor">#</a> Entity</h2> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;plugins&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">&quot;name&quot;</span>    <span class="token operator">:</span> <span class="token string">&quot;entity&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;entity_dir&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;entitys&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;field&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;dir&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;fields&quot;</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;extension&quot;</span><span class="token operator">:</span> <span class="token string">&quot;html&quot;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>O plugin de entity trabalha com arquivos para especificar objetos que serão utilizados.</p> <blockquote><p>Exemplo: Preciso criar os objetos de Carro.js, Marca.js e Pessoa.js. Então seráo criadas 3 entidades que serão utilizadas pra criar estes três arquivos com tudo definido.</p></blockquote> <div class="language- extra-class"><pre class="language-text"><code>project
+|   README.md
+|___terun (optional)
+|   |  terun.default.json 
+|   |__templates
+|   |   | classe.html
+|   |   | formulario.html
+|   |__entitys
+|   |   | pessoa.json
+|   |   | veiculo.json
+|   |   | marca.json
+|   |   | ...
+|   |__config
+|   |   | fields.json
+|   |__fields
+|   |   | text.html
+|   |   | boolean.html
+|   |   | hasMany.html
+|   |   | ...
+</code></pre></div><h3 id="configurando"><a href="#configurando" aria-hidden="true" class="header-anchor">#</a> Configurando:</h3> <table><thead><tr><th>propriedade</th> <th>para que serve</th></tr></thead> <tbody><tr><td>schema</td> <td>é o esquema da entidade, definindo nomes, atributos e etc</td></tr> <tr><td>config</td> <td>define configurações para a entidade</td></tr></tbody></table> <p>Dentro do schema:</p> <table><thead><tr><th>propriedade</th> <th>para que serve</th></tr></thead> <tbody><tr><td>name</td> <td>Nome da entidade</td></tr> <tr><td>custom</td> <td>Define atributos customizados para serem utilizados dentro dos templates</td></tr> <tr><td>attributes</td> <td>Define atributos dentro de uma entidade</td></tr></tbody></table> <div class="language-json extra-class"><pre class="language-json"><code>// Pessoa.json
+
+<span class="token punctuation">{</span>
+    <span class="token property">&quot;schema&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+        <span class="token property">&quot;name&quot;</span><span class="token operator">:</span><span class="token string">&quot;Pessoa&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;custom&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+            <span class="token property">&quot;dbname&quot;</span><span class="token operator">:</span><span class="token string">&quot;PESSOA&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;alias&quot;</span><span class="token operator">:</span><span class="token string">&quot;PS&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;qualquer_atributo&quot;</span><span class="token operator">:</span><span class="token string">&quot;MEU ATRIBUTO&quot;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;attributes&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+            <span class="token property">&quot;NOME&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;text&quot;</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;required&quot;</span><span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;IDADE&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;number&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;SOLTEIRO&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;boolean&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;DATA_ATUALIZACAO&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;date&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;EXCLUIDO&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;number&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;CARROS&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+                <span class="token property">&quot;reference&quot;</span><span class="token operator">:</span><span class="token string">&quot;Veiculos|hasMany&quot;</span> 
+                //Nome do arquivo Veiculos.json que está dentro da pasta entitys
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="sera-disponibilizado-as-seguintes-variaveis-aos-templates-2"><a href="#sera-disponibilizado-as-seguintes-variaveis-aos-templates-2" aria-hidden="true" class="header-anchor">#</a> Será disponibilizado as seguintes variáveis aos templates:</h3> <table><thead><tr><th>propriedade</th> <th>ação</th></tr></thead> <tbody><tr><td>entity:name</td> <td>Nome da entidade <code>schema.name</code></td></tr> <tr><td>entity:forms</td> <td>Array dos campos renderizados lá no fields <code>provenientes da pasta fields</code></td></tr> <tr><td>entity:files</td> <td>Array de arquivos de entidades (apenas o nome) <code>arquivos dentro de entitys</code></td></tr> <tr><td>entity:entitys_config</td> <td>Array de configuração de entidades (conteúdo) <code>arquivos dentro de entitys</code></td></tr> <tr><td>entity:references</td> <td>Array de referencia da entidade <code>no caso da pessoa ela tem carros como referencia</code></td></tr> <tr><td>entity:attributes</td> <td>Array de atributos com seus parametros <code>schema.attributes</code></td></tr> <tr><td>entity:custom</td> <td>Propriedades do objeto custom da entidade definida <code>schema.custom</code></td></tr></tbody></table></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/terunjs/config.html" class="prev">
+          Configurando TerunJS
+        </a></span> <span class="next"><a href="/terunjs/lifecycle.html">
+          Ciclo de vida
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="terunjs/assets/js/app.f602ece8.js" defer></script><script src="terunjs/assets/js/7.9b5c769f.js" defer></script>
+  </body>
+</html>
