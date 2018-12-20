@@ -9,7 +9,9 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/babel src --out-dir lib --watch --copy-files",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "keywords": [
     "automate",
@@ -25,6 +27,7 @@
     "@babel/polyfill": "^7.0.0",
     "chalk": "^2.4.1",
     "commander": "^2.18.0",
+    "handlebars": "^4.0.12",
     "loading-cli": "^1.0.8",
     "mkdir-recursive": "^0.4.0",
     "mustache": "^3.0.0",
@@ -36,6 +39,7 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "vuepress": "^0.14.8"
   }
 }
