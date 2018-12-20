@@ -26,7 +26,7 @@ class Make {
 		//load global args COMMAND and config plugins
 		await this.getGlobalArgs(commandSelected.args || []);
 		this.plugins.init(commandSelected.plugins);
-		await this.plugins.config(this.globalArgs);
+		await this.plugins.config(this.globalArgs, this.config, commandSelected.transport);
 
 		// get transport
 		this.transportFiles = commandSelected.transport;
@@ -37,7 +37,11 @@ class Make {
 			await this.getTransport(transport);
 		}
 
-		console.log(chalk.green('Success in create files!'));
+		if(this.transportFiles.length > 0){
+			console.log(chalk.green('Success in create files!'));
+		}else{
+			console.log(chalk.yellow('Nothing to create!'));
+		}
 	}
 
 	async createDir(to) {
@@ -45,19 +49,35 @@ class Make {
 		return await fx.mkdirSync(dirToCreate);
 	}
 
-	continue(){
-		let checkbox = new promptBox({
-			name: 'continue',
-			message: 'File already exists, continue?',
-			choices: [
-			  'Yes'
-			]
-		});
+	async continueOverrideFile(pathFileExist){
+		let fileExist = fs.existsSync(pathFileExist);
+		let continueOverride = true;
 
-		return checkbox.run();
+		if(fileExist){
+			let continueQuestion = () => {
+				let checkbox = new promptBox({
+					name: 'continue',
+					message: 'File already exists, continue?',
+					choices: [
+					  'Yes'
+					]
+				});
+	
+				return checkbox.run();
+			}
+			let continueQuestionAnswer = await continueQuestion()
+			continueOverride = !continueQuestionAnswer.length == 0;
+
+			if(!continueOverride)
+				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));	
+		}
+
+		return continueOverride;
 	}
 
-	getTransport(transport) {
+	async getTransport(transport) {
+		await this.plugins.initTransport();
+
 		return new Promise((resolve) => {
 			prompt.start();
 			prompt.get(transport.args, async (err, result) => {
@@ -79,33 +99,34 @@ class Make {
 				let toFileName = this.render.renderSimple(toFilePath, Object.assign(argsToParseView, this.globalArgs, argsToRenderInFile));
 
 				let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
-
-
 				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
+
 				
-				await this.createDir(toFileName)
-					.catch(err => {
-						console.log(chalk.red('Error on create folder'));
-						throw new Error(err);
+				await this.createDir(toFileName).catch(err => {
+					console.log(chalk.red('Error on create folder'));
+					throw new Error(err);
+				});
+
+				let continueOverride = await this.continueOverrideFile(toFileName)
+
+				// if(continueOverride)
+					fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
+						if (err) throw new Error(err);
 					});
 
-				if(fs.existsSync(toFileName)){
-					let continueTransport = await this.continue();
+				// Done life
+				let done = await this.plugins.doneRender();
 
-					if(continueTransport.length == 0) {
-						console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));
-						return resolve()
-					}
+				if(done.loop){
+					await this.getTransport(transport)
+					resolve()
+				}else{
+					resolve()
 				}
-
-				fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
-					if (err) throw new Error(err);
-					resolve();
-				});
 			});
 		});
 	}
-
+	
 	getGlobalArgs(commandSelectedArgs) {
 		if (commandSelectedArgs.length > 0) console.log(chalk.magenta('set GLOBAL args: '));
 

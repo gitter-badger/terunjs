@@ -1,0 +1,20 @@
+{
+    "base_dir": "/",
+    "commands": {
+        "crud": {
+            "plugins": [
+                {
+                    "name"    : "entity",
+                    "entity_dir" : "entities",
+                    "field":{
+                        "dir" : "fields",
+                        "extension": "html"
+                    }
+                }
+            ],
+            "transport": [
+                
+            ]
+        }
+    }
+}

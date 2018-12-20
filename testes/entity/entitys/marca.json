@@ -1,0 +1,19 @@
+{
+    "config":{
+        "generateSQL":true
+    },
+    "schema":{
+        "name":"Marca",
+        "attributes":{
+            "descricao":{
+                "type":"text",
+                "required":true
+            },
+            "veiculos":{
+                "type":"text",
+                "field":"checkboxHM",
+                "reference":"veiculo|hasMany"
+            }
+        }
+    } 
+}

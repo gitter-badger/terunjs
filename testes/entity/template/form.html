@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>{{title}}</title>
+</head>
+<body>
+    <div class="container my-3">
+        <h1>{{entity:name}}</h1>
+
+        <form action="">
+            {{#entity:forms}}
+            {{.}}
+            <br>
+            {{/entity:forms}}
+            <button>Submit</button>
+        </form>
+    
+        <h4>Aqui estão as referencias</h4>
+        {{#entity:references}}
+        {{name}} - {{reference.name}}
+        {{/entity:references}}
+    </div>
+
+    <script>
+        let lista = [
+            'A',
+            'B',
+            'C',
+            'D'
+        ]
+        {{#entity:references}}
+        let {{name}}Select  = document.querySelector('#{{name}}_{{entity:name}}')
+
+        lista.forEach((item)=>{
+            let option = document.createElement('option')
+            option.textContent = item;
+            {{name}}Select.appendChild(option)
+        })
+        {{/entity:references}}
+    </script>
+</body>
+</html>
