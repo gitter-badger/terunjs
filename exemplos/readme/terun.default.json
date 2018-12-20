@@ -6,8 +6,8 @@
             "transport": [
                 {
                     "from": "test.txt",
-                    "to": "{{my_arg}}.html",
-                    "args": ["my_arg"]
+                    "to": "{{name}}.html",
+                    "args": ["name"]
                 }
             ]
         }
