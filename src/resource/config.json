@@ -1,28 +1,13 @@
 {
-    "tags": [">>","<<"],
     "base_dir": "/",
     "commands": {
-        "crud": {
-            "args": [
-                "key",
-                "entity"
-            ],
+        "init": {
+            "args": [],
             "transport": [
                 {
-                    "from": "views/test1.txt",
-                    "to": "build/>>my_arg<<.html.twig",
+                    "from": "test.txt",
+                    "to": "{{my_arg}}.html",
                     "args": ["my_arg"]
-                },
-                {
-                    "plugins": [
-                        {
-                            "name": "symfony:entity-form",
-                            "from": "entity/>>entity<<Entity.php"
-                        }
-                    ],
-                    "from": "views/test2.txt",
-                    "to": "build/>>entity<</index.html.twig",
-                    "args": []
                 }
             ]
         }
