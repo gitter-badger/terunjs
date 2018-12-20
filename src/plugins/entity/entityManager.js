@@ -7,13 +7,15 @@ class EntityManager{
         this.attributes = [];
         this.baseDir = baseDir;
         this.render = render;
+        this.custom = {};
         this.isReference = (options.reference) ? true : false;
     }
 
     fromJson(json){
         json = JSON.parse(json);
         let schema = json.schema;
-        this.name = schema.name;
+        this.name   = schema.name;
+        this.custom = schema.custom ? schema.custom : {} 
         
         if(this.isReference) return;
 

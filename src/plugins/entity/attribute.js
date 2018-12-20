@@ -20,7 +20,8 @@ class Attribute{
     }
 
     loadConfig(){
-        this.configuration = JSON.parse(fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8'));
+        if(this.configurationPlugin.field)
+            this.configuration = JSON.parse(fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8'));
 
         this.setDefaultValues(this.configuration.defaultValues || {})
     }
@@ -45,7 +46,7 @@ class Attribute{
             throw new Error('Type not found in attribute')
         }
 
-        if(!json.field){
+        if(!json.field && this.configuration.field){
             console.log(chalk.yellow(`FIELD not found in attribute (${this.name}). TYPE will be define to working in THIS field`))
         }
 

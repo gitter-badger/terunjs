@@ -2,6 +2,7 @@ import fs from 'fs';
 import { getFile } from '../../utils/util';
 import EntityManager from './entityManager';
 import chalk from 'chalk';
+import promptCheckbox from 'prompt-checkbox';
 
 class Entity {
 	constructor() {
@@ -17,31 +18,45 @@ class Entity {
 	async config(configPlugin, globalArgs, render, baseConfig, transportFiles) {
         let configAssign = Object.assign({}, configPlugin);
         this.baseDir      = `${process.cwd()}${baseConfig.base_dir}`;
+
         
 		if (!configAssign.entity_dir) throw new Error('>>entity_dir<< not defined');
         if (configAssign.field && !configAssign.field.dir) throw new Error('>>field.dir<< not defined');
         if (configAssign.field && !configAssign.field.extension) throw new Error('>>field.extension<< not defined');
-        
+
         this.configuration  = configAssign;
+        this.files_to_work  = await this.getFilesEntityFolder()
+        
+
         this.transportFiles = transportFiles;
         this.render         = render;
         this.entitys        = this.getEntitysConfig()
     }
 
     getEntitysConfig(){
-        let files = this.getFilesEntityFolder()
+        let files = this.files_to_work
+
         return files.map(file=>{
             return JSON.parse(fs.readFileSync(`${this.baseDir}${this.configuration.entity_dir}/${file}`, 'utf-8'))
         })
     }
 
-    getFilesEntityFolder(){
-        return fs.readdirSync(`${this.baseDir}/${this.configuration.entity_dir}`);
+    async getFilesEntityFolder(){
+        let files = fs.readdirSync(`${this.baseDir}/${this.configuration.entity_dir}`);
+
+        let promptFiles = new promptCheckbox({
+            name: 'files',
+            radio: true,
+            message: 'Choise the files to resolve:',
+            choices: files
+        })
+
+        return await promptFiles.run()
     }
     
     async initTransport(){
         if(this.files.length === 0)
-            this.files = this.getFilesEntityFolder()
+            this.files = [...this.files_to_work]
 
         this.fileInUse = this.files.shift();
 
@@ -55,10 +70,11 @@ class Entity {
 	async beforeRender(objectToSetArgs = {}) {
         objectToSetArgs[`${this.name}:name`] = this.entity.name
         objectToSetArgs[`${this.name}:forms`] = this.entity.getRenderedAttributes()
-        objectToSetArgs[`${this.name}:files`] = this.getFilesEntityFolder()
+        objectToSetArgs[`${this.name}:files`] = this.files_to_work
         objectToSetArgs[`${this.name}:entitys_config`] = this.entitys
         objectToSetArgs[`${this.name}:references`] = this.entity.getReferences()
         objectToSetArgs[`${this.name}:attributes`] = this.entity.attributes
+        objectToSetArgs[`${this.name}:custom`] = this.entity.custom
 
 		return objectToSetArgs;
     }

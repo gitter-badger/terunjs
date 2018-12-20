@@ -50,22 +50,21 @@ class Make {
 	}
 
 	async continueOverrideFile(pathFileExist){
-		let continueQuestion = () => {
-			let checkbox = new promptBox({
-				name: 'continue',
-				message: 'File already exists, continue?',
-				choices: [
-				  'Yes'
-				]
-			});
-
-			return checkbox.run();
-		}
-
 		let fileExist = fs.existsSync(pathFileExist);
 		let continueOverride = true;
 
 		if(fileExist){
+			let continueQuestion = () => {
+				let checkbox = new promptBox({
+					name: 'continue',
+					message: 'File already exists, continue?',
+					choices: [
+					  'Yes'
+					]
+				});
+	
+				return checkbox.run();
+			}
 			let continueQuestionAnswer = await continueQuestion()
 			continueOverride = !continueQuestionAnswer.length == 0;
 
@@ -108,7 +107,7 @@ class Make {
 					throw new Error(err);
 				});
 
-				// let continueOverride = await this.continueOverrideFile(toFileName)
+				let continueOverride = await this.continueOverrideFile(toFileName)
 
 				// if(continueOverride)
 					fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
