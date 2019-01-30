@@ -62,20 +62,24 @@ class Make {
 					  'Yes'
 					]
 				});
-	
+
 				return checkbox.run();
 			}
 			let continueQuestionAnswer = await continueQuestion()
 			continueOverride = !continueQuestionAnswer.length == 0;
 
 			if(!continueOverride)
-				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));	
+				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));
 		}
 
 		return continueOverride;
 	}
 
 	async getTransport(transport) {
+		if(!transport.args){
+			transport.args = [];
+		}
+
 		await this.plugins.initTransport();
 
 		return new Promise((resolve) => {
@@ -101,7 +105,7 @@ class Make {
 				let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
 				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
 
-				
+
 				await this.createDir(toFileName).catch(err => {
 					console.log(chalk.red('Error on create folder'));
 					throw new Error(err);
@@ -126,7 +130,7 @@ class Make {
 			});
 		});
 	}
-	
+
 	getGlobalArgs(commandSelectedArgs) {
 		if (commandSelectedArgs.length > 0) console.log(chalk.magenta('set GLOBAL args: '));
 
@@ -167,7 +171,7 @@ class Make {
 	}
 
 	validTransport(transport) {
-		let errorParametersTransport = validParameter(transport, ['from', 'to', 'args']);
+		let errorParametersTransport = validParameter(transport, ['from', 'to']);
 		let isValid = true;
 		if (errorParametersTransport && errorParametersTransport.length > 0) {
 			isValid = false;
