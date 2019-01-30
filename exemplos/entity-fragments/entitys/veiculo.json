@@ -1,0 +1,34 @@
+{
+    "config":{},
+    "schema":{
+        "name":"Veiculo",
+        "attributes":{
+            "numero": {
+                "maxlength": 5,
+                "required": true,
+                "placeholder": "sua numero é",
+                "label": "Escreva sua numero:",
+                "type": "text",
+                "field": "text"
+            },
+            "placa":{
+                "type": "number",
+                "field": "number",
+                "placeholder": "placa é:",
+                "label": "Escreva sua placa:"
+            },
+            "pessoa":{
+                "type":"number",
+                "label":"Dono:",
+                "reference":{
+                    "entity":"pessoa",
+                    "relationship":"hasMany"
+                }
+            },
+            "marca":{
+                "type":"text",
+                "reference":"marca|hasOne"
+            }
+        }
+    }
+}

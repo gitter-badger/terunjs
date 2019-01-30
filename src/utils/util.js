@@ -39,3 +39,9 @@ exports.getFile = async (from) => {
 	let content = await fs.readFileSync(baseDir, 'utf-8');
 	return content;
 };
+
+exports.flatArray = (array,depth = 1) =>{
+	return array.reduce(function (flat, toFlatten) {
+        return flat.concat((Array.isArray(toFlatten) && (depth-1)) ? toFlatten.flat(depth-1) : toFlatten);
+      }, []);
+}

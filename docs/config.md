@@ -38,7 +38,10 @@ sidebar: true
 |--------------|---------|
 | base_dir | Define a pasta principal normalmente onde fica os templates |
 | commands | Cada CHAVE é um comando que pode ser executado |
+| transport-fragments | Cada CHAVE é um grupo de fragmentos |
 
+
+> transport-fragments
 
 > Propriedades do commands
 
