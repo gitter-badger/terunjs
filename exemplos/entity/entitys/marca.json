@@ -4,6 +4,11 @@
     },
     "schema":{
         "name":"Marca",
+        "custom":{
+             "dbname":"PESSOA",
+             "alias":"PS",
+             "qualquer_atributo":"MEU ATRIBUTO"
+         },
         "attributes":{
             "descricao":{
                 "type":"text",
@@ -15,5 +20,5 @@
                 "reference":"veiculo|hasMany"
             }
         }
-    } 
+    }
 }

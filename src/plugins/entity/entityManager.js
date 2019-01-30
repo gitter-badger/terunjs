@@ -11,12 +11,13 @@ class EntityManager{
         this.isReference = (options.reference) ? true : false;
     }
 
+
     fromJson(json){
         json = JSON.parse(json);
         let schema = json.schema;
         this.name   = schema.name;
-        this.custom = schema.custom ? schema.custom : {} 
-        
+        this.custom = schema.custom ? schema.custom : {}
+
         if(this.isReference) return;
 
         this.attributes = Object.keys(schema.attributes).map(attributeKey => {

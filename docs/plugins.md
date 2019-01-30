@@ -68,7 +68,7 @@ O plugin de entity trabalha com arquivos para especificar objetos que serão uti
 project
 |   README.md
 |___terun (optional)
-|   |  terun.default.json 
+|   |  terun.default.json
 |   |__templates
 |   |   | classe.html
 |   |   | formulario.html
@@ -130,7 +130,7 @@ Dentro do schema:
                 "type":"number"
             },
             "CARROS":{
-                "reference":"Veiculos|hasMany" 
+                "reference":"Veiculos|hasMany"
                 //Nome do arquivo Veiculos.json que está dentro da pasta entitys
             }
         }
@@ -149,3 +149,35 @@ Dentro do schema:
 |entity:references|Array de referencia da entidade `no caso da pessoa ela tem carros como referencia`|
 |entity:attributes|Array de atributos com seus parametros `schema.attributes`|
 |entity:custom|Propriedades do objeto custom da entidade definida `schema.custom`|
+
+
+### Explain das propriedades retornadas
+> Está sendo utilizado como exemplo o arquivo de configuração Pessoa.json que está acima.
+
+| função | retornos |
+|----------|-----|
+| entity:attributes | (name, type, options `options são os atributos customizaveis`) |
+
+
+### Utilizando fields
+
+Muito importante adicionar isto no plugin. Onde os arquivos de field estarão dentro da pasta `fields` na extenção `html`.
+
+```json
+"field":{
+    "dir" : "fields",
+    "extension": "html"
+}
+```
+
+Dentro da pasta config existe um arquivo chamado `fields.json`
+
+```json
+{
+  "defaultValues":{
+    "required":true
+  }
+}
+```
+
+No momento existe apenas a propriedade de `defaultValues` onde é possível definir valores default (caso não existam) dentro das propriedades. Onde todos os atributos teriam a propriedade `required:true` disponível dentro arquivo de fields.
