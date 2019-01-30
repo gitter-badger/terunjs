@@ -13,7 +13,7 @@ class Entity {
         this.entity         = undefined;
         this.transportFiles = []
         this.entitys        = []
-	}
+    }
 
 	async config(configPlugin, globalArgs, render, baseConfig, transportFiles) {
         let configAssign = Object.assign({}, configPlugin);

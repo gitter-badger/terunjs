@@ -8,7 +8,7 @@ class Attribute{
         this.baseDir             = baseDir;
         this.render              = render;
         this.configuration       = {};
-        this.fileTypePath   = '';
+        this.fileTypePath        = '';
         this.baseDirFields       = '';
         this.defaultValues       = {};
         this.options             = {};
@@ -20,9 +20,14 @@ class Attribute{
     }
 
     loadConfig(){
-        if(this.configurationPlugin.field)
-            this.configuration = JSON.parse(fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8'));
-
+        if(this.configurationPlugin.field){
+            try {
+              let file = fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8');
+              this.configuration = JSON.parse(file);
+            } catch (e) {
+              console.log(chalk.red('config/fields.json não encontrado.'))
+            }
+        }
         this.setDefaultValues(this.configuration.defaultValues || {})
     }
 
@@ -38,8 +43,8 @@ class Attribute{
 
     fromJson(json, name){
         this.name = name;
-        
-        if(typeof json != "object") json = JSON.parse(json) 
+
+        if(typeof json != "object") json = JSON.parse(json)
 
         if(!json.type){
             console.log(chalk.red(`TYPE not found in attribute`))
@@ -59,7 +64,7 @@ class Attribute{
         }else{
             this.field = this.type;
         }
-        
+
         if(this.configurationPlugin.field){
             this.baseDirFields = `${this.baseDir}${this.configurationPlugin.field.dir}`;
             this.fileTypePath     = `${this.baseDirFields}/${this.field}.${this.configurationPlugin.field.extension}`;
@@ -80,7 +85,7 @@ class Attribute{
 
         if(typeof options == 'string'){
             let optionSlited = options.split('|')
-            
+
             options              = {}
             options.entity       = optionSlited[0]
             options.relationship = optionSlited[1]

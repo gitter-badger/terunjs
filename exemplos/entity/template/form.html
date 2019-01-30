@@ -11,6 +11,8 @@
     <div class="container my-3">
         <h1>{{entity:name}}</h1>
 
+        <h3>{{entity:custom.dbname}}</h3>
+
         <form action="">
             {{#entity:forms}}
             {{.}}
@@ -18,7 +20,7 @@
             {{/entity:forms}}
             <button>Submit</button>
         </form>
-    
+
         <h4>Aqui estão as referencias</h4>
         {{#entity:references}}
         {{name}} - {{reference.name}}

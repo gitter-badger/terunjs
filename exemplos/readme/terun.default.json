@@ -1,4 +1,5 @@
 {
+    "tags":[">>","<<"],
     "base_dir": "/",
     "commands": {
         "init": {
@@ -6,8 +7,7 @@
             "transport": [
                 {
                     "from": "test.txt",
-                    "to": "{{name}}.html",
-                    "args": ["name"]
+                    "to": "nome.html"
                 }
             ]
         }
