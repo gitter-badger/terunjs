@@ -6,10 +6,15 @@ import make from './commands/make';
 import loading from 'loading-cli';
 import chalk from 'chalk';
 import init from './commands/init';
+import ascii from 'ascii-art';
+import clear from 'clear';
 
 const LOAD = loading('Carregando configuração').start();
 
-setTimeout(() => {
+setTimeout(async() => {
+	clear();
+	console.log(await ascii.font('Terun JS','Doom').toPromise())
+
 	LOAD.stop();
 
 	let env = 'default';
