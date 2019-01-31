@@ -1,9 +1,7 @@
 {
-    "tags":[">>","<<"],
-    "base_dir": "/",
     "commands": {
         "init": {
-            "args": [],
+            "args": ["aa"],
             "transport": [
                 {
                     "from": "test.txt",

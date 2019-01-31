@@ -4,10 +4,16 @@ sidebar:true
 
 # Change Log
 
+## 1.2.6
+- Inserido um banner do terun.
+- Colocado sistema de pipeline operations veja na  sessão de [avançando](./advanced.md).
+- Retirado obrigatoriedade de utilizar a propriedade `base_dir` do arquivo de configuração terun.config.json.
+- Criado sessão "avançando" dentro da documentação
+
 ## 1.2.5
 
 - Versão correta ao digitar `terun -V` ou `terun --version` no terminal.
-- Agora é possível utilizar fragments sessão de [configuração](./config.md)
+- Agora é possível utilizar fragments veja na  sessão de [avançando](./advanced.md).
 
 
 ## 1.2.4
