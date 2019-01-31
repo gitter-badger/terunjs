@@ -2,7 +2,7 @@
 sidebar:true
 ---
 
-# Change Log
+# Change Log :computer:
 
 ## 1.2.6
 - Inserido um banner do terun.
