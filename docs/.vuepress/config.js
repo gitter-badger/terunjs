@@ -12,6 +12,7 @@ module.exports = {
         sidebar: [
             '/start',
             '/config',
+            '/advanced',
             '/plugins',
             '/lifecycle',
             '/engine',

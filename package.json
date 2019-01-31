@@ -1,6 +1,6 @@
 {
   "name": "terunjs",
-  "version": "1.2.5",
+  "version": "1.2.6-1",
   "description": "Automate creation files",
   "main": "src/index.js",
   "preferGlobal": true,
@@ -21,13 +21,14 @@
     "speed"
   ],
   "author": "Raphael Kieling Tondin",
-  "license": "ISC",
+  "license": "MIT",
   "github": "https://github.com/raphaelkieling/terunjs",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "ascii-art": "^1.5.0",
     "chalk": "^2.4.1",
+    "clear": "^0.1.0",
     "commander": "^2.18.0",
-    "handlebars": "^4.0.12",
     "loading-cli": "^1.0.8",
     "mkdir-recursive": "^0.4.0",
     "mustache": "^3.0.0",

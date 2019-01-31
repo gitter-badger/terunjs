@@ -4,7 +4,7 @@ import fx from 'mkdir-recursive';
 import prompt from 'prompt';
 import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
-import Render from '../utils/render';
+import Render from '../core/render';
 import TransportManager from '../core/transport';
 import { dropFileName, logError, validParameter } from '../utils/util';
 
@@ -20,6 +20,11 @@ class Make {
 
 	async init() {
 		let commandSelected = this.config.commands[this.command];
+
+		if(!commandSelected){
+			console.log(chalk.yellow(`Command >${this.command}< not found. See your terun.config.js`));
+			return;
+		}
 
 		//load global args COMMAND and config plugins
 		await this.getGlobalArgs(commandSelected.args || []);
@@ -90,7 +95,7 @@ class Make {
 				if (err) throw new Error(err);
 
 				// PATHS
-				let baseDirPath = `${process.cwd()}${this.config.base_dir}`;
+				let baseDirPath = `${process.cwd()}/`;
 				let fromFilePath = `${baseDirPath}${transport.from}`;
 				let toFilePath = `${baseDirPath}${transport.to}`;
 
@@ -155,7 +160,7 @@ class Make {
 	}
 
 	validInit(config, command) {
-		let errorsBaseConfig = validParameter(config, ['base_dir', 'commands']);
+		let errorsBaseConfig = validParameter(config, ['commands']);
 		let isValid = true;
 
 		if (errorsBaseConfig && errorsBaseConfig.length > 0) {

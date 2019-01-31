@@ -1,6 +1,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import EntityManager from './entityManager';
+import ConfigManager from '../../core/configManager';
 
 class Attribute{
     constructor(configPlugin, baseDir, render, options = {}){
@@ -21,12 +22,7 @@ class Attribute{
 
     loadConfig(){
         if(this.configurationPlugin.field){
-            try {
-              let file = fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8');
-              this.configuration = JSON.parse(file);
-            } catch (e) {
-              this.configuration = {}
-            }
+            this.configuration = ConfigManager.getConfigFields();
         }
         this.setDefaultValues(this.configuration.defaultValues || {})
     }
