@@ -11,6 +11,8 @@ class ConfigManager{
             return require(`${process.cwd()}/terun.${env}.json`);
         } catch (e) {
             console.log(chalk.red(`Config > terun.${env}.json < not found`));
+
+            throw new Error(e);
             return null;
         }
     }
