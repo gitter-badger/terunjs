@@ -47,8 +47,11 @@ exports.getFile = async (from) => {
 	return content;
 };
 
-exports.flatArray = (array,depth = 1) =>{
+function flatArray(array,depth = 1){
 	return array.reduce(function (flat, toFlatten) {
-        return flat.concat((Array.isArray(toFlatten) && (depth-1)) ? toFlatten.flat(depth-1) : toFlatten);
-      }, []);
+        return flat.concat((Array.isArray(toFlatten) && (depth-1)) ? flatArray(toFlatten, depth-1) : toFlatten);
+	  }, []);
 }
+
+exports.flatArray
+
