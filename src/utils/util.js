@@ -29,6 +29,13 @@ exports.capitalize = (text) => {
 	return text.replace(/^\w/, c => c.toUpperCase());
 };
 
+exports.firstLower = (value)=>{
+	let [head,...tail]= value;
+	head = head.toLowerCase();
+	tail = tail.join('');
+
+	return head + tail;
+}
 
 exports.pluralName = (text) => {
 	return plural(text);
