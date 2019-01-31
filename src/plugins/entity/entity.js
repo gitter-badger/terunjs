@@ -17,7 +17,7 @@ class Entity {
 
 	async config(configPlugin, globalArgs, render, baseConfig, transportFiles) {
         let configAssign = Object.assign({}, configPlugin);
-        this.baseDir      = `${process.cwd()}${baseConfig.base_dir}`;
+        this.baseDir      = `${process.cwd()}${baseConfig}/`;
 
         
 		if (!configAssign.entity_dir) throw new Error('>>entity_dir<< not defined');

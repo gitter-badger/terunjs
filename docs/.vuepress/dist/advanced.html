@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Avançando | Terun JS</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.39a8691b.css" as="style"><link rel="preload" href="/assets/js/app.eb027188.js" as="script"><link rel="preload" href="/assets/js/5.cebae494.js" as="script"><link rel="prefetch" href="/assets/js/10.bd0e1a1e.js"><link rel="prefetch" href="/assets/js/11.13293e79.js"><link rel="prefetch" href="/assets/js/2.8b5c48bc.js"><link rel="prefetch" href="/assets/js/3.9195979f.js"><link rel="prefetch" href="/assets/js/4.c1fa920c.js"><link rel="prefetch" href="/assets/js/6.ea2f0f26.js"><link rel="prefetch" href="/assets/js/7.c3bd4c98.js"><link rel="prefetch" href="/assets/js/8.ff477755.js"><link rel="prefetch" href="/assets/js/9.77679a84.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.39a8691b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Terun JS</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/start.html" class="nav-link">Versão: 1.2.6</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/start.html" class="nav-link">Versão: 1.2.6</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/start.html" class="sidebar-link">Terunjs</a></li><li><a href="/config.html" class="sidebar-link">Configurando TerunJS</a></li><li><a href="/advanced.html" class="active sidebar-link">Avançando</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/advanced.html#transport-fragments" class="sidebar-link">Transport Fragments</a></li><li class="sidebar-sub-header"><a href="/advanced.html#pipeline-operator" class="sidebar-link">Pipeline Operator</a></li></ul></li><li><a href="/plugins.html" class="sidebar-link">Plugins</a></li><li><a href="/lifecycle.html" class="sidebar-link">Ciclo de vida</a></li><li><a href="/engine.html" class="sidebar-link">Engine de Renderização</a></li><li><a href="/changelog.html" class="sidebar-link">Change Log</a></li></ul> </div> <div class="page"> <div class="content"><h1 id="avancando"><a href="#avancando" aria-hidden="true" class="header-anchor">#</a> Avançando</h1> <h2 id="transport-fragments"><a href="#transport-fragments" aria-hidden="true" class="header-anchor">#</a> Transport Fragments</h2> <p>Esta funcionalidade disponível apartir da versão <code>1.2.5</code> serve para criar arquivos de transporte facilmente. Exemplo.</p> <div class="language-json line-numbers-mode"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;base_dir&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;commands&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;crud&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;transport&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">&quot;from&quot;</span><span class="token operator">:</span> <span class="token string">&quot;a&quot;</span><span class="token punctuation">,</span>
+                    <span class="token property">&quot;to&quot;</span><span class="token operator">:</span> <span class="token string">&quot;b&quot;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;model&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+            <span class="token property">&quot;transport&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">&quot;from&quot;</span><span class="token operator">:</span> <span class="token string">&quot;a&quot;</span><span class="token punctuation">,</span>
+                    <span class="token property">&quot;to&quot;</span><span class="token operator">:</span> <span class="token string">&quot;b&quot;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">&quot;from&quot;</span><span class="token operator">:</span> <span class="token string">&quot;x&quot;</span><span class="token punctuation">,</span>
+                    <span class="token property">&quot;to&quot;</span><span class="token operator">:</span> <span class="token string">&quot;x&quot;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>Neste exemplo fica claro que o dois arquivos de transport se repetem tanto no comando <code>model</code> quanto no comando <code>crud</code>. Uma solução para isto seria.</p> <div class="language-json line-numbers-mode"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;base_dir&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;transport-fragments&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+        <span class="token property">&quot;my-shared&quot;</span><span class="token operator">:</span><span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">&quot;from&quot;</span><span class="token operator">:</span> <span class="token string">&quot;a&quot;</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;to&quot;</span><span class="token operator">:</span> <span class="token string">&quot;b&quot;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;commands&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;crud&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;transport&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">&quot;my-shared&quot;</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;model&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>
+            <span class="token property">&quot;transport&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">&quot;my-shared&quot;</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">&quot;from&quot;</span><span class="token operator">:</span> <span class="token string">&quot;x&quot;</span><span class="token punctuation">,</span>
+                    <span class="token property">&quot;to&quot;</span><span class="token operator">:</span> <span class="token string">&quot;x&quot;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p>Criamos um grupo de comandos dentro de <code>transport-fragments</code> e colocamos um nome para o mesmo (neste caso <code>my-shared</code>). Assim conseguimos utilizar o nome dentro do array de <code>transport</code> para que o proprio terun interprete.</p> <div class="tip custom-block"><p class="custom-block-title">TIP</p> <p>É possível ter mais arquivos dentro do transport além dos fragments, pode-se utilizar pra reutilizar código evitando assim repetir muitas vezes o mesmo arquivo.</p></div> <h2 id="pipeline-operator"><a href="#pipeline-operator" aria-hidden="true" class="header-anchor">#</a> Pipeline Operator</h2> <p>Na versão 1.2.6 foi liberado o <code>pipeline operator</code>. Um exemplo de seu uso mais <strong>básico</strong>.</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>{{ name }} //output: &quot;Diana&quot;
+{{ name | upper }} //output: &quot;DIANA&quot;
+{{ name | upper | underscore }} //output: &quot;D_I_A_N_A&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="pipelines-existentes"><a href="#pipelines-existentes" aria-hidden="true" class="header-anchor">#</a> Pipelines existentes</h3> <table><thead><tr><th>nome</th> <th>função</th></tr></thead> <tbody><tr><td>upper</td> <td><code>nome -&gt; NOME</code></td></tr> <tr><td>lower</td> <td><code>NoMe -&gt; nome</code></td></tr> <tr><td>firstlower</td> <td><code>MeuNome -&gt; meuNome</code></td></tr> <tr><td>underscore</td> <td><code>MeuNome -&gt; meu_nome</code></td></tr> <tr><td>captalize</td> <td><code>nome_meu -&gt; Nome_meu</code></td></tr></tbody></table> <p>Caso você coloque o nome errado, irá aparecer um erro lhe dizendo qual comando está incorreto. Caso isto aconteça <strong>o valor final será do ultimo pipeline</strong>. Exemplo:</p> <div class="language-text line-numbers-mode"><pre class="language-text"><code>{{ name }} //output: &quot;Raphael&quot;
+{{ name | funcaoErrada }} //output: &quot;Raphael&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="pipelines-customizadas"><a href="#pipelines-customizadas" aria-hidden="true" class="header-anchor">#</a> Pipelines customizadas</h3> <p>Caso seja necessário criar novas pipelines é possível criar um arquivo chamado <code>pipes.js</code> dentro da pasta <code>config</code>. O arquivo deve estar exportando um objeto com as funções. Exemplo.</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    minhaFuncao<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> value <span class="token operator">+</span> <span class="token string">&quot; Minha função incrível&quot;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>Exemplo:</p> <div class="language-txt line-numbers-mode"><pre class="language-text"><code>{{ person.name  | upper | minhaFuncao }} //output: &quot;DAMIÃO Minha função incrível&quot;
+{{ person.name  | minhaFuncao | upper }} //output: &quot;DAMIÃO MINHA FUNÇÃO INCRÍVEL&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="warning custom-block"><p class="custom-block-title">WARNING</p> <p>As funções recebem apenas UM parâmetro, que é o valor que será renderizado na tela.</p></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/config.html" class="prev">
+          Configurando TerunJS
+        </a></span> <span class="next"><a href="/plugins.html">
+          Plugins
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.eb027188.js" defer></script><script src="/assets/js/5.cebae494.js" defer></script>
+  </body>
+</html>
