@@ -1,0 +1,38 @@
+{
+    "base_dir": "/",
+    "transport-fragments":{
+      "forms":[
+        {
+            "from": "template/form.html",
+            "to": "build/form{{entity:name}}.html"
+        }
+      ],
+      "home":[
+        {
+            "from": "template/home.html",
+            "to": "build/home.html"
+        }
+      ]
+    },
+    "commands": {
+        "crud": {
+            "plugins": [
+                {
+                    "name"    : "entity",
+                    "entity_dir" : "entitys",
+                    "field":{
+                        "dir" : "fields",
+                        "extension": "html"
+                    }
+                }
+            ],
+            "transport": [
+                "forms",
+                {
+                    "from": "template/home.html",
+                    "to": "build/home.html"
+                }
+            ]
+        }
+    }
+}

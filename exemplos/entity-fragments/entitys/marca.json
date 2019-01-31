@@ -1,0 +1,24 @@
+{
+    "config":{
+        "generateSQL":true
+    },
+    "schema":{
+        "name":"Marca",
+        "custom":{
+             "dbname":"PESSOA",
+             "alias":"PS",
+             "qualquer_atributo":"MEU ATRIBUTO"
+         },
+        "attributes":{
+            "descricao":{
+                "type":"text",
+                "required":true
+            },
+            "veiculos":{
+                "type":"text",
+                "field":"checkboxHM",
+                "reference":"veiculo|hasMany"
+            }
+        }
+    }
+}

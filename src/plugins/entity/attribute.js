@@ -25,7 +25,7 @@ class Attribute{
               let file = fs.readFileSync(`${this.baseDir}/config/fields.json`,'utf-8');
               this.configuration = JSON.parse(file);
             } catch (e) {
-              console.log(chalk.red('config/fields.json não encontrado.'))
+              this.configuration = {}
             }
         }
         this.setDefaultValues(this.configuration.defaultValues || {})
