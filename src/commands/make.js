@@ -5,22 +5,20 @@ import prompt from 'prompt';
 import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
 import Render from '../utils/render';
+import TransportManager from '../core/transport';
 import { dropFileName, logError, validParameter } from '../utils/util';
 
 class Make {
 	constructor(config, command, tag_custom) {
 		this.config = config;
 		this.command = command;
-		this.transportFiles = [];
+		this.transportManager = new TransportManager();
 		this.globalArgs = {};
 		this.render = new Render(tag_custom);
 		this.plugins = new Plugin(this.render);
 	}
 
 	async init() {
-		let isValid = this.validInit(this.config, this.command);
-		if (!isValid) return;
-
 		let commandSelected = this.config.commands[this.command];
 
 		//load global args COMMAND and config plugins
@@ -29,20 +27,24 @@ class Make {
 		await this.plugins.config(this.globalArgs, this.config, commandSelected.transport);
 
 		// get transport
-		this.transportFiles = commandSelected.transport;
-		for (let transport of this.transportFiles) {
-			if (!this.validTransport(transport)) return;
-			console.log(chalk.magenta(`process: ${transport.from}`));
+		this.transportManager.setFiles(commandSelected.transport);
+		this.transportManager.setFragmentsFiles(this.config["transport-fragments"]);
+		let validTransport = this.transportManager.validateTransportFiles();
+		if(!validTransport) return;
 
+		for (let transport of this.transportManager.transportFiles) {
+			console.log(chalk.white.bgGreen.bold(`process: ${transport.from}`));
 			await this.getTransport(transport);
 		}
 
-		if(this.transportFiles.length > 0){
+		if(this.transportManager.transportFiles.length > 0){
 			console.log(chalk.green('Success in create files!'));
 		}else{
 			console.log(chalk.yellow('Nothing to create!'));
 		}
 	}
+
+
 
 	async createDir(to) {
 		let dirToCreate = `${dropFileName(to)}`;
@@ -62,20 +64,24 @@ class Make {
 					  'Yes'
 					]
 				});
-	
+
 				return checkbox.run();
 			}
 			let continueQuestionAnswer = await continueQuestion()
 			continueOverride = !continueQuestionAnswer.length == 0;
 
 			if(!continueOverride)
-				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));	
+				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));
 		}
 
 		return continueOverride;
 	}
 
 	async getTransport(transport) {
+		if(!transport.args){
+			transport.args = [];
+		}
+
 		await this.plugins.initTransport();
 
 		return new Promise((resolve) => {
@@ -101,7 +107,7 @@ class Make {
 				let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
 				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
 
-				
+
 				await this.createDir(toFileName).catch(err => {
 					console.log(chalk.red('Error on create folder'));
 					throw new Error(err);
@@ -126,7 +132,7 @@ class Make {
 			});
 		});
 	}
-	
+
 	getGlobalArgs(commandSelectedArgs) {
 		if (commandSelectedArgs.length > 0) console.log(chalk.magenta('set GLOBAL args: '));
 
@@ -161,17 +167,6 @@ class Make {
 		if (!commandSelected) {
 			isValid = false;
 			return logError(`Not found command > ${command} <`);
-		}
-
-		return isValid;
-	}
-
-	validTransport(transport) {
-		let errorParametersTransport = validParameter(transport, ['from', 'to', 'args']);
-		let isValid = true;
-		if (errorParametersTransport && errorParametersTransport.length > 0) {
-			isValid = false;
-			return errorParametersTransport.forEach(error => logError(`Not found parameter ${error}`));
 		}
 
 		return isValid;

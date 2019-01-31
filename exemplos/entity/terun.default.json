@@ -15,13 +15,11 @@
             "transport": [
                 {
                     "from": "template/form.html",
-                    "to": "build/form{{entity:name}}.html",
-                    "args": []
+                    "to": "build/form{{entity:name}}.html"
                 },
                 {
                     "from": "template/home.html",
-                    "to": "build/home.html",
-                    "args": []
+                    "to": "build/home.html"
                 }
             ]
         }

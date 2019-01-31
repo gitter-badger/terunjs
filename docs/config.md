@@ -38,7 +38,10 @@ sidebar: true
 |--------------|---------|
 | base_dir | Define a pasta principal normalmente onde fica os templates |
 | commands | Cada CHAVE é um comando que pode ser executado |
+| transport-fragments | Cada CHAVE é um grupo de fragmentos |
 
+
+> transport-fragments
 
 > Propriedades do commands
 
@@ -59,9 +62,9 @@ sidebar: true
 
 | Propriedade  | Detalhes|
 |--------------|---------|
-|from|De onde vem o arquivo|
-|to|Para onde vai o arquivo|
-|args|Argumentos necessários, eles podem ser utilizados tanto no nome quanto dentros do arquivo |
+| from |De onde vem o arquivo|
+| to |Para onde vai o arquivo|
+| args |Argumentos necessários, eles podem ser utilizados tanto no nome quanto dentros do arquivo |
 
 
 ## Enviroment
@@ -76,7 +79,7 @@ Ou o nome que desejar, ficando no final `terun --make [command] --env symfony`.
 
 
 ```sh
-terun --make [command] 
+terun --make [command]
 
 > se o arquivo é o terun.default.json
 
