@@ -54,7 +54,7 @@ class SymfonyEntity {
 
 		if (!classNameMatchs) return '';
 
-		if (classNameMatchs && classNameMatchs.length == 0) return '';
+		if (classNameMatchs.length == 0) return '';
 
 		let className = classNameMatchs[0].replace(regexHelper.CLASS_NAME_REPLACE, '');
 
