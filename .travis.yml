@@ -7,3 +7,5 @@ deploy:
   api_key: $NPM_TOKEN
   on:
     branch: master
+before_deploy:
+    - ./travis/before_deploy.sh
