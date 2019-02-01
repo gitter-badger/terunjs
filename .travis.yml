@@ -1,4 +1,13 @@
 language: node_js
 node_js:
-  - stable
-after_success: 'npm run test:coveralls'
+  - "9.6.0"
+before_deploy:
+  - chmod +x ./travis/before_deploy.sh
+deploy:
+  provider: npm
+  email: raphaelkieling98@gmail.com
+  api_key: $NPM_TOKEN
+  on:
+    branch: master
+notifications:
+  slack: egsys:Lh2I1W0DnfMcxjdik76IQP26

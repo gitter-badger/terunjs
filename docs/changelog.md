@@ -4,6 +4,11 @@ sidebar:true
 
 # Change Log :computer:
 
+## 1.2.6-2
+- Adicionado testes
+- Ajustes de documentação
+- Automatização do deploy
+
 ## 1.2.6
 - Inserido um banner do terun.
 - Colocado sistema de pipeline operations veja na  sessão de [avançando](./advanced.md).
