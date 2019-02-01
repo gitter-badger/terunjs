@@ -1,6 +1,8 @@
 import chalk from 'chalk';
 import plural from 'pluralize-ptbr';
 import fs from 'fs';
+import fx from 'mkdir-recursive';
+
 
 export function getMissingProperties(object, args){
 	if(nullOrUndefined(object) || nullOrUndefined(args)) return [];
@@ -9,6 +11,11 @@ export function getMissingProperties(object, args){
 		return !has;
 	});
 };
+
+export async function createDir(to) {
+	let dirToCreate = `${removeFileNameInPath(to)}`;
+	return await fx.mkdirSync(dirToCreate);
+}
 
 
 export function logError(message){
