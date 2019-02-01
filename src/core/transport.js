@@ -1,5 +1,4 @@
 import { flatArray, getMissingProperties, logError} from '../utils/util'
-import chalk from 'chalk'
 
 class TransportManager{
   constructor(){

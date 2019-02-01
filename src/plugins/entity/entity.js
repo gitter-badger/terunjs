@@ -59,7 +59,7 @@ class Entity {
     }
     
     async initTransport(){
-        if(this.files.length === 0)
+        if(!this.files.length)
             this.files = [...this.files_to_work]
 
         this.fileInUse = this.files.shift();
@@ -84,7 +84,7 @@ class Entity {
     }
     
     async doneRender(loop=false){
-        let hasFiles = !this.files.length == 0;
+        let hasFiles = this.files.length;
         loop = hasFiles
         return { loop };
     }

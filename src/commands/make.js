@@ -65,7 +65,7 @@ class Make {
 				return checkbox.run();
 			}
 			let continueQuestionAnswer = await continueQuestion()
-			continueOverride = !continueQuestionAnswer.length == 0;
+			continueOverride = continueQuestionAnswer.length;
 
 			if(!continueOverride)
 				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));
