@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "9.6.0"
 before_deploy:
-  - ./travis/before_deploy.sh
+  - chmod +x ./travis/before_deploy.sh
 deploy:
   provider: npm
   email: raphaelkieling98@gmail.com
