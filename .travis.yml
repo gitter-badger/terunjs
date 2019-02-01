@@ -2,3 +2,9 @@ language: node_js
 node_js:
   - "9.6.0"
 after_success: 'npm run test:coveralls'
+deploy:
+  provider: npm
+  email: raphaelkieling98@gmail.com
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
