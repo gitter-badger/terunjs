@@ -6,7 +6,7 @@ import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
 import Render from '../core/render';
 import TransportManager from '../core/transport';
-import { dropFileName, logError, validParameter } from '../utils/util';
+import { removeFileNameInPath, logError, getMissingProperties } from '../utils/util';
 
 class Make {
 	constructor(config, command, tag_custom) {
@@ -52,7 +52,7 @@ class Make {
 
 
 	async createDir(to) {
-		let dirToCreate = `${dropFileName(to)}`;
+		let dirToCreate = `${removeFileNameInPath(to)}`;
 		return await fx.mkdirSync(dirToCreate);
 	}
 
@@ -160,7 +160,7 @@ class Make {
 	}
 
 	validInit(config, command) {
-		let errorsBaseConfig = validParameter(config, ['commands']);
+		let errorsBaseConfig = getMissingProperties(config, ['commands']);
 		let isValid = true;
 
 		if (errorsBaseConfig && errorsBaseConfig.length > 0) {

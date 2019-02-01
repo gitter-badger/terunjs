@@ -1,4 +1,4 @@
-import { flatArray, validParameter, logError} from '../utils/util'
+import { flatArray, getMissingProperties, logError} from '../utils/util'
 import chalk from 'chalk'
 
 class TransportManager{
@@ -44,7 +44,7 @@ class TransportManager{
 	}
 
   validateTransport(transport){
-    let errorParametersTransport = validParameter(transport, ['from', 'to']);
+    let errorParametersTransport = getMissingProperties(transport, ['from', 'to']);
     let hasError = errorParametersTransport && errorParametersTransport.length > 0;
 		if (hasError) return errorParametersTransport.forEach(error => logError(`Not found parameter ${error}`));
 		return hasError ? false : true;
