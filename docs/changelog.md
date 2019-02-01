@@ -4,10 +4,14 @@ sidebar:true
 
 # Change Log :computer:
 
+## 1.2.8
+- Ajustes de bugs no `override file`
+- Ajuste em um problema ao não selecionar arquivo nenhum na entidade
+
 ## 1.2.6-2
-- Adicionado testes
+- Adicionado testes com o **Mocha**
 - Ajustes de documentação
-- Automatização do deploy
+- Automatização do deploy com o **Travis**
 
 ## 1.2.6
 - Inserido um banner do terun.

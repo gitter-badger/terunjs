@@ -1,12 +1,11 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import fx from 'mkdir-recursive';
 import prompt from 'prompt';
 import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
 import Render from '../core/render';
 import TransportManager from '../core/transport';
-import { removeFileNameInPath, logError, getMissingProperties } from '../utils/util';
+import { logError, getMissingProperties, createDir } from '../utils/util';
 
 class Make {
 	constructor(config, command, tag_custom) {
@@ -49,15 +48,8 @@ class Make {
 		}
 	}
 
-
-
-	async createDir(to) {
-		let dirToCreate = `${removeFileNameInPath(to)}`;
-		return await fx.mkdirSync(dirToCreate);
-	}
-
-	async continueOverrideFile(pathFileExist){
-		let fileExist = fs.existsSync(pathFileExist);
+	async continueOverrideFile(pathFile){
+		let fileExist = fs.existsSync(pathFile);
 		let continueOverride = true;
 
 		if(fileExist){
@@ -113,14 +105,14 @@ class Make {
 				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
 
 
-				await this.createDir(toFileName).catch(err => {
+				await createDir(toFileName).catch(err => {
 					console.log(chalk.red('Error on create folder'));
 					throw new Error(err);
 				});
 
 				let continueOverride = await this.continueOverrideFile(toFileName)
 
-				// if(continueOverride)
+				if(continueOverride)
 					fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
 						if (err) throw new Error(err);
 					});
