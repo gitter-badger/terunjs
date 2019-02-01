@@ -1,6 +1,6 @@
 
-import ConfigManager from '../core/configManager';
-import {capitalize,firstLower} from '../utils/util';
+import ConfigManager from './configManager';
+import { capitalize, firstLower} from '../utils/util';
 
 let custom_functions = ConfigManager.getPipeFunctions();
 let default_functions = {

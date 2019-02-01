@@ -1,5 +1,4 @@
 import fs from 'fs';
-import { getFile } from '../../utils/util';
 import EntityManager from './entityManager';
 import chalk from 'chalk';
 import promptCheckbox from 'prompt-checkbox';
