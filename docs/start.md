@@ -4,6 +4,8 @@ sidebar:true
 
 # Terunjs
 
+[![npm version](https://badge.fury.io/js/terunjs.svg)](https://badge.fury.io/js/terunjs)
+
 ## O que é
 Terun JS é um automatizador de geração de arquivos.
 

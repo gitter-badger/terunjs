@@ -2,9 +2,9 @@
 sidebar: true
 ---
 
-# Configurando TerunJS
+# Configurando TerunJS :gear:
 
-## Entendendo a configuração
+## Entendendo a configuração 
 ```json
 {
     "tags": [">>",">>"],

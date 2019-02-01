@@ -19,7 +19,7 @@ class SymfonyEntity {
 			name: configAssign.name
 		};
 
-		this.content = await getFile(this.configuration.from);
+		this.content = await getFile(`${process.cwd()}/${this.configuration.from}`);
 	}
 
 	async beforeRender(objectToSetArgs = {}) {
