@@ -5,3 +5,5 @@ deploy:
   provider: npm
   email: raphaelkieling98@gmail.com
   api_key: $NPM_TOKEN
+  on:
+    all_branches: true
