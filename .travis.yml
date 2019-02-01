@@ -6,4 +6,4 @@ deploy:
   email: raphaelkieling98@gmail.com
   api_key: $NPM_TOKEN
   on:
-    all_branches: true
+    branch: master
