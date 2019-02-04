@@ -10,7 +10,11 @@ const presets = [
             },
             useBuiltIns: "usage",
         },
-    ],
+    ]
 ];
+const plugins = [
+  ["@babel/plugin-proposal-pipeline-operator", { "proposal": "minimal" }],
+  ["partial-application"],
+]
 
-module.exports = { presets };
+module.exports = { presets, plugins };
