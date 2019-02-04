@@ -1,5 +1,4 @@
-import { capitalize, pluralName } from '../../utils/util';
-import { getFile } from '../../utils/util';
+import { capitalize, pluralName, getFile, logError } from '../../utils/util';
 import { isAnnotation } from './helper';
 import regexHelper from './regex';
 
@@ -9,6 +8,8 @@ class SymfonyEntity {
 		this.configuration = {};
 		this.content = '';
 	}
+
+	initTransport(){}
 
 	async config(config, globalArgs, render) {
 		let configAssign = Object.assign({}, config);
@@ -20,6 +21,8 @@ class SymfonyEntity {
 		};
 
 		this.content = await getFile(`${process.cwd()}/${this.configuration.from}`);
+
+		if(!this.content) throw new Error(logError("Entity not found"))
 	}
 
 	async beforeRender(objectToSetArgs = {}) {
@@ -127,6 +130,8 @@ class SymfonyEntity {
 
 		return properties;
 	}
+
+	doneRender(){}
 
 	async getEntityPrintCodes(name_entity) {
 		let properties = await this.getProperties();

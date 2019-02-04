@@ -58,11 +58,9 @@ export default class Plugin {
 
 		for(let config of this.pluginsInUse){
 			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
-			args = await pluginInstance['doneRender'].call(pluginInstance);
+			args = await pluginInstance['doneRender'].call(pluginInstance) || {};
 
-			if(args.loop){
-				loop = true;
-			}
+			loop = (args && args.loop) ? true : false
 
 			args.loop = loop;
 		}
