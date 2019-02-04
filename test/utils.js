@@ -148,6 +148,24 @@ describe('UTILS:', function() {
     });
   });
 
+
+  describe('clearwhitespace()', function() {
+    it('should return TestTest when i put Test Test', function() {
+      let result = utils.clearWhitespace('Test Test');
+      assert.deepEqual(result,'TestTest');
+    });
+
+    it('should return \'\' when i put \'\'', function() {
+      let result = utils.clearWhitespace('');
+      assert.deepEqual(result,'');
+    });
+
+    it('should return \'\' when i put null', function() {
+      let result = utils.clearWhitespace(null);
+      assert.deepEqual(result,'');
+    });
+  });
+
   describe('getMissingProperties()', function() {
     it('should return ["work","parent"] when i put missing properties', function() {
       let object = {

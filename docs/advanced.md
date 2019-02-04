@@ -82,9 +82,9 @@ Criamos um grupo de comandos dentro de `transport-fragments` e colocamos um nome
 Na versão 1.2.6 foi liberado o `pipeline operator`. Um exemplo de seu uso mais **básico**.
 
 ```text
-{{ name }} //output: "Diana"
-{{ name | upper }} //output: "DIANA"
-{{ name | upper | underscore }} //output: "D_I_A_N_A"
+{{ name }} //output: "Diana Jam"
+{{ name | upper }} //output: "DIANA JAM"
+{{ name | upper | underscore }} //output: "DIANA_JAM"
 ```
 
 ### Pipelines existentes
@@ -96,6 +96,7 @@ Na versão 1.2.6 foi liberado o `pipeline operator`. Um exemplo de seu uso mais 
 |firstlower | `MeuNome -> meuNome`|
 |underscore| `MeuNome -> meu_nome`|
 |captalize|`nome_meu -> Nome_meu`|
+|clearwhitespace|`nome_meu -> Nome_meu`|
 
 Caso você coloque o nome errado, irá aparecer um erro lhe dizendo qual comando está incorreto. Caso isto aconteça **o valor final será do ultimo pipeline**. Exemplo:
 

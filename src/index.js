@@ -4,7 +4,7 @@ import program from './core/commander';
 import ConfigManager from './core/configManager';
 
 // Commands
-import make from './commands/make';
+import Make from './commands/make';
 import init from './commands/init';
 
 // Libraries
@@ -18,15 +18,17 @@ import clear from 'clear';
 global.config_folder_name = 'config'
 
 const LOAD = loading('Carregando configuração').start();
+const LOAD_TIME = 500;
 
 setTimeout(async() => {
-	clear()
-	console.log(await ascii.font('Terun JS','Doom').toPromise())
+	clear();
+	console.log(await ascii.font('Terun JS','Doom').toPromise());
 
 	LOAD.stop();
 
 	let env = 'default';
 
+	// define o contexto que será trabalhado
 	if(program.env){
 		env = program.args[0];
 	}
@@ -40,15 +42,11 @@ setTimeout(async() => {
 		let config = ConfigManager.getMainConfig(env);
 		if (!config) return;
 
-		new make(config, command, config.tags).init();
+		new Make(config, command, config.tags).init();
 	}
 
 	if (program.init) {
 		init();
 	}
     
-}, 1000);
-
-
-
-
+}, LOAD_TIME);
