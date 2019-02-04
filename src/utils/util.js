@@ -12,6 +12,27 @@ export function getMissingProperties(object, args){
 	});
 };
 
+export function underscore(value){
+	if(nullOrUndefined(value)) return '';
+	
+	value = clearWhitespace(value)
+	value = firstLower(value);
+	let put_underscore = (letter)=>{
+		if(letter.match(/[A-Z]/g)){
+			return `_${letter.toLowerCase()}`;
+		}else{
+			return letter;
+		}
+	}
+
+	return value.split('').map(put_underscore).join('')
+}
+
+export function clearWhitespace(value){
+	if(nullOrUndefined(value)) return '';
+	return value.replace(/\s+/g,'');
+}
+
 export async function createDir(to) {
 	let dirToCreate = `${removeFileNameInPath(to)}`;
 	return await fx.mkdirSync(dirToCreate);

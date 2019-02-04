@@ -22,11 +22,11 @@ class Make {
 
 		if(!commandSelected){
 			console.log(chalk.yellow(`Command >${this.command}< not found. See your terun.config.js`));
-			return;
+			return false;
 		}
 
 		//load global args COMMAND and config plugins
-		await this.getGlobalArgs(commandSelected.args || []);
+		this.globalArgs = await this.getGlobalArgs(commandSelected.args || []);
 		this.plugins.init(commandSelected.plugins);
 		await this.plugins.config(this.globalArgs, this.config, commandSelected.transport);
 
@@ -34,17 +34,19 @@ class Make {
 		this.transportManager.setFiles(commandSelected.transport);
 		this.transportManager.setFragmentsFiles(this.config["transport-fragments"]);
 		let validTransport = this.transportManager.validateTransportFiles();
-		if(!validTransport) return;
+		if(!validTransport) return false;
 
 		for (let transport of this.transportManager.transportFiles) {
 			console.log(chalk.white.bgGreen.bold(`process: ${transport.from}`));
-			await this.getTransport(transport);
+			await this.initResolveTransport(transport);
 		}
 
 		if(this.transportManager.transportFiles.length > 0){
 			console.log(chalk.green('Success in create files!'));
+			return  true;
 		}else{
 			console.log(chalk.yellow('Nothing to create!'));
+			return false;
 		}
 	}
 
@@ -74,7 +76,7 @@ class Make {
 		return continueOverride;
 	}
 
-	async getTransport(transport) {
+	async initResolveTransport(transport) {
 		if(!transport.args){
 			transport.args = [];
 		}
@@ -82,51 +84,56 @@ class Make {
 		await this.plugins.initTransport();
 
 		return new Promise((resolve) => {
-			prompt.start();
-			prompt.get(transport.args, async (err, result) => {
-				if (err) throw new Error(err);
+			this.resolveTransport(transport, resolve)
+		});
+	}
 
-				// PATHS
-				let baseDirPath = `${process.cwd()}/`;
-				let fromFilePath = `${baseDirPath}${transport.from}`;
-				let toFilePath = `${baseDirPath}${transport.to}`;
+	async resolveTransport(transport, doneCallback){
+		prompt.start();
+		prompt.get(transport.args, async (err, result) => {
+			if (err) throw new Error(err);
 
-				// render final file ARGS
-				let argsToRenderInFile = this.getArgsFromObject(transport.args, result);
+			// PATHS
+			let baseDirPath = `${process.cwd()}/`;
+			let fromFilePath = `${baseDirPath}${transport.from}`;
+			let toFilePath = `${baseDirPath}${transport.to}`;
 
-				// life cycle before render
-				argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
+			// render final file ARGS
+			let argsToRenderInFile = this.getArgsFromObject(transport.args, result);
 
-				// render file name with mustache js
-				let argsToParseView = this.getArgsFromObject(transport.args, result);
-				let toFileName = this.render.renderSimple(toFilePath, Object.assign(argsToParseView, this.globalArgs, argsToRenderInFile));
+			// life cycle before render
+			argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
 
-				let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
-				let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
+			// render file name with mustache js
+			let argsToParseView = this.getArgsFromObject(transport.args, result);
+			let toFileName = this.render.renderSimple(toFilePath, Object.assign(argsToParseView, this.globalArgs, argsToRenderInFile));
+
+			let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
+			let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
 
 
-				await createDir(toFileName).catch(err => {
-					console.log(chalk.red('Error on create folder'));
-					throw new Error(err);
+			// Cria os diretorios de forma recursiva.
+			await createDir(toFileName).catch(err => {
+				console.log(chalk.red('Error on create folder'));
+				throw new Error(err);
+			});
+
+			let continueOverride = await this.continueOverrideFile(toFileName)
+
+			if(continueOverride)
+				fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
+					if (err) throw new Error(err);
 				});
 
-				let continueOverride = await this.continueOverrideFile(toFileName)
+			// Done life
+			let done = await this.plugins.doneRender();
 
-				if(continueOverride)
-					fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
-						if (err) throw new Error(err);
-					});
-
-				// Done life
-				let done = await this.plugins.doneRender();
-
-				if(done.loop){
-					await this.getTransport(transport)
-					resolve()
-				}else{
-					resolve()
-				}
-			});
+			if(done.loop){
+				await this.initResolveTransport(transport)
+				doneCallback()
+			}else{
+				doneCallback()
+			}
 		});
 	}
 
@@ -136,8 +143,8 @@ class Make {
 		return new Promise((resolve, reject) => {
 			prompt.start();
 			prompt.get(commandSelectedArgs, (err, result) => {
-				this.globalArgs = this.getArgsFromObject(commandSelectedArgs, result);
-				resolve();
+				let resultArgs = this.getArgsFromObject(commandSelectedArgs, result);
+				resolve(resultArgs);
 			});
 		});
 	}

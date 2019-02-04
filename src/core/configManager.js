@@ -16,7 +16,15 @@ class ConfigManager{
         }
     }
 
-    getPipeFunctions() {
+    getMainConfigWithPath(path,env) {
+        try {
+            return require(`${path}/terun.${env}.json`);
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
+
+    getPipelineFunctionsFile() {
         try {
             return require(`${this.config_path}/pipes.js`);
         } catch (e) {
