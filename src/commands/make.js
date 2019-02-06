@@ -18,19 +18,24 @@ class Make {
 	}
 
 	async init() {
+		if(!this.validObject(this.config, ['commands'])) return false;
+		
 		let commandSelected = this.config.commands[this.command];
 
+		
 		if(!commandSelected){
 			console.log(chalk.yellow(`Command >${this.command}< not found. See your terun.config.js`));
 			return false;
 		}
+		
+		if(!this.validObject(commandSelected, ['transport'])) return false;
 
 		//load global args COMMAND and config plugins
 		this.globalArgs = await this.getGlobalArgs(commandSelected.args || []);
 		this.plugins.init(commandSelected.plugins);
 		await this.plugins.config(this.globalArgs, this.config, commandSelected.transport);
 
-		// get transport
+		// TRANSPORT FILES
 		this.transportManager.setFiles(commandSelected.transport);
 		this.transportManager.setFragmentsFiles(this.config["transport-fragments"]);
 		let validTransport = this.transportManager.validateTransportFiles();
@@ -158,22 +163,14 @@ class Make {
 		}, {});
 	}
 
-	validInit(config, command) {
-		let errorsBaseConfig = getMissingProperties(config, ['commands']);
-		let isValid = true;
+	validObject(config, args) {
+		let errorsBaseConfig = getMissingProperties(config, args);
+		let hasError = errorsBaseConfig && errorsBaseConfig.length > 0;
 
-		if (errorsBaseConfig && errorsBaseConfig.length > 0) {
-			isValid = false;
-			return errorsBaseConfig.forEach(error => logError(`Not found parameter ${error}`));
-		}
+		if (hasError)
+			errorsBaseConfig.forEach(error => logError(`Not found parameter ${error}`));
 
-		let commandSelected = config.commands[command];
-		if (!commandSelected) {
-			isValid = false;
-			return logError(`Not found command > ${command} <`);
-		}
-
-		return isValid;
+		return !hasError;
 	}
 }
 // Utils

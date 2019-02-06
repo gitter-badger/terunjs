@@ -33,13 +33,13 @@ class TransportManager{
   resolveFragments(fragmentName){
     let transportFragmentFile = this.transportFragmentsFiles[fragmentName];
 
-    if(!transportFragmentFile) throw new Error(logError(`Not found fragment: ${fragmentName}`))
+    if(!transportFragmentFile) throw new Error(`Not found fragment: ${fragmentName}`)
 
     return transportFragmentFile;
   }
 
   validateTransportFiles() {
-		return this.transportFiles.map(this.validateTransport.bind(this)).every(a=>a==true)
+		return this.transportFiles.map(this.validateTransport.bind(this)).every(a => a == true)
 	}
 
   validateTransport(transport){

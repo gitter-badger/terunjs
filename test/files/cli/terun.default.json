@@ -1,0 +1,16 @@
+{
+    "commands": {
+        "test": {
+            "transport": [
+                {
+                    "from": "template/form.html",
+                    "to": "build/form{{entity:name}}.html"
+                },
+                {
+                    "from": "template/home.html",
+                    "to": "build/home.html"
+                }
+            ]
+        }
+    }
+}

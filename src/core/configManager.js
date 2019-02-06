@@ -8,10 +8,9 @@ class ConfigManager{
 
     getMainConfig(env) {
         try {
-            return require(`${process.cwd()}/terun.${env}.json`);
+            return require(`${process.env.WORK_PATH || process.cwd()}/terun.${env}.json`);;
         } catch (e) {
-            console.log(chalk.red(`Config > terun.${env}.json < not found`));
-
+            console.log(chalk.red(`Config > terun.${env}.json < not found or empty`));
             throw new Error(e);
         }
     }
@@ -28,7 +27,6 @@ class ConfigManager{
         try {
             return require(`${this.config_path}/pipes.js`);
         } catch (e) {
-            console.log(chalk.red('Error in get config pipes.js'));
             return null;
         }
     }

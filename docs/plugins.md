@@ -181,3 +181,30 @@ Dentro da pasta config existe um arquivo chamado `fields.json`
 ```
 
 No momento existe apenas a propriedade de `defaultValues` onde é possível definir valores default (caso não existam) dentro das propriedades. Onde todos os atributos teriam a propriedade `required:true` disponível dentro arquivo de fields.
+
+
+### Tree view
+
+Utilize as pastas pra criar agrupadores de **Entitys** dentro do terun. Assim:
+
+```
+entitys
+    |_folder
+    |   | folder.json
+    |   | ...
+    |_funcionalidade-especifica
+    |   | teste.json
+    |   | ... 
+    | pessoa.json
+    | veiculo.json
+    | marca.json
+    | ...
+```
+
+Ao rodar o comando irá se deparar com isto:
+
+![Tree view](./images/1_3_4/terun_tree_view.png)
+
+::: tip
+ Fique a vontade para colocar o nome dos arquivos e pastas como quiser.
+:::
