@@ -79,12 +79,17 @@ Criamos um grupo de comandos dentro de `transport-fragments` e colocamos um nome
 
 ## Pipeline Operator
 
-Na versão 1.2.6 foi liberado o `pipeline operator`. Um exemplo de seu uso mais **básico**.
+Na versão 1.2.6 foi liberado o `pipeline operator`. Pode-ser utilizar `|` ou `|>` para fazer o uso deles. Um exemplo de seu uso:
 
 ```text
 {{ name }} //output: "Diana Jam"
 {{ name | upper }} //output: "DIANA JAM"
 {{ name | upper | underscore }} //output: "DIANA_JAM"
+
+
+{{ name }} //output: "Diana Jam"
+{{ name |> upper }} //output: "DIANA JAM"
+{{ name |> upper | underscore }} //output: "DIANA_JAM"
 ```
 
 ### Pipelines existentes
