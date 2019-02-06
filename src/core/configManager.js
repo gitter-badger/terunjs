@@ -6,12 +6,11 @@ class ConfigManager{
         this.config_path   = `${process.cwd()}/${this.config_folder}`;
     }
 
-    getMainConfig(env) {
+    getMainConfig(env = 'default') {
         try {
             return require(`${process.env.WORK_PATH || process.cwd()}/terun.${env}.json`);;
         } catch (e) {
-            console.log(chalk.red(`Config > terun.${env}.json < not found or empty`));
-            throw new Error(e);
+            throw new Error(chalk.red(`Config > terun.${env}.json < not found or empty`));
         }
     }
 

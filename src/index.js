@@ -26,23 +26,21 @@ setTimeout(async() => {
 
 	LOAD.stop();
 
-	let env = 'default';
-
-	// define o contexto que será trabalhado
-	if(program.env){
-		env = program.args[0];
-	}
-
 	// Esta parte vai definir todo contexto da biblioteca
 	// qual arquivo deve carregar as configurações e como deve fazer isto
 	if (program.make) {
 		let command = program.make;
+		let env     = program.env;
+		
 		if (!command) return console.log(chalk.red('Command not defined'));
 
 		let config = ConfigManager.getMainConfig(env);
 		if (!config) return;
 
-		new Make(config, command, config.tags).init();
+		let make = new Make(config, config.tags)
+		make.setCommand(command);
+		make.setOverrideAll(program.overrideAll);
+		make.init();
 	}
 
 	if (program.init) {

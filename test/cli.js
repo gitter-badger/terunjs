@@ -27,7 +27,7 @@ describe('CLI:', function() {
         it('should try get terun.default.json but throw a error', function(done) {
             nixt()
                 .run('terun --make')
-                .stdout(/Config > terun.default.json < not found/g)
+                .stderr(/Config > terun.default.json < not found/g)
                 .end(done)
         });
 
@@ -36,7 +36,7 @@ describe('CLI:', function() {
             nixt()
                 .env('WORK_PATH', folder_cli_path)
                 .run('terun --make wrong')
-                .stdout(/Command >wrong< not found. See your terun.config.js/g)
+                .stderr(/Command >wrong< not found. See your terun.\[env\].json/g)
                 .end(done)
         });
         
@@ -45,7 +45,7 @@ describe('CLI:', function() {
                 nixt()
                     .env('WORK_PATH', folder_cli_path)
                     .run('terun --make test --env empty')
-                    .stdout(/Nothing to create!/g)
+                    .stderr(/Nothing to create!/g)
                     .end(done)
             });
     
@@ -53,7 +53,7 @@ describe('CLI:', function() {
                 nixt()
                     .env('WORK_PATH', folder_cli_path)
                     .run('terun --make test --env wrong')
-                    .stdout(/Config > terun.wrong.json < not found/g)
+                    .stderr(/Config > terun.wrong.json < not found/g)
                     .end(done)
             });
     
@@ -70,7 +70,7 @@ describe('CLI:', function() {
             nixt()
                 .env('WORK_PATH', folder_cli_path)
                 .run('terun --make badly --env badly')
-                .stdout(/Not found parameter commands/g)
+                .stderr(/Not found parameter commands/g)
                 .end(done)
         });
     });
