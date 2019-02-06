@@ -55,7 +55,7 @@ describe('UTILS:', function() {
     });
 
     it('should return content of the file', async function() {
-      let result = await utils.getFile(`${process.cwd()}/test/utils.txt`);
+      let result = await utils.getFile(`${process.cwd()}/test/files/utils.txt`);
       assert.deepEqual(result,'test');
     });
 
@@ -145,6 +145,24 @@ describe('UTILS:', function() {
     it('should return \'/bin\' when i put a array [bin,folder,text.txt]', async function() {
       let result = utils.removeFileNameInPath(['bin','folder','text.txt']);
       assert.deepEqual(result,'bin/folder');
+    });
+  });
+
+
+  describe('clearwhitespace()', function() {
+    it('should return TestTest when i put Test Test', function() {
+      let result = utils.clearWhitespace('Test Test');
+      assert.deepEqual(result,'TestTest');
+    });
+
+    it('should return \'\' when i put \'\'', function() {
+      let result = utils.clearWhitespace('');
+      assert.deepEqual(result,'');
+    });
+
+    it('should return \'\' when i put null', function() {
+      let result = utils.clearWhitespace(null);
+      assert.deepEqual(result,'');
     });
   });
 

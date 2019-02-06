@@ -2,6 +2,7 @@ import fs from 'fs';
 import EntityManager from './entityManager';
 import chalk from 'chalk';
 import promptCheckbox from 'prompt-checkbox';
+import { logError } from '../../utils/util'
 
 class Entity {
 	constructor() {
@@ -16,8 +17,7 @@ class Entity {
 
 	async config(configPlugin, globalArgs, render, baseConfig, transportFiles) {
         let configAssign = Object.assign({}, configPlugin);
-        this.baseDir      = `${process.cwd()}${baseConfig}/`;
-
+        this.baseDir      = `${process.cwd()}/`;
         
 		if (!configAssign.entity_dir) throw new Error('>>entity_dir<< not defined');
         if (configAssign.field && !configAssign.field.dir) throw new Error('>>field.dir<< not defined');
@@ -25,7 +25,10 @@ class Entity {
 
         this.configuration  = configAssign;
         this.files_to_work  = await this.getFilesEntityFolder()
-        
+
+        if(this.files_to_work.length == 0){
+            throw new Error(logError('Need minimum a  model file selected to work.'));
+        }
 
         this.transportFiles = transportFiles;
         this.render         = render;
@@ -50,11 +53,13 @@ class Entity {
             choices: files
         })
 
-        return await promptFiles.run()
+        let result = await promptFiles.run()
+
+        return result || [] 
     }
     
     async initTransport(){
-        if(this.files.length === 0)
+        if(!this.files.length)
             this.files = [...this.files_to_work]
 
         this.fileInUse = this.files.shift();
@@ -79,7 +84,7 @@ class Entity {
     }
     
     async doneRender(loop=false){
-        let hasFiles = !this.files.length == 0;
+        let hasFiles = this.files.length;
         loop = hasFiles
         return { loop };
     }

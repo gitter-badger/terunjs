@@ -1,32 +1,35 @@
 
 import ConfigManager from './configManager';
-import { capitalize, firstLower} from '../utils/util';
+import {
+  capitalize,
+  firstLower,
+  underscore,
+  clearWhitespace,
+  lowerCase,
+  upperCase
+ } from '../utils/util';
 
-let custom_functions = ConfigManager.getPipeFunctions();
+
+// Caso seja necessário adicionais mais funções default adicione em `default_functions`
+let custom_functions = ConfigManager.getPipelineFunctionsFile();
 let default_functions = {
     upper:function(value){
-        return value.toUpperCase()
+        return value |> upperCase;
     },
     lower:function(value){
-        return value.toLowerCase()
+        return value |> lowerCase;
     },
     underscore:function(value){
-        value = firstLower(value);
-        let put_underscore = (letter)=>{
-            if(letter.match(/[A-Z]/g)){
-                return `_${letter.toLowerCase()}`;
-            }else{
-                return letter;
-            }
-        }
-
-        return value.split('').map(put_underscore).join('')
+        return value |> underscore;
     },
     firstlower:function(value){
-        return firstLower(value);
+        return value |> firstLower;
     },
     capitalize: function(value){
-        return capitalize(value)
+        return value |> capitalize;
+    },
+    clearwhitespace:function(value){
+        return value |> clearWhitespace;
     }
 }
 

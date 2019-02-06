@@ -2,10 +2,10 @@ import program from 'commander';
 const _package = require('../../package.json');
 
 program
-	.version('1.2.4')
+	.version(_package.version)
 	.option('--make [command](optional)', 'Make a crud with a config file (terun.default.js)')
 	.option('--init', 'Make a config file')
-	.option('--env', _package.version)
+	.option('--env', 'Set your env file')
 	.parse(process.argv);
 
 export default program;
