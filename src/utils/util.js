@@ -161,3 +161,14 @@ export function flatArray(array,depth = 1){
         return flat.concat((Array.isArray(toFlatten) && (depth-1)) ? flatArray(toFlatten, depth-1) : toFlatten);
 	  }, []);
 }
+
+
+export function validObjectThrow(config, args) {
+	let errorsBaseConfig = getMissingProperties(config, args);
+	let hasError = errorsBaseConfig && errorsBaseConfig.length > 0;
+
+	if (hasError)
+		errorsBaseConfig.forEach(error => {throw new Error(`Not found parameter ${error}`)});
+
+	return !hasError;
+}

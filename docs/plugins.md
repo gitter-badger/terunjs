@@ -60,6 +60,8 @@ Isto é colocado DENTRO do arquivo de configuração do terun, dentro do comando
 }
 ```
 
+Pode-se utilizar a flag `--override-all` para pular qualquer pedido de sobreescrever um arquivo. `terun --make [command] --override-all`
+
 O plugin de entity trabalha com arquivos para especificar objetos que serão utilizados.
 
 > Exemplo: Preciso criar os objetos de Carro.js, Marca.js e Pessoa.js. Então seráo criadas 3 entidades que serão utilizadas pra criar estes três arquivos com tudo definido.
