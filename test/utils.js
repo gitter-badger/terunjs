@@ -55,7 +55,7 @@ describe('UTILS:', function() {
     });
 
     it('should return content of the file', async function() {
-      let result = await utils.getFile(`${process.cwd()}/test/utils.txt`);
+      let result = await utils.getFile(`${process.cwd()}/test/files/utils.txt`);
       assert.deepEqual(result,'test');
     });
 
