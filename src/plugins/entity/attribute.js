@@ -14,17 +14,16 @@ class Attribute{
         this.defaultValues       = {};
         this.options             = {};
         this.type                = '';
-        this.isReference         = (options.reference) ? true : false;
+        this.isReference         = (options && options.reference) ? true : false;
         this.typeReference       = undefined;
         this.reference           = undefined;
         this.avaliableTypesReference = ['hasMany','belongsToMany','hasOne','belongsToOne']
     }
 
     loadConfig(){
-        if(this.configurationPlugin.field){
-            this.configuration = ConfigManager.getConfigFields();
-        }
+        this.configuration = ConfigManager.getConfigAttributes();
         this.setDefaultValues(this.configuration.defaultValues || {})
+        this.setDictionary(this.configuration.dictionary || {})
     }
 
     setDefaultValues(defaultValues){
@@ -35,6 +34,28 @@ class Attribute{
                 this.options[key] = valueKey;
             }
         })
+    }
+
+    setDictionary(dictionary){
+        let getLanguage = (key) => ({
+            language: key,
+            keys: dictionary[key]
+        })
+
+        let getValueFromType = (type) => ({ language, keys }) => ({
+            language: language,
+            value: keys[type]
+        });
+
+        let setValuesInInstance = ({language, value }) => {
+            this[`type:${language}`] = value
+        }
+
+        Object
+            .keys(dictionary)
+            .map(getLanguage)
+            .map(getValueFromType(this.type))
+            .forEach(setValuesInInstance)
     }
 
     fromJson(json, name){
@@ -61,12 +82,12 @@ class Attribute{
             this.field = this.type;
         }
 
-        if(this.configurationPlugin.field){
+        if(this.configurationPlugin && this.configurationPlugin.field){
             this.baseDirFields = `${this.baseDir}${this.configurationPlugin.field.dir}`;
             this.fileTypePath     = `${this.baseDirFields}/${this.field}.${this.configurationPlugin.field.extension}`;
         }
 
-        if(this.configurationPlugin.field){
+        if(this.configurationPlugin && this.configurationPlugin.field){
             if(!this.resolveTypeFile()){
                 console.log(chalk.red(`File ${this.field}.${this.configurationPlugin.field.extension || ''} field attribute not found.`))
                 throw new Error('File not found')

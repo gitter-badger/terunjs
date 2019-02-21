@@ -3,9 +3,9 @@
         "generateSQL":true
     },
     "schema":{
-        "name":"Marca",
+        "name":"Teste",
         "custom":{
-             "dbname":"MARQUENA",
+             "dbname":"Teste",
              "alias":"PS",
              "qualquer_atributo":"MEU ATRIBUTO"
          },

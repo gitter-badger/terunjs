@@ -3,9 +3,9 @@
         "generateSQL":true
     },
     "schema":{
-        "name":"Marca",
+        "name":"Folder",
         "custom":{
-             "dbname":"MARQUENA",
+             "dbname":"Folder",
              "alias":"PS",
              "qualquer_atributo":"MEU ATRIBUTO"
          },

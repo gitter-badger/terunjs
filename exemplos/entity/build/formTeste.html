@@ -9,15 +9,23 @@
 </head>
 <body>
     <div class="container my-3">
-        <h1></h1>
+        <h1>Teste</h1>
 
-        <h3></h3>
+        <h3>Teste very_easy</h3>
 
         <form action="">
+            <div class="form-group">
+    <label for="descricao"></label>
+    <input type="text" class="form-control" id="" required="true"  placeholder="">
+</div>
+            <br>
+            <input type="checkbox" name="" id="Teste_veiculos"> veiculos
+            <br>
             <button>Submit</button>
         </form>
 
         <h4>Aqui estão as referencias</h4>
+        veiculos - Veiculo
     </div>
 
     <script>
@@ -27,6 +35,13 @@
             'C',
             'D'
         ]
+        let veiculosSelect  = document.querySelector('#veiculos_Teste')
+
+        lista.forEach((item)=>{
+            let option = document.createElement('option')
+            option.textContent = item;
+            veiculosSelect.appendChild(option)
+        })
     </script>
 </body>
 </html>

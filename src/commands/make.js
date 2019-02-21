@@ -1,10 +1,11 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import prompt from 'prompt';
+import prompts from 'prompts';
 import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
 import Render from '../core/render';
-import TransportManager from '../core/transport';
+import TransportManager from '../core/transportManager';
 import { createDir, validObjectThrow } from '../utils/util';
 
 class Make {
@@ -54,56 +55,55 @@ class Make {
 
 		await this.plugins.initTransport();
 
-		return new Promise((resolve) => {
-			this.resolveTransport(transport, resolve)
+		return new Promise(async (resolve) => {
+			await this.resolveTransport(transport, resolve)
 		});
 	}
 
 	async resolveTransport(transport, doneCallback){
-		prompt.start();
-		prompt.get(transport.args, async (err, promptResult) => {
-			if (err) throw new Error(err);
+		let promptResult = await prompts(
+			transport.transformArgsToPromptQuestion()
+		);
 
-			// PATHS
-			let baseDirPath = `${process.cwd()}/`;
-			let fromFilePath = `${baseDirPath}${transport.from}`;
-			let toFilePath = `${baseDirPath}${transport.to}`;
+		// PATHS
+		let baseDirPath = `${process.cwd()}/`;
+		let fromFilePath = `${baseDirPath}${transport.from}`;
+		let toFilePath = `${baseDirPath}${transport.to}`;
 
-			// render final file ARGS
-			let argsToRenderInFile = promptResult;
+		// render final file ARGS
+		let argsToRenderInFile = promptResult;
 
-			// life cycle before render
-			argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
+		// life cycle before render
+		argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
 
-			// render file name with mustache js
-			let toFileName = this.render.renderSimple(toFilePath, Object.assign(promptResult, this.globalArgs, argsToRenderInFile));
+		// render file name with mustache js
+		let toFileName = this.render.renderSimple(toFilePath, Object.assign(promptResult, this.globalArgs, argsToRenderInFile));
 
-			let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
-			let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
+		let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
+		let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
 
 
-			// Cria os diretorios de forma recursiva.
-			await createDir(toFileName).catch(err => {
-				throw new Error(chalk.red('Error on create folder'));
+		// Cria os diretorios de forma recursiva.
+		await createDir(toFileName).catch(err => {
+			throw new Error(chalk.red('Error on create folder'));
+		});
+
+		let continueOverride = this.overrideAll ? true : await this.continueOverrideFile(toFileName)
+
+		if(continueOverride)
+			fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
+				if (err) throw new Error(err);
 			});
 
-			let continueOverride = this.overrideAll ? true : await this.continueOverrideFile(toFileName)
+		// Done life
+		let done = await this.plugins.doneRender();
 
-			if(continueOverride)
-				fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
-					if (err) throw new Error(err);
-				});
-
-			// Done life
-			let done = await this.plugins.doneRender();
-
-			if(done.loop){
-				await this.initResolveTransport(transport)
-				doneCallback()
-			}else{
-				doneCallback()
-			}
-		});
+		if(done.loop){
+			await this.initResolveTransport(transport)
+			doneCallback()
+		}else{
+			doneCallback()
+		}
 	}
 
 	async continueOverrideFile(pathFile){

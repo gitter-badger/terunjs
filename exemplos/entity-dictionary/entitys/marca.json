@@ -1,0 +1,19 @@
+{
+    "schema":{
+        "name":"marca",
+        "custom" : {
+            "dbname":"Marca",
+            "alias":"PS",
+            "qualquer_atributo":"MEU ATRIBUTO"
+        },
+        "attributes":{
+            "id":{
+                "type":"number"
+            },
+            "descricao":{
+                "type":"text",
+                "last":true
+            }
+        }
+    }
+}

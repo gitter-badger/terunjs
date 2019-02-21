@@ -102,11 +102,23 @@ class Entity {
         objectToSetArgs[`${this.name}:name`] = this.entity.name
         objectToSetArgs[`${this.name}:forms`] = this.entity.getRenderedAttributes()
         objectToSetArgs[`${this.name}:files`] = this.files_to_work
+        objectToSetArgs[`${this.name}:entitys_config`] = await this.getEntitysConfig();
         objectToSetArgs[`${this.name}:references`] = this.entity.getReferences()
         objectToSetArgs[`${this.name}:attributes`] = this.entity.attributes
         objectToSetArgs[`${this.name}:custom`] = this.entity.custom
 
 		return objectToSetArgs;
+    }
+
+    async getEntitysConfig(){
+        let getContentFile = (filePath) => fs.readFileSync(`${this.baseDir}${this.configuration.entity_dir}/${filePath}`, 'utf-8');
+        let contentToJson = (content) => content ? JSON.parse(content) : content;
+
+        let result = this.files_to_work
+            .map(getContentFile)
+            .map(contentToJson)
+
+        return result; 
     }
     
     async doneRender(loop=false){

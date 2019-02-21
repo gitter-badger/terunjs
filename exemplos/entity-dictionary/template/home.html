@@ -13,6 +13,14 @@
     </nav>
 
     <div class="container my-3">
+        {{#entity:entitys_config}}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{schema.name}}</h5>
+                    <a href="form{{schema.name}}.html">Formulário</a>
+                </div>
+            </div>
+        {{/entity:entitys_config}}
     </div>
 </body>
 </html>
