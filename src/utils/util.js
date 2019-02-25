@@ -2,30 +2,35 @@ import chalk from 'chalk';
 import plural from 'pluralize-ptbr';
 import fs from 'fs';
 import fx from 'mkdir-recursive';
+import funclize from './funclize';
 
+export const fn = {
+	filter: funclize(Array.prototype.filter),
+	map: funclize(Array.prototype.map),
+	join: (value, delimiter='') => funclize(Array.prototype.join)(value, delimiter)
+}
 
 export function getMissingProperties(object, args){
 	if(nullOrUndefined(object) || nullOrUndefined(args)) return [];
-	return args.filter((arg) => {
-		let has = object.hasOwnProperty(arg);
-		return !has;
-	});
+
+	let hasPropertie = value => !object.hasOwnProperty(value);
+
+	return args |> fn.filter(_, hasPropertie)
 };
 
 export function underscore(value){
 	if(nullOrUndefined(value)) return '';
-	
-	value = clearWhitespace(value)
-	value = firstLower(value);
-	let put_underscore = (letter)=>{
-		if(letter.match(/[A-Z]/g)){
-			return `_${letter.toLowerCase()}`;
-		}else{
-			return letter;
-		}
-	}
 
-	return value.split('').map(put_underscore).join('')
+	value = value |> clearWhitespace |> firstLower;
+
+	let put_underscore = (letter)=> letter.match(/[A-Z]/g) ? `_${letter |> lowerCase}` : letter;
+
+	return value |> split |> fn.map(_, put_underscore) |> fn.join
+}
+
+export function split(value, delimiter = ''){
+	if(nullOrUndefined(value)) return [];
+	return value.split(delimiter)
 }
 
 export function clearWhitespace(value){
@@ -38,7 +43,6 @@ export async function createDir(to) {
 	return await fx.mkdirSync(dirToCreate);
 }
 
-
 export function logError(message){
 	if(nullOrUndefined(message)) return '';
 
@@ -46,13 +50,28 @@ export function logError(message){
 }
 
 export function isFileString(value){
-	return value.trim().match(/\w+\.\w+/);
+	if(nullOrUndefined(value)) return '';
+
+	return value |> trim |> hasMatch(_, /\w+\.\w+/);
+}
+
+export function hasMatch(value, regex){
+	if(nullOrUndefined(value)) return '';
+	if(nullOrUndefined(regex)) return '';
+
+	return value.match(regex)
+}
+
+export function trim(value){
+	if(nullOrUndefined(value)) return '';
+
+	return value.trim()
 }
 
 export function isString(value){
 	if(nullOrUndefined(value)) return false;
 
-	return typeof value === 'string'; 
+	return typeof value === 'string';
 }
 
 export function removeFileNameInPath(path){
@@ -67,42 +86,60 @@ export function removeFileNameInPath(path){
 	}
 
 	let isFolder = value => !isFileString(value)
-  
-	let withoutFilenameArray = splittedPath.filter(isFolder)
+
+	let withoutFilenameArray = splittedPath |> fn.filter(_,isFolder)
 
 	if (!withoutFilenameArray) return '';
 
-	return withoutFilenameArray.join('/');
+	return withoutFilenameArray |> fn.join(_, '/');
+}
+
+export function replace(value, search, replace){
+	if(nullOrUndefined(value)) return '';
+	if(nullOrUndefined(search)) return '';
+	if(nullOrUndefined(replace)) return '';
+
+	return value.replace(search, replace)
 }
 
 export function capitalize(text){
 	if(nullOrUndefined(text)) return '';
 
-	return text.replace(/^\w/, c => c.toUpperCase());
+	return text |> replace(_, /^\w/, upperCase)
 }
 
 export function firstLower(text){
 	if(nullOrUndefined(text)) return '';
-	
+
 	let [head,...tail]= text;
 
 	if(!head) return '';
 
-	head = head.toLowerCase();
-	tail = tail.join('');
+	head = head |> lowerCase
+	tail = tail |> fn.join
 
 	return head + tail;
 }
 
+export function lowerCase(text){
+	if(nullOrUndefined(text)) return '';
+	return text.toLowerCase();
+}
+
+export function upperCase(text){
+	if(nullOrUndefined(text)) return '';
+	return text.toUpperCase();
+}
+
 export function pluralName(text){
 	if(nullOrUndefined(text)) return '';
-	
+
 	return plural(text);
 }
 
 export async function getFile(path){
 	if(nullOrUndefined(path)) return null;
-	
+
 	try{
 		let content = fs.readFileSync(path, 'utf-8');
 		return content;
@@ -112,7 +149,7 @@ export async function getFile(path){
 }
 
 export function nullOrUndefined(value){
-	return (value == null) || (value == undefined) 
+	return (value == null) || (value == undefined)
 }
 
 export function flatArray(array,depth = 1){
@@ -125,3 +162,20 @@ export function flatArray(array,depth = 1){
 	  }, []);
 }
 
+
+export function validObjectThrow(config, args) {
+	let errorsBaseConfig = getMissingProperties(config, args);
+	let hasError = errorsBaseConfig && errorsBaseConfig.length > 0;
+
+	if (hasError)
+		errorsBaseConfig.forEach(error => {throw new Error(`Not found parameter ${error}`)});
+
+	return !hasError;
+}
+
+export function log (message){
+	return (value)=>{
+		console.log(`${message} => ${value}`);
+        return value;
+	}
+}

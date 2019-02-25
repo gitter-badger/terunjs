@@ -4,6 +4,15 @@ sidebar:true
 
 # Change Log :computer:
 
+## 1.3.5
+- Adicionado flag `--override-all` veja mais na sessão do plugin [Entity](/plugins.html#entity).
+
+## 1.3.4
+- Adicionado possibilidade de utilizar pastas para montar as `entitys` veja mais na sessão do plugin [Entity](/plugins.html#entity).
+
+## 1.3.3
+- Adicionado |> como forma de usar os pipelines
+
 ## 1.2.8
 - Ajustes de bugs no `override file`
 - Ajuste em um problema ao não selecionar arquivo nenhum na entidade

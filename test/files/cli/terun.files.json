@@ -1,0 +1,12 @@
+{
+    "commands": {
+        "test": {
+            "transport": [
+                {
+                    "from": "template/form.html",
+                    "to": "template/gen-form.html"
+                }
+            ]
+        }
+    }
+}

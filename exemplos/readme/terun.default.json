@@ -1,11 +1,12 @@
 {
     "commands": {
         "init": {
-            "args": ["aa"],
+            "args": ["aa","bb"],
             "transport": [
                 {
                     "from": "test.txt",
-                    "to": "nome.html"
+                    "to": "nome.html",
+                    "args": ["a1","b1"]
                 }
             ]
         }

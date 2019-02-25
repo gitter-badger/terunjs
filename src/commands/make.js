@@ -1,37 +1,40 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import prompt from 'prompt';
+import prompts from 'prompts';
 import promptBox from 'prompt-checkbox'
 import Plugin from '../plugins';
 import Render from '../core/render';
-import TransportManager from '../core/transport';
-import { logError, getMissingProperties, createDir } from '../utils/util';
+import TransportManager from '../core/transportManager';
+import { createDir, validObjectThrow } from '../utils/util';
 
 class Make {
-	constructor(config, command, tag_custom) {
+	constructor(config, tag_custom) {
 		this.config = config;
-		this.command = command;
+		this.commandArg = null;
+		this.command    = null
 		this.transportManager = new TransportManager();
 		this.globalArgs = {};
 		this.render = new Render(tag_custom);
 		this.plugins = new Plugin(this.render);
+		this.overrideAll = false;
+
+		if(!validObjectThrow(this.config, ['commands'])) return false;
 	}
-
 	async init() {
-		let commandSelected = this.config.commands[this.command];
-
-		if(!commandSelected){
-			console.log(chalk.yellow(`Command >${this.command}< not found. See your terun.config.js`));
-			return false;
-		}
-
 		//load global args COMMAND and config plugins
-		this.globalArgs = await this.getGlobalArgs(commandSelected.args || []);
-		this.plugins.init(commandSelected.plugins);
-		await this.plugins.config(this.globalArgs, this.config, commandSelected.transport);
+		this.globalArgs = await this.getGlobalArgs(this.command.args || []);
 
-		// get transport
-		this.transportManager.setFiles(commandSelected.transport);
+		// PLUGIN init
+		this.plugins.init(this.command.plugins);
+		await this.plugins.config({
+			globalProperties: this.globalArgs,
+			baseConfig: this.config,
+			transportFiles: this.command.transport
+		});
+
+		// TRANSPORT FILES
+		this.transportManager.setFiles(this.command.transport);
 		this.transportManager.setFragmentsFiles(this.config["transport-fragments"]);
 		let validTransport = this.transportManager.validateTransportFiles();
 		if(!validTransport) return false;
@@ -45,8 +48,69 @@ class Make {
 			console.log(chalk.green('Success in create files!'));
 			return  true;
 		}else{
-			console.log(chalk.yellow('Nothing to create!'));
-			return false;
+			throw new Error(`Nothing to create!`)
+		}
+	}
+
+	async initResolveTransport(transport) {
+		if(!transport.args){
+			transport.args = [];
+		}
+
+		await this.plugins.initTransport({
+			transport
+		});
+
+		return new Promise(async (resolve) => {
+			await this.resolveTransport(transport, resolve)
+		});
+	}
+
+	async resolveTransport(transport, doneCallback){
+		let promptResult = await prompts(
+			transport.transformArgsToPromptQuestion()
+		);
+
+		// PATHS
+		let baseDirPath = `${process.cwd()}/`;
+		let fromFilePath = `${baseDirPath}${transport.from}`;
+		let toFilePath = `${baseDirPath}${transport.to}`;
+
+		// render final file ARGS
+		let argsToRenderInFile = promptResult;
+
+		// life cycle before render
+		argsToRenderInFile = await this.plugins.beforeRender({
+			argsToParseViewRender: argsToRenderInFile
+		});
+
+		// render file name with mustache js
+		let toFileName = this.render.renderSimple(toFilePath, Object.assign(promptResult, this.globalArgs, argsToRenderInFile));
+
+		let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
+		let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
+
+
+		// Cria os diretorios de forma recursiva.
+		await createDir(toFileName).catch(err => {
+			throw new Error(chalk.red('Error on create folder'));
+		});
+
+		let continueOverride = this.overrideAll ? true : await this.continueOverrideFile(toFileName)
+
+		if(continueOverride)
+			fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
+				if (err) throw new Error(err);
+			});
+
+		// Done life
+		let done = await this.plugins.doneRender();
+
+		if(done.loop){
+			await this.initResolveTransport(transport)
+			doneCallback()
+		}else{
+			doneCallback()
 		}
 	}
 
@@ -55,125 +119,46 @@ class Make {
 		let continueOverride = true;
 
 		if(fileExist){
-			let continueQuestion = () => {
-				let checkbox = new promptBox({
-					name: 'continue',
-					message: 'File already exists, continue?',
-					choices: [
-					  'Yes'
-					]
-				});
+			let continuePromptResult = await prompts({
+			  type: 'confirm',
+			  name: 'value',
+			  message: 'File already exists, continue?',
+			  initial: false
+			}) 
 
-				return checkbox.run();
-			}
-			let continueQuestionAnswer = await continueQuestion()
-			continueOverride = continueQuestionAnswer.length;
+			continueOverride = continuePromptResult.value
 
 			if(!continueOverride)
-				console.log(chalk.yellow('Relax, you skipped file, nothing to do :)'));
+				console.log(chalk.yellow('Relax, you skipped file!'));
 		}
 
 		return continueOverride;
 	}
 
-	async initResolveTransport(transport) {
-		if(!transport.args){
-			transport.args = [];
+	setCommand(commandArg){
+		this.commandArg = commandArg;
+		this.command    = this.config.commands[this.commandArg];
+		
+		if(!this.command){
+			throw new Error(chalk.yellow(`Command >${this.commandArg}< not found. See your terun.[env].json`));
 		}
 
-		await this.plugins.initTransport();
-
-		return new Promise((resolve) => {
-			this.resolveTransport(transport, resolve)
-		});
+		if(!validObjectThrow(this.command, ['transport'])) throw new Error(chalk.yellow(`Transport not defined in command`));
 	}
 
-	async resolveTransport(transport, doneCallback){
-		prompt.start();
-		prompt.get(transport.args, async (err, result) => {
-			if (err) throw new Error(err);
-
-			// PATHS
-			let baseDirPath = `${process.cwd()}/`;
-			let fromFilePath = `${baseDirPath}${transport.from}`;
-			let toFilePath = `${baseDirPath}${transport.to}`;
-
-			// render final file ARGS
-			let argsToRenderInFile = this.getArgsFromObject(transport.args, result);
-
-			// life cycle before render
-			argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
-
-			// render file name with mustache js
-			let argsToParseView = this.getArgsFromObject(transport.args, result);
-			let toFileName = this.render.renderSimple(toFilePath, Object.assign(argsToParseView, this.globalArgs, argsToRenderInFile));
-
-			let argsToRenderFinalFile = Object.assign(argsToRenderInFile, this.globalArgs);
-			let fileRendered = this.render.renderFile(fromFilePath, argsToRenderFinalFile);
-
-
-			// Cria os diretorios de forma recursiva.
-			await createDir(toFileName).catch(err => {
-				console.log(chalk.red('Error on create folder'));
-				throw new Error(err);
-			});
-
-			let continueOverride = await this.continueOverrideFile(toFileName)
-
-			if(continueOverride)
-				fs.writeFile(toFileName, fileRendered, 'utf-8', (err) => {
-					if (err) throw new Error(err);
-				});
-
-			// Done life
-			let done = await this.plugins.doneRender();
-
-			if(done.loop){
-				await this.initResolveTransport(transport)
-				doneCallback()
-			}else{
-				doneCallback()
-			}
-		});
+	setOverrideAll(overrideAll){
+		this.overrideAll = overrideAll ? true : false
 	}
 
-	getGlobalArgs(commandSelectedArgs) {
-		if (commandSelectedArgs.length > 0) console.log(chalk.magenta('set GLOBAL args: '));
+	getGlobalArgs(globalArgs) {
+		if (globalArgs.length > 0) console.log(chalk.magenta('GLOBAL args:'));
 
 		return new Promise((resolve, reject) => {
 			prompt.start();
-			prompt.get(commandSelectedArgs, (err, result) => {
-				let resultArgs = this.getArgsFromObject(commandSelectedArgs, result);
-				resolve(resultArgs);
+			prompt.get(globalArgs, (err, result) => {
+				resolve(result);
 			});
 		});
-	}
-
-	getArgsFromObject(args, objectToGetArg) {
-		return args.reduce((ant, prox) => {
-			let objectToAssign = {};
-			objectToAssign[prox] = objectToGetArg[prox];
-
-			return Object.assign(ant, objectToAssign);
-		}, {});
-	}
-
-	validInit(config, command) {
-		let errorsBaseConfig = getMissingProperties(config, ['commands']);
-		let isValid = true;
-
-		if (errorsBaseConfig && errorsBaseConfig.length > 0) {
-			isValid = false;
-			return errorsBaseConfig.forEach(error => logError(`Not found parameter ${error}`));
-		}
-
-		let commandSelected = config.commands[command];
-		if (!commandSelected) {
-			isValid = false;
-			return logError(`Not found command > ${command} <`);
-		}
-
-		return isValid;
 	}
 }
 // Utils

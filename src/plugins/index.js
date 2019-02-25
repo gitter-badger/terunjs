@@ -16,33 +16,33 @@ export default class Plugin {
 		this.pluginsInUse = [...plugins];
 	}
 
-	async config(globalProperties, baseConfig, transportFiles) {
+	async config({ globalProperties, baseConfig, transportFiles }) {
 		if (!this.pluginsInUse) return null;
 
 		for(let config of this.pluginsInUse){
 			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
-			await pluginInstance['config'].call(pluginInstance, config, globalProperties, this.render, baseConfig, transportFiles);
+			await pluginInstance['config'].call(pluginInstance, { configPlugin: config , globalProperties, render: this.render, baseConfig, transportFiles });
 		}
 	}
 
-	async initTransport(){
+	async initTransport({ transport }){
 		if (!this.pluginsInUse) return argsToParseViewRender;
 		let args = Object.assign({});
 
 		for(let config of this.pluginsInUse){
 			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
-			args = await pluginInstance['initTransport'].call(pluginInstance);
+			args = await pluginInstance['initTransport'].call(pluginInstance, { transport });
 		}
 		return args;
 	}
 
-	async beforeRender(argsToParseViewRender) {
+	async beforeRender({ argsToParseViewRender }) {
 		if (!this.pluginsInUse) return argsToParseViewRender;
 		let args = Object.assign(argsToParseViewRender);
 
 		for(let config of this.pluginsInUse){
 			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
-			args = await pluginInstance['beforeRender'].call(pluginInstance, argsToParseViewRender, this.render);
+			args = await pluginInstance['beforeRender'].call(pluginInstance, { argsToParseViewRender, render: this.render });
 		}
 		return args;
 	}
@@ -58,11 +58,9 @@ export default class Plugin {
 
 		for(let config of this.pluginsInUse){
 			let pluginInstance = this.plugins.find((pluginUnique) => config.name === pluginUnique.name);
-			args = await pluginInstance['doneRender'].call(pluginInstance);
+			args = await pluginInstance['doneRender'].call(pluginInstance) || {};
 
-			if(args.loop){
-				loop = true;
-			}
+			loop = (args && args.loop) ? true : false
 
 			args.loop = loop;
 		}

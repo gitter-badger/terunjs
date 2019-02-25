@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title></title>
+</head>
+<body>
+    <div class="container my-3">
+        <h1>Pessoa</h1>
+
+        <h3>Pessoa very_easy</h3>
+
+        <form action="">
+            <div class="form-group">
+    <label for="nome"></label>
+    <input type="text" class="form-control" id="" required="true"  placeholder="">
+</div>
+            <br>
+            <div class="form-group">
+    <label for="idade">Write your age:</label>
+    <input type="number" class="form-control" id="Write your age:" required="true"  min="10"
+         placeholder="my age is">
+</div>
+            <br>
+            <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="casado_Pessoa">
+    <label class="form-check-label" for="casado_Pessoa">Is married:</label>
+</div>
+            <br>
+            <div class="form-group" >
+    <label for="veiculos_Pessoa">Selecione seu veiculo</label>
+    <select class="form-control" id="veiculos_Pessoa" multiple>
+    </select>
+</div>
+
+            <br>
+            <div class="form-group">
+    <label for="uber_Pessoa">Qual teu uber?</label>
+    <select class="form-control" id="uber_Pessoa">
+
+    </select>
+</div>
+            <br>
+            <button>Submit</button>
+        </form>
+
+        <h4>Aqui estão as referencias</h4>
+        veiculos - Veiculo
+        uber - Veiculo
+
+        <br>
+
+        <h4>attributes</h4>
+
+            String
+            Long
+            
+            String
+            String
+    </div>
+
+    <script>
+        let lista = [
+            'A',
+            'B',
+            'C',
+            'D'
+        ]
+        let veiculosSelect  = document.querySelector('#veiculos_Pessoa')
+
+        lista.forEach((item)=>{
+            let option = document.createElement('option')
+            option.textContent = item;
+            veiculosSelect.appendChild(option)
+        })
+        let uberSelect  = document.querySelector('#uber_Pessoa')
+
+        lista.forEach((item)=>{
+            let option = document.createElement('option')
+            option.textContent = item;
+            uberSelect.appendChild(option)
+        })
+    </script>
+</body>
+</html>
