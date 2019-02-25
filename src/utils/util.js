@@ -172,3 +172,10 @@ export function validObjectThrow(config, args) {
 
 	return !hasError;
 }
+
+export function log (message){
+	return (value)=>{
+		console.log(`${message} => ${value}`);
+        return value;
+	}
+}

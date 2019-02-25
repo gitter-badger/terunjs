@@ -11,7 +11,7 @@ class SymfonyEntity {
 
 	initTransport(){}
 
-	async config(config, globalArgs, render) {
+	async config({ config, globalArgs, render }) {
 		let configAssign = Object.assign({}, config);
 		if (!configAssign.from) throw new Error('>>From<< not defined');
 

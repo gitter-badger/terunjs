@@ -1,7 +1,6 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import EntityManager from './entityManager';
-import ConfigManager from '../../core/configManager';
 
 class Attribute{
     constructor(configPlugin, baseDir, render, options = {}){
@@ -11,20 +10,20 @@ class Attribute{
         this.configuration       = {};
         this.fileTypePath        = '';
         this.baseDirFields       = '';
-        this.defaultValues       = {};
         this.options             = {};
         this.type                = '';
-        this.isReference         = (options.reference) ? true : false;
+        this.isReference         = (options && options.reference) ? true : false;
         this.typeReference       = undefined;
         this.reference           = undefined;
         this.avaliableTypesReference = ['hasMany','belongsToMany','hasOne','belongsToOne']
     }
 
-    loadConfig(){
-        if(this.configurationPlugin.field){
-            this.configuration = ConfigManager.getConfigFields();
-        }
-        this.setDefaultValues(this.configuration.defaultValues || {})
+    setConfig(configContent){
+        this.configuration = configContent;
+        this.setDictionary(this.configuration.dictionary || {})
+        
+        if(this.configuration.defaultValues)
+            this.setDefaultValues(this.configuration.defaultValues.attribute || {})
     }
 
     setDefaultValues(defaultValues){
@@ -37,23 +36,43 @@ class Attribute{
         })
     }
 
-    fromJson(json, name){
+    setDictionary(dictionary){
+        let getLanguage = (key) => ({
+            language: key,
+            keys: dictionary[key]
+        })
+
+        let getValueFromType = (type) => ({ language, keys }) => ({
+            language: language,
+            value: keys[type]
+        });
+
+        let setValuesInInstance = ({language, value }) => {
+            this[`type:${language}`] = value
+        }
+
+        Object
+            .keys(dictionary)
+            .map(getLanguage)
+            .map(getValueFromType(this.type))
+            .forEach(setValuesInInstance)
+    }
+
+    import(contentFile, name){
         this.name = name;
 
-        if(typeof json != "object") json = JSON.parse(json)
-
-        if(!json.type){
+        if(!contentFile.type){
             console.log(chalk.red(`TYPE not found in attribute`))
             throw new Error('Type not found in attribute')
         }
 
-        if(!json.field && this.configuration.field){
+        if(!contentFile.field && this.configuration.field){
             console.log(chalk.yellow(`FIELD not found in attribute (${this.name}). TYPE will be define to working in THIS field`))
         }
 
-        this.type    = json.type;
-        this.field   = json.field;
-        this.options = json;
+        this.type    = contentFile.type;
+        this.field   = contentFile.field;
+        this.options = contentFile;
 
         if(this.options.reference){
             this.getReference(this.options.reference)
@@ -61,30 +80,28 @@ class Attribute{
             this.field = this.type;
         }
 
-        if(this.configurationPlugin.field){
+        if(this.configurationPlugin && this.configurationPlugin.field){
             this.baseDirFields = `${this.baseDir}${this.configurationPlugin.field.dir}`;
             this.fileTypePath     = `${this.baseDirFields}/${this.field}.${this.configurationPlugin.field.extension}`;
         }
 
-        if(this.configurationPlugin.field){
+        if(this.configurationPlugin && this.configurationPlugin.field){
             if(!this.resolveTypeFile()){
                 console.log(chalk.red(`File ${this.field}.${this.configurationPlugin.field.extension || ''} field attribute not found.`))
                 throw new Error('File not found')
             }
         }
-
-        this.loadConfig();
     }
 
     getReference(options){
         if(this.isReference) return;
 
         if(typeof options == 'string'){
-            let optionSlited = options.split('|')
+            let [entity, relationship] = options.split('|')
 
             options              = {}
-            options.entity       = optionSlited[0]
-            options.relationship = optionSlited[1]
+            options.entity       = entity.trim()
+            options.relationship = relationship.trim()
         }
 
 
@@ -105,9 +122,9 @@ class Attribute{
 
         this.field = (this.field) ? this.field : options.relationship
 
-        let referenceEntity = fs.readFileSync(`${this.baseDir}${this.configurationPlugin.entity_dir}/${options.entity}.json`,'utf-8')
+        let referenceEntity = require(`${this.baseDir}${this.configurationPlugin.entity_dir}/${options.entity}.js`)
         this.reference = new EntityManager(this.configurationPlugin, this.baseDir, this.render, { reference:true })
-        this.reference.fromJson(referenceEntity)
+        this.reference.import(referenceEntity)
         this.isReference = true;
         this.typeReference = options.relationship;
 

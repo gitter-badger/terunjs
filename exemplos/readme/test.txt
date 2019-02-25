@@ -1,4 +1,4 @@
-Hello 
+Hello
 
 {{ aa | underscore}}
-{{ aa | firstlower}}
+{{ aa |  clearwhitespace}}

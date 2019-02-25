@@ -75,18 +75,26 @@ project
 |   |   | classe.html
 |   |   | formulario.html
 |   |__entitys
-|   |   | pessoa.json
-|   |   | veiculo.json
-|   |   | marca.json
+|   |   | pessoa.js
+|   |   | veiculo.js
+|   |   | marca.js
 |   |   | ...
 |   |__config
-|   |   | fields.json
+|   |   | fields.js
 |   |__fields
 |   |   | text.html
 |   |   | boolean.html
 |   |   | hasMany.html
 |   |   | ...
 ```
+
+::: danger Breaking Change
+A partir da versão `1.3.6` as entidades devem ser em `.js` e não mais em `.json`. De uma olhada no processo de [migração](./migration.html#versao-1-3-5-para-1-3-6)
+:::
+
+::: danger Breaking Change
+A partir da versão `1.3.6` o arquivo `field.json` vira `attributes.js`. De uma olhada no processo de [migração](./migration.html#versao-1-3-5-para-1-3-6)
+:::
 
 ### Configurando:
 
@@ -103,37 +111,41 @@ Dentro do schema:
 |custom|Define atributos customizados para serem utilizados dentro dos templates|
 |attributes|Define atributos dentro de uma entidade|
 
-```json
-// Pessoa.json
+```js
+// Pessoa.js
 
-{
-    "schema":{
-        "name":"Pessoa",
-        "custom":{
-            "dbname":"PESSOA",
-            "alias":"PS",
-            "qualquer_atributo":"MEU ATRIBUTO"
+module.exports = {
+    schema:{
+        name:"Pessoa",
+        custom:{
+            tablename:"PESSOA",
+            alias:"PS",
+            qualquer_atributo:"MEU ATRIBUTO",
+            web:{},
+            mobile:{
+                version:1.2
+            }
         },
-        "attributes":{
-            "NOME":{
+        attributes:{
+            NOME:{
                 "type":"text",
                 "required":true,
             },
-            "IDADE":{
+            IDADE:{
                 "type":"number"
             },
-            "SOLTEIRO":{
+            SOLTEIRO:{
                 "type":"boolean"
             },
-            "DATA_ATUALIZACAO":{
+            DATA_ATUALIZACAO:{
                 "type":"date"
             },
-            "EXCLUIDO":{
+            EXCLUIDO:{
                 "type":"number"
             },
-            "CARROS":{
-                "reference":"Veiculos|hasMany"
-                //Nome do arquivo Veiculos.json que está dentro da pasta entitys
+            CARROS:{
+                "reference":"minha-sub-pasta/veiculo | hasMany"
+                //Nome do arquivo Veiculos.js que está dentro da pasta entitys
             }
         }
     }
@@ -152,38 +164,89 @@ Dentro do schema:
 |entity:attributes|Array de atributos com seus parametros `schema.attributes`|
 |entity:custom|Propriedades do objeto custom da entidade definida `schema.custom`|
 
-
 ### Explain das propriedades retornadas
-> Está sendo utilizado como exemplo o arquivo de configuração Pessoa.json que está acima.
+> Está sendo utilizado como exemplo o arquivo de configuração Pessoa.js que está acima.
 
-| função | retornos |
-|----------|-----|
-| entity:attributes | (name, type, options `options são os atributos customizaveis`) |
+### `entity:attributes`
 
+|propriedade| retorno|
+|-----------|--------|
+|name| Retorna o nome do atributo|
+|type| Retorna o tipo do atributo: `number, text, date...` |
+|reference|Retorna o objeto referenciado, no caso da `pessoa.js` o `veiculos.js` e suas propriedades|
+|isReference| Retorna se o atributo é uma referência ou não |
+|typeReference| Retorna o tipo de referência: `hasMany, belongsToMany, hasOne, belongsToOne` |
+|field| Retorna o arquivo de field |
+|options| Retorna o resto das opções colocadas dentro do atributo por exemplo `length` ou algum atributo customizado |
 
-### Utilizando fields
+exemplo:
 
-Muito importante adicionar isto no plugin. Onde os arquivos de field estarão dentro da pasta `fields` na extenção `html`.
+```php
+// model.txt
+// lembre-se que é um foreach, esta é a sintaxe do mustachejs
 
-```json
-"field":{
-    "dir" : "fields",
-    "extension": "html"
-}
+{{#entity:attributes}}
+    $select->where("{$this->_name}.{{name}} = {{options.default}}");
+{{/entity:attributes}}
+
+// Digamos que ele tenha referencia com carros
+
+{{#entity:attributes}}
+    {{#entity:references}} // faz um FOREACH pra cada uma e adiciona estas linhas
+        $select->joinInner(
+            array("{{reference.custom.db.alias}}"=> "{{reference.custom.db.tablename}}"),
+            "{{reference.custom.db.alias}}.ID = {$this->_name}.{{name |> underscore |> upper}}"
+        );
+    {{/entity:references}}
+{{/entity:attributes}}
 ```
 
-Dentro da pasta config existe um arquivo chamado `fields.json`
+```php
+// model.php
+// Lembre-se, você vai gerar o que você quiser!
 
-```json
-{
-  "defaultValues":{
-    "required":true
-  }
-}
+$select->where("{$this->_name}.nome = AlgumNome");
+$select->where("{$this->_name}.idade = 18");
+
+$select->joinInner(
+    array("VEIC"=> "VEICULOS"),
+    "VEIC.ID = {$this->_name}.ID_VEICULO" // no attributes ele era idVeiculo
+);
 ```
 
-No momento existe apenas a propriedade de `defaultValues` onde é possível definir valores default (caso não existam) dentro das propriedades. Onde todos os atributos teriam a propriedade `required:true` disponível dentro arquivo de fields.
 
+### Utilizando dicionários e parâmetros default
+
+É muito fácil nós termos muitos atributos onde em cada plataforma ele pode trabalhar de um jeito diferente. Oracle é VARCHAR, Kotlin é STRING. Pra sanar este problema foi criado os dicionários.
+
+Crie um arquivo dentro da pasta `config` chamado `attributes.js`.
+
+|Propriedade| Responsabilidade|
+|-----------|-----------------|
+|defaultValues|Pode-se utilizar as chaves de `attribute` onde adiciona propriedades default dentro dos atributos e `custom` que adiciona propriedades default dentro da chave custom das entidades|
+|dictionary| Cada chave é um escopo diferente como linguagens por exemplo. No exemplo abaixo vemos um dicionário criado para o `Oracle`, ouso dela é bem simples dentro do terun, quando for utilizar um atributo com `number, text, date ou o mesmo valor que está definido dentro do objeto oracle`, pode-se utilizar `type:oracle` tendo como saida de `number` = `NUMBER` ou `boolean` = `NUMBER(1)`|
+
+```js
+module.exports  = {
+    defaultValues:{
+        attribute:{
+            sync: true
+        },
+        custom:{
+            // adiciona atributos dentro da propriedade custom de todas entidades (caso já não exista)
+        }
+    },
+    dictionary:{
+        oracle:{
+            number: 'NUMBER',
+            text: 'VARCHAR2',
+            date: 'DATE',
+            boolean: 'NUMBER(1)',
+            enum: 'NUMBER'
+        }
+    }
+}
+```
 
 ### Tree view
 
@@ -192,14 +255,14 @@ Utilize as pastas pra criar agrupadores de **Entitys** dentro do terun. Assim:
 ```
 entitys
     |_folder
-    |   | folder.json
+    |   | folder.js
     |   | ...
     |_funcionalidade-especifica
-    |   | teste.json
+    |   | teste.js
     |   | ... 
-    | pessoa.json
-    | veiculo.json
-    | marca.json
+    | pessoa.js
+    | veiculo.js
+    | marca.js
     | ...
 ```
 
