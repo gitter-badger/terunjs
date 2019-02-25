@@ -24,7 +24,6 @@ class TransportManager{
 	}
 
   toTranportInstance(transport){
-    console.log(transport)
     return new Transport(transport)
   }
 

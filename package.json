@@ -46,7 +46,7 @@
     "prompt": "^1.0.0",
     "prompt-checkbox": "^2.2.0",
     "prompts": "^2.0.3",
-    "terun-mustache": "^3.0.2"
+    "terun-mustache": "^3.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

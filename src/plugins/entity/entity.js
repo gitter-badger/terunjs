@@ -10,14 +10,15 @@ class Entity {
 	constructor() {
 		this.name           = 'entity';
 		this.configuration  = {};
-        this.files          = []
+        this.files          = [];
         this.fileInUse      = undefined;
         this.entity         = undefined;
-        this.transportFiles = []
-        this.entitys        = []
+        this.transportFiles = [];
+        this.entitys        = [];
+        this.transport      = {};
     }
 
-	async config(configPlugin, globalArgs, render, baseConfig, transportFiles) {
+	async config({ configPlugin, globalArgs, render, baseConfig, transportFiles }) {
         let configAssign = Object.assign({}, configPlugin);
         this.baseDir      = `${process.cwd()}/`;
         
@@ -85,7 +86,9 @@ class Entity {
         return result || [] 
     }
     
-    async initTransport(){
+    async initTransport({ transport = {} }){
+        this.transport = transport;
+
         if(!this.files.length)
             this.files = [...this.files_to_work]
 
@@ -93,37 +96,35 @@ class Entity {
 
         console.log(chalk.green(`Plugin:${this.name} process file ${this.fileInUse}`))
 
-        let entityJson = fs.readFileSync(`${this.baseDir}${this.configuration.entity_dir}/${this.fileInUse}`, 'utf-8');
+        let entityContentFile = require(`${this.baseDir}${this.configuration.entity_dir}/${this.fileInUse}`, 'utf-8');
         this.entity = new EntityManager(this.configuration, this.baseDir, this.render);
-        this.entity.fromJson(entityJson);
+        this.entity.import(entityContentFile);
     }
 
-	async beforeRender(objectToSetArgs = {}) {
-        objectToSetArgs[`${this.name}:name`] = this.entity.name
-        objectToSetArgs[`${this.name}:forms`] = this.entity.getRenderedAttributes()
-        objectToSetArgs[`${this.name}:files`] = this.files_to_work
-        objectToSetArgs[`${this.name}:entitys_config`] = await this.getEntitysConfig();
-        objectToSetArgs[`${this.name}:references`] = this.entity.getReferences()
-        objectToSetArgs[`${this.name}:attributes`] = this.entity.attributes
-        objectToSetArgs[`${this.name}:custom`] = this.entity.custom
+	async beforeRender({ argsToParseViewRender = {} } = {}) {
+        argsToParseViewRender[`${this.name}:name`] = this.entity.name
+        argsToParseViewRender[`${this.name}:forms`] = this.entity.getRenderedAttributes()
+        argsToParseViewRender[`${this.name}:files`] = this.files_to_work
+        argsToParseViewRender[`${this.name}:entitys_config`] = await this.getEntitysConfig();
+        argsToParseViewRender[`${this.name}:references`] = this.entity.getReferences()
+        argsToParseViewRender[`${this.name}:attributes`] = this.entity.attributes
+        argsToParseViewRender[`${this.name}:custom`] = this.entity.custom
 
-		return objectToSetArgs;
+		return argsToParseViewRender;
     }
 
     async getEntitysConfig(){
-        let getContentFile = (filePath) => fs.readFileSync(`${this.baseDir}${this.configuration.entity_dir}/${filePath}`, 'utf-8');
-        let contentToJson = (content) => content ? JSON.parse(content) : content;
+        let getContentFile = (filePath) => require(`${this.baseDir}${this.configuration.entity_dir}/${filePath}`);
 
         let result = this.files_to_work
             .map(getContentFile)
-            .map(contentToJson)
 
         return result; 
     }
     
     async doneRender(loop=false){
         let hasFiles = this.files.length;
-        loop = hasFiles
+        loop = hasFiles && this.transport.options.loop !== false;
         return { loop };
     }
 }

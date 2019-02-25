@@ -38,16 +38,19 @@ describe('TRANSPORT:', function() {
                 {
                     args: [],
                     from:"f-a",
+                    options:{},
                     to:"f-b"
                 },
                 {
                     args: [],
                     from:"ft-a",
+                    options:{},
                     to:"ft-b"
                 },
                 {
                     args: [],
                     from:"a",
+                    options:{},
                     to:"b"
                 }
             ])

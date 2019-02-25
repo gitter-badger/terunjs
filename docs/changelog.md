@@ -5,10 +5,10 @@ sidebar:true
 # Change Log :computer:
 
 ## 1.3.5
-- Adicionado flag `--override-all` veja mais na sessão do plugin [Entity](./plugins.md).
+- Adicionado flag `--override-all` veja mais na sessão do plugin [Entity](/plugins.html#entity).
 
 ## 1.3.4
-- Adicionado possibilidade de utilizar pastas para montar as `entitys` veja mais na sessão do plugin [Entity](./plugins.md).
+- Adicionado possibilidade de utilizar pastas para montar as `entitys` veja mais na sessão do plugin [Entity](/plugins.html#entity).
 
 ## 1.3.3
 - Adicionado |> como forma de usar os pipelines

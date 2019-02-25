@@ -14,7 +14,7 @@ class ConfigManager{
         }
     }
 
-    getMainConfigWithPath(path,env) {
+    getMainConfigWithPath(path, env) {
         try {
             return require(`${path}/terun.${env}.json`);
         } catch (e) {

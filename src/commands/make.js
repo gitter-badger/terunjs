@@ -27,7 +27,11 @@ class Make {
 
 		// PLUGIN init
 		this.plugins.init(this.command.plugins);
-		await this.plugins.config(this.globalArgs, this.config, this.command.transport);
+		await this.plugins.config({
+			globalProperties: this.globalArgs,
+			baseConfig: this.config,
+			transportFiles: this.command.transport
+		});
 
 		// TRANSPORT FILES
 		this.transportManager.setFiles(this.command.transport);
@@ -53,7 +57,9 @@ class Make {
 			transport.args = [];
 		}
 
-		await this.plugins.initTransport();
+		await this.plugins.initTransport({
+			transport
+		});
 
 		return new Promise(async (resolve) => {
 			await this.resolveTransport(transport, resolve)
@@ -74,7 +80,9 @@ class Make {
 		let argsToRenderInFile = promptResult;
 
 		// life cycle before render
-		argsToRenderInFile = await this.plugins.beforeRender(argsToRenderInFile);
+		argsToRenderInFile = await this.plugins.beforeRender({
+			argsToParseViewRender: argsToRenderInFile
+		});
 
 		// render file name with mustache js
 		let toFileName = this.render.renderSimple(toFilePath, Object.assign(promptResult, this.globalArgs, argsToRenderInFile));
@@ -111,19 +119,14 @@ class Make {
 		let continueOverride = true;
 
 		if(fileExist){
-			let continueQuestion = () => {
-				let checkbox = new promptBox({
-					name: 'continue',
-					message: 'File already exists, continue?',
-					choices: [
-					  'Yes'
-					]
-				});
+			let continuePromptResult = await prompts({
+			  type: 'confirm',
+			  name: 'value',
+			  message: 'File already exists, continue?',
+			  initial: false
+			}) 
 
-				return checkbox.run();
-			}
-			let continueQuestionAnswer = await continueQuestion()
-			continueOverride = continueQuestionAnswer.length;
+			continueOverride = continuePromptResult.value
 
 			if(!continueOverride)
 				console.log(chalk.yellow('Relax, you skipped file!'));
