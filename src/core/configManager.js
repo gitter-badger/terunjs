@@ -14,7 +14,7 @@ class ConfigManager{
         }
     }
 
-    getMainConfigWithPath(path,env) {
+    getMainConfigWithPath(path, env) {
         try {
             return require(`${path}/terun.${env}.json`);
         } catch (e) {
@@ -30,10 +30,9 @@ class ConfigManager{
         }
     }
 
-    getConfigFields(){
+    getConfigAttributes(){
         try {
-            let file = fs.readFileSync(`${this.config_path}/fields.json`,'utf-8');
-            return JSON.parse(file);
+            return require(`${this.config_path}/attributes.js`,'utf-8');
         } catch (e) {
             return {}
         }

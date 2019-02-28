@@ -5,7 +5,7 @@
     "schema":{
         "name":"Marca",
         "custom":{
-             "dbname":"PESSOA",
+             "dbname":"MARQUENA",
              "alias":"PS",
              "qualquer_atributo":"MEU ATRIBUTO"
          },

@@ -1,6 +1,6 @@
 let assert = require('chai').assert;
 
-let Transport = require('../lib/core/transport.js').default
+let Transport = require('../lib/core/transportManager.js').default
 
 
 describe('TRANSPORT:', function() {
@@ -36,15 +36,21 @@ describe('TRANSPORT:', function() {
 
             assert.sameDeepMembers(transport.transportFiles, [
                 {
+                    args: [],
                     from:"f-a",
+                    options:{},
                     to:"f-b"
                 },
                 {
+                    args: [],
                     from:"ft-a",
+                    options:{},
                     to:"ft-b"
                 },
                 {
+                    args: [],
                     from:"a",
+                    options:{},
                     to:"b"
                 }
             ])

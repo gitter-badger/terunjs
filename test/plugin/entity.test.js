@@ -1,6 +1,7 @@
 let assert = require('chai').assert;
 
 let Entity = require('../../lib/plugins/entity/entity').default;
+let Attribute = require('../../lib/plugins/entity/attribute').default;
 
 let entidade = new Entity()
 
@@ -46,6 +47,26 @@ describe('ENTITY:', function() {
             
             assert.isObject(finded)
             assert.deepOwnInclude(finded,expectedObject)
+        });
+    });
+
+    
+})
+
+describe('ATTRIBUTE:', function() {
+    describe('setDictionary(dictionary)', function() {
+        describe('should return Number when i put a dictionary with kotlin number', function(){
+            let attribute = new Attribute(null, null, null, null)
+            attribute.type = "number";
+            attribute.setDictionary({
+                kotlin: {
+                    number: 'Number'
+                }
+            })
+
+            let result = attribute['type:kotlin'];
+
+            assert.deepEqual(result, "Number")
         });
     })
 })

@@ -63,6 +63,7 @@ sidebar: true
 | from |De onde vem o arquivo|
 | to |Para onde vai o arquivo|
 | args |Argumentos necessários, eles podem ser utilizados tanto no nome quanto dentros do arquivo |
+| loop | Quando `false` cria apenas um vez, evitando assim criar um para cada entidade quando utilizado o plugin de entity por exemplo |
 
 
 ## Enviroment

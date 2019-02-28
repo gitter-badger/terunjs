@@ -16,6 +16,7 @@ module.exports = {
             '/plugins',
             '/lifecycle',
             '/engine',
+            '/migration',
             '/changelog'
         ]
     }
