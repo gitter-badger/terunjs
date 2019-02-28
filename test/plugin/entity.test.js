@@ -69,4 +69,24 @@ describe('ATTRIBUTE:', function() {
             assert.deepEqual(result, "Number")
         });
     })
+
+    describe('setDefaultValues({})', function() {
+        describe('should has the propertie default in this.options', function(){
+            let attribute = new Attribute(null, null, null, null)
+
+            attribute.setDefaultValues({
+                test: 'test'
+            })
+            
+            assert.deepEqual(attribute.options.test, "test")
+        });
+
+        describe('should has a object in options when i put null in function', function(){
+            let attribute = new Attribute(null, null, null, null)
+
+            attribute.setDefaultValues(null)
+            
+            assert.deepEqual(attribute.options.test, undefined)
+        });
+    })
 })

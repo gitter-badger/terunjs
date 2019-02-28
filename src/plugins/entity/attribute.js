@@ -1,6 +1,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import EntityManager from './entityManager';
+import { nullOrUndefined } from '../../utils/util';
 
 class Attribute{
     constructor(configPlugin, baseDir, render, options = {}){
@@ -26,7 +27,9 @@ class Attribute{
             this.setDefaultValues(this.configuration.defaultValues.attribute || {})
     }
 
-    setDefaultValues(defaultValues){
+    setDefaultValues(defaultValues = {}){
+        if(nullOrUndefined(defaultValues)) return;
+        
         Object.keys(defaultValues).forEach(key=>{
             let attributeExists = Object.getOwnPropertyDescriptor(this.options,key);
             let valueKey        = defaultValues[key];
